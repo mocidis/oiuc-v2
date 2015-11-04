@@ -46,7 +46,7 @@ PanelCommon {
             labelColor: isPressed?"white":"black"
             onClicked: {
                 if(_ROOT.appState.login) {
-                    pstn.pstnStop();
+                    oiuc.stop();
                 }
                 else {
                     _LOGINDIALOG.visible = true;

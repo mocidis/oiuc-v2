@@ -1,7 +1,7 @@
 import QtQuick 1.0
 Item {
     Connections {
-        target: pstn
+        target: oiuc
         onLoginStart: {
             _LOGINDIALOG.reasonMsg = "Logging in ...";
             _ROOT.appState.loginInProgress = true;
@@ -9,7 +9,7 @@ Item {
         onLoggedInChange: {
             console.log("on_reg_state");
             _ROOT.appState.loginInProgress = false;
-            _ROOT.appState.login = pstn.isLoggedIn();
+            _ROOT.appState.login = oiuc.isLoggedIn();
             if(_ROOT.appState.login) {
                 _LOGINDIALOG.visible = false;
             }
@@ -31,7 +31,7 @@ Item {
             6 PJSIP_INV_STATE_DISCONNECTED     Session is terminated. 
             *****/
 
-               if (st_code == 2) {
+            if (st_code == 2) {
                 _CALLDIALOG.dialogState = 2; 
             } else if ( st_code == 0) {
                 _CALLDIALOG.dialogState    = 0;
@@ -45,17 +45,12 @@ Item {
         }
     }
     Connections {
-        target: radioObj 
-        onUpdateRadioManager: {
+        target: radioList
+        onUpdateRadioList: {
             if (mIndex == -1) {
                 radios.append({
-                    "name": name, 
-                    "frequency":frequency, 
-                    "location": location, 
-                    "port_mip": port_mip, 
-                    "downtime": downtime,
-                    "port": port, 
-                    "description": desc,
+                    //"name": name, 
+					"port": name,
                     "isOnline": bOnline,
                     "isPTT": false,
                     "isTx": bTx,
@@ -66,12 +61,6 @@ Item {
                 });
             } else {
                 radios.setProperty(mIndex, "name", name);
-                radios.setProperty(mIndex, "frequency", frequency);
-                radios.setProperty(mIndex, "location", location);
-                radios.setProperty(mIndex, "port_mip", port_mip);
-                radios.setProperty(mIndex, "downtime", downtime);
-                radios.setProperty(mIndex, "port", port);
-                radios.setProperty(mIndex, "description", desc);
                 radios.setProperty(mIndex, "isOnline", bOnline);
                 radios.setProperty(mIndex, "isTx", bTx);
                 radios.setProperty(mIndex, "isRx", bRx);

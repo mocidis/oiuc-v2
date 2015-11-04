@@ -19,7 +19,7 @@ Rectangle {
     CppLinkage { }
     property QtObject appState: QtObject {
         property bool loginInProgress: false
-        property bool login: pstn.isLoggedIn()
+        property bool login: oiuc.isLoggedIn()
     }
 	FontLoader {id: lcdFont; source: "../static/fonts/digital-7 (mono).ttf"}
     PanelTop {

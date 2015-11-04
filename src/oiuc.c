@@ -50,7 +50,8 @@ int main(int argc , char *argv[]) {
     int n;
     char option[5];
 
-    int adv_port = ADV_PORT;
+    //int adv_port = ADV_PORT;
+    int adv_port = 2015;
     int gb_port = GB_PORT; 
     
     SET_LOG_LEVEL(4);

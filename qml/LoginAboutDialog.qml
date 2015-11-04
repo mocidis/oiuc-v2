@@ -140,7 +140,7 @@ DialogCommon {
                     }
                     clickable: _ROOT.appState.loginInProgress?false:true
                     onClicked: {
-                        pstn.pstnStart(usrTextInput.text, pwdTextInput.text);
+                        oiuc.start(usrTextInput.text, pwdTextInput.text);
                     }
                 }
                 PushButton {
@@ -235,7 +235,7 @@ DialogCommon {
                     }
                     //onClicked: _ROOT.appState.login = false;
                     onClicked: {
-                        pstn.pstnStop();
+                        oiuc.stop();
                     }
                 }
             }

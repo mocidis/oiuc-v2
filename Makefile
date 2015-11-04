@@ -1,11 +1,4 @@
-.PHONY: all clean
-APP:=oiuc
-APP_SRCS:=oiuc.c
-
-C_DIR:=../common
-C_SRCS:=ansi-utils.c
-
-USERVER_DIR:=../userver
+.PHONY:build clean test clean-test
 
 PROTOCOL_DIR:=../group-man/protocols
 GM_P:=gm-proto.u
@@ -13,34 +6,41 @@ GMC_P:=gmc-proto.u
 ADV_P:=adv-proto.u
 GB_P:=gb-proto.u
 
-NODE_DIR:=../group-man
-NODE_SRCS:=node.c gb-receiver.c
+CPP_SRC:= ./src/ctocpp.cpp \
+          ./src/main.cpp \
+          ./src/OIUC.cpp \
+		  ./src/Config.cpp \
+		  ./src/backend.cpp \
+		  ./src/Log.cpp \
+		  ./src/Radio.cpp \
+		  ./src/RadioList.cpp \
 
-ICS_DIR:=../ics
-ICS_SRCS:=ics.c ics-event.c ics-command.c
+GEN_SRC:= gen/gm-client.c \
+		  gen/gmc-server.c \
+		  gen/adv-server.c \
+		  gen/gb-server.c \
 
-Q_DIR:=../concurrent_queue
-Q_SRCS:=queue.c
+NODE_SRC:= ../group-man/src/node.c
 
-O_DIR:=../object-pool
-O_SRCS:=object-pool.c
+GB_SRC:= ../group-man/src/gb-receiver.c
 
-GEN_DIR:=gen
-GEN_SRCS:=gm-client.c gmc-server.c adv-server.c gb-server.c
+CORE_SRC:= ../concurrent_queue/src/queue.c \
+           ../ics/src/ics-command.c \
+           ../ics/src/ics.c \
+           ../ics/src/ics-event.c \
+           ../object-pool/src/object-pool.c \
+		   ../common/src/ansi-utils.c \
 
-JSONC_DIR:=../json-c/output
+include custom.mk
 
-CFLAGS:=$(shell pkg-config --cflags libpjproject) -fms-extensions
-CFLAGS+=-I$(ICS_DIR)/include -I$(Q_DIR)/include -I$(O_DIR)/include
-CFLAGS+=-I$(C_DIR)/include
-CFLAGS+=-I../json-c/output/include/json-c
-CFLAGS+=-I$(PROTOCOLS_DIR)/include
-CFLAGS+=-I$(GEN_DIR)
-CFLAGS+=-I$(NODE_DIR)/include
+MY_CFLAGS+=-g $(shell pkg-config --cflags libpjproject json-c) -I$(PROTOCOLS_DIR)/include -D__ICS_INTEL__
+MY_LIBS:=-g $(shell pkg-config --libs libpjproject json-c)
 
-LIBS:= $(shell pkg-config --libs libpjproject) $(JSONC_DIR)/lib/libjson-c.a -lpthread
+APP:=app.app
 
-all: gen-gm gen-gmc gen-adv gen-gb  $(APP)
+USERVER_DIR:=../userver
+
+all: gen-gm gen-gmc gen-adv gen-gb build
 
 gen-gm: $(PROTOCOL_DIR)/$(GM_P)
 	mkdir -p gen
@@ -61,26 +61,60 @@ gen-gb: $(PROTOCOL_DIR)/$(GB_P)
 	mkdir -p gen
 	awk -f $(USERVER_DIR)/gen-tools/gen.awk $<
 	touch $@
+oiuc.pro:
+	echo "## Project file gen by Make" > oiuc.pro
+	echo "TEMPLATE = app" >> oiuc.pro
+	echo "TARGET = $(APP)" >> oiuc.pro
+	echo "OBJECTS_DIR = temp" >> oiuc.pro
+	echo "MOC_DIR = temp" >> oiuc.pro
+	echo "" >> oiuc.pro
+	echo "DEPENDPATH += . \\" >> oiuc.pro
+	echo "              include \\" >> oiuc.pro
+	echo "              src \\" >> oiuc.pro
+	echo "              gen \\" >> oiuc.pro
+	echo "              ../concurrent_queue/include \\" >> oiuc.pro
+	echo "              ../concurrent_queue/src \\" >> oiuc.pro
+	echo "              ../concurrent_queue/test \\" >> oiuc.pro
+	echo "              ../ics/include \\" >> oiuc.pro
+	echo "              ../ics/src \\" >> oiuc.pro
+	echo "              ../ics/test \\" >> oiuc.pro
+	echo "              ../object-pool/include \\" >> oiuc.pro
+	echo "              ../object-pool/src \\" >> oiuc.pro
+	echo "              ../common/include \\" >> oiuc.pro
+	echo "              ../common/src \\" >> oiuc.pro
+	echo "              ../group-man/src \\" >> oiuc.pro
+	echo "              ../group-man/include" >> oiuc.pro
+	echo "" >> oiuc.pro
+	echo "INCLUDEPATH += . \\" >> oiuc.pro
+	echo "               include \\" >> oiuc.pro
+	echo "               gen \\" >> oiuc.pro
+	echo "               ../ics/include \\" >> oiuc.pro
+	echo "               ../concurrent_queue/include \\" >> oiuc.pro
+	echo "               ../object-pool/include \\" >> oiuc.pro
+	echo "               ../common/include \\" >> oiuc.pro
+	echo "              ../group-man/include" >> oiuc.pro
+	echo "" >> oiuc.pro
+	echo "QT += declarative sql" >> oiuc.pro
+	echo "QMAKE_CFLAGS += $(MY_CFLAGS)" >> oiuc.pro
+	echo "QMAKE_CXXFLAGS += $(MY_CFLAGS)" >> oiuc.pro
+	echo "QMAKE_LIBS += $(MY_LIBS)" >> oiuc.pro
+	echo "" >> oiuc.pro
+	echo "HEADERS += $(subst /src/,/include/,$(CPP_SRC:.cpp=.h)) $(subst /src/,/include/,$(NODE_SRC:.c=.h)) $(subst /src/,/include/,$(GB_SRC:.c=.h)) $(GEN_SRC:.c=.h) $(subst /src/,/include/,$(CORE_SRC:.c=.h))" >> oiuc.pro
+	echo "" >> oiuc.pro
+	echo "SOURCES += $(CPP_SRC) $(GEN_SRC) $(CORE_SRC) $(NODE_SRC) $(GB_SRC)" >> oiuc.pro
 
-$(APP): $(NODE_SRCS:.c=.o) $(GEN_SRCS:.c=.o) $(C_SRCS:.c=.o) $(APP_SRCS:.c=.o) $(ICS_SRCS:.c=.o) $(O_SRCS:.c=.o) $(Q_SRCS:.c=.o)
-	gcc -o $@ $^ $(LIBS)
+Makefile.qt.mk: oiuc.pro
+	qmake -makefile $(QMAKE_OPT) $< -o $@
 
-$(ICS_SRCS:.c=.o): %.o: $(ICS_DIR)/src/%.c
-	gcc -c -o $@ $^ $(CFLAGS)
-$(O_SRCS:.c=.o): %.o: $(O_DIR)/src/%.c
-	gcc -c -o $@ $^ $(CFLAGS)
-$(Q_SRCS:.c=.o): %.o: $(Q_DIR)/src/%.c
-	gcc -c -o $@ $^ $(CFLAGS)
-$(NODE_SRCS:.c=.o): %.o: $(NODE_DIR)/src/%.c
-	gcc -c -o $@ $^ $(CFLAGS)
-$(GEN_SRCS:.c=.o): %.o: $(GEN_DIR)/%.c
-	gcc -c -o $@ $^ $(CFLAGS)
-$(C_SRCS:.c=.o): %.o: $(C_DIR)/src/%.c
-	gcc -c -o $@ $^ $(CFLAGS)
-$(ANSI_O_SRCS:.c=.o): %.o: $(ANSI_O_DIR)/src/%.c
-	gcc -c -o $@ $^ $(CFLAGS)
-$(APP_SRCS:.c=.o): %.o: src/%.c
-	gcc -c -o $@ $^ $(CFLAGS)
+build: Makefile.qt.mk
+	make -f Makefile.qt.mk 
 
 clean:
-	rm -fr *.o gen gen-gm gen-gmc gen-adv gen-gb $(APP)
+	make clean -f Makefile.qt.mk
+	rm -fr temp oiuc.pro Makefile.qt.mk gen $(APP) gen-gm gen-gmc gen-adv gen-gb /tmp/oiuc.log
+
+test:
+	make -f Makefile.quy
+
+clean-test:
+	make -f Makefile.quy clean

@@ -1,7 +1,8 @@
 import QtQuick 1.0
 
 ListModel {
-/*    ListElement {
+	/*
+    ListElement {
         name: "RIUC1"
         description: "Barrett Radio"
         port: 1
@@ -49,7 +50,7 @@ ListModel {
         isSQ: false
         volume: 0.5
     }
-*/
+	*/
 /*    ListElement {
         name: "Motorola BCA"
         description: "K20 BCA"

@@ -43,7 +43,7 @@ DialogCommon {
                         source: "../static/call-fill-black-small.svg"
                         anchors { centerIn: parent }
                     }
-                    onClicked: pstn.pstnCall(numberLCD.text)
+                    onClicked: oiuc.call(numberLCD.text)
                 }
                 ToggleButton {
                     id:kbkey
@@ -101,7 +101,7 @@ DialogCommon {
                     isCap: true
                     textColor: "black"
                     value: "RDL"
-                    onClicked: numberLCD.text = pstn.getLastDialNumber();
+                    onClicked: numberLCD.text = oiuc.getLastDialNumber();
                 }
             }
         }
