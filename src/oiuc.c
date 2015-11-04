@@ -7,8 +7,8 @@ void on_adv_info(adv_server_t *adv_server, adv_request_t *request) {
     SHOW_LOG(4, fprintf(stdout,"Received: ID = %s\nSDP addr %s:%d\n", request->adv_info.info_id, request->adv_info.sdp_mip, request->adv_info.sdp_port));
 }
 
-void on_online_report(char *id, int is_online) {
-    SHOW_LOG(4, fprintf(stdout, "O_REPT:%s(online=%d)\n", id, is_online));
+void on_online_report(char *id, char *desc, int radio_port, int is_online) {
+    SHOW_LOG(4, fprintf(stdout, "O_REPT:%s Desc: %s Radio port: %d (online=%d)\n", id,desc, radio_port, is_online));
 }
 void on_tx_report(char *id, int is_tx) {
     SHOW_LOG(4, fprintf(stdout, "T_REPT:%s(tx=%d)\n", id, is_tx));
@@ -34,7 +34,7 @@ void *auto_register(void *node_data) {
 }
 
 void usage(char *app) {
-    SHOW_LOG(5, fprintf(stdout,"usage: %s <id> <location> <desc> <radio_port> <gm_cs> <gmc_cs> <guest>\n", app));
+    SHOW_LOG(5, fprintf(stdout,"usage: %s <id> <location> <desc> <radio_port> <gm_cs> <gmc_cs>\n", app));
     exit(-1);
 }
 
@@ -49,7 +49,7 @@ int main(int argc , char *argv[]) {
     char *gmc_cs;
     char adv_cs[30];
     char gb_cs[30];
-    char *guest = argv[7];
+    char guest[10];
 
     pthread_t thread;
     int n, chose;
@@ -114,9 +114,18 @@ int main(int argc , char *argv[]) {
         }
         switch(option[0]) {
             case 'j':
+                memset(guest, 0 , sizeof(guest));
+                n = sprintf(guest, "RIUC1%c", option[1]);
+                printf("guest = %s\n", guest);
+                guest[n] = '\0';
+
                 node_invite(&node, guest);
                 break;
             case 'l':
+                memset(guest, 0 , sizeof(guest));
+                n = sprintf(guest, "RIUC1%c", option[1]);
+                guest[n] = '\0';
+
                 node_repulse(&node, guest);
                 break;
             case 'r':
