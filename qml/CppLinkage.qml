@@ -49,8 +49,9 @@ Item {
         onUpdateRadioList: {
             if (mIndex == -1) {
                 radios.append({
-                    //"name": name, 
-					"port": name,
+                    "name": name, 
+					"description": desc,
+					"port": port,
                     "isOnline": bOnline,
                     "isPTT": false,
                     "isTx": bTx,
@@ -70,22 +71,18 @@ Item {
         }
     }
     Connections {
-        target: oiucObj
-        onUpdateOIUCManager: {
+        target: oiuList
+        onUpdateOIUList: {
             if (mIndex == -1) {
                 oius.append({
-                    "type": type, 
                     "name": name, 
                     "status":status, 
-                    "downtime":downtime, 
                     "description":desc,
                     "iState": 0
                 });
             } else {
-                oius.setProperty(mIndex, "type", type);
                 oius.setProperty(mIndex, "name", name);
                 oius.setProperty(mIndex, "status", status);
-                oius.setProperty(mIndex, "downtime", downtime);
                 oius.setProperty(mIndex, "description", desc);
             }
         }

@@ -14,6 +14,8 @@ CPP_SRC:= ./src/ctocpp.cpp \
 		  ./src/Log.cpp \
 		  ./src/Radio.cpp \
 		  ./src/RadioList.cpp \
+		  ./src/OIU.cpp \
+		  ./src/OIUList.cpp \
 
 GEN_SRC:= gen/gm-client.c \
 		  gen/gmc-server.c \
@@ -36,7 +38,7 @@ include custom.mk
 MY_CFLAGS+=-g $(shell pkg-config --cflags libpjproject json-c) -I$(PROTOCOLS_DIR)/include -D__ICS_INTEL__
 MY_LIBS:=-g $(shell pkg-config --libs libpjproject json-c)
 
-APP:=app.app
+APP:=oiuc.app
 
 USERVER_DIR:=../userver
 
@@ -67,6 +69,7 @@ oiuc.pro:
 	echo "TARGET = $(APP)" >> oiuc.pro
 	echo "OBJECTS_DIR = temp" >> oiuc.pro
 	echo "MOC_DIR = temp" >> oiuc.pro
+	echo "DEFINES += APP_VERSION=\\\\\"\\\"$(VERSION)\\\\\"\\\"" >> oiuc.pro
 	echo "" >> oiuc.pro
 	echo "DEPENDPATH += . \\" >> oiuc.pro
 	echo "              include \\" >> oiuc.pro

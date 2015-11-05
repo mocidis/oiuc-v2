@@ -1,2 +1,2 @@
 #!/bin/bash
-./oiuc NODE1 hanoi "Barrett radio" -1 udp:192.168.2.30:1994 udp:192.168.2.30:1993 NODE20
+./oiuc OIUC1 hanoi "Barrett radio" -1 udp:192.168.2.30:1994 udp:192.168.2.30:1993 RIUC10
