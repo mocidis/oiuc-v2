@@ -138,14 +138,25 @@ QHash<int, QByteArray> LogModel::roleNames() const {
 #endif
 
 /**********************************/
-void writeLog(QString msg) {
+void writeLog(QString msg, int dev) {
 	Log *log = Log::getLog();
 	QDateTime currentDate = QDateTime::currentDateTime();
 	QString time = currentDate.toString("dd/MM/yy -- hh:mm:ss");
 	QString line = "[";
-	line.append(time);
-	line =	line + "] " + msg;
-	log->logs(line);
-	q_log.enqueue(line);
+	switch (dev) {
+		case SCREENS:
+			line.append(time);
+			line =	line + "] " + msg;
+			log->logs(line);
+			q_log.enqueue(line);
+			break;
+		case FILES:
+			line.append(time);
+			line =	line + "] " + msg;
+			q_log.enqueue(line);
+			break;
+		default:
+			break;
+	}
 }
 

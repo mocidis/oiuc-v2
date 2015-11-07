@@ -11,39 +11,38 @@ RadioList* RadioList::getRadioListSingleton() {
 RadioList::RadioList() {}
 /*****************Add and Set functions******************/
 void RadioList::addRadio(Radio *radio) {
-	int flags = 0;
-	int mIndex = -1;
-	for (int i=0; i < _radio_list.count(); i++) {
-		if (_radio_list[i]->getName() == radio->getName()) {
-			flags = 1;
-			if (_radio_list[i]->isOnline() != radio->isOnline()) {
-				_radio_list[i]->setOnline(radio->isOnline());
-				flags = 2;
-				mIndex = i;
-			}
-			if (_radio_list[i]->isTx() != radio->isTx()) {
-				_radio_list[i]->setTx(radio->isTx());
-				flags = 2;
-				mIndex = i;
-			}
-			if (_radio_list[i]->isSQ() != radio->isSQ()) {
-				_radio_list[i]->setSQ(radio->isSQ());
-				flags = 2;
-				mIndex = i;
-			}
+	_radio_list.append(radio);
+	updateRadioListSignal(radio, -1);
+	writeLog("detected " + radio->getName(), SCREENS);
+}
+void RadioList::updateRadioState(int index, int type, bool value) {
+	QString msg;
+	if (value == false) {
+		msg = "OFF";
+	} else {
+		msg = "ON";
+	}
+	switch (type) {
+		case RADIO_ONLINE:
+			_radio_list[index]->setOnline(value);
+			writeLog("change ONLINE state " + _radio_list[index]->getName() + " " + msg, SCREENS);
 			break;
-		}
+		case RADIO_TX:
+			_radio_list[index]->setTx(value);
+			writeLog("change TX state " + _radio_list[index]->getName() + " " + msg, SCREENS);
+			break;
+		case RADIO_RX:
+			_radio_list[index]->setRx(value);
+			writeLog("change RX state " + _radio_list[index]->getName() + " " + msg, SCREENS);
+			break;
+		case RADIO_SQ:
+			_radio_list[index]->setSQ(value);
+			writeLog("change SQ state " + _radio_list[index]->getName() + " " + msg, SCREENS);
+			break;
+		default:
+			break;
 	}
-	if (flags == 0 || flags == 2) {
-		if (flags == 0) {
-			_radio_list.append(radio);
-			updateRadioListSignal(radio, mIndex);
-			writeLog(radio->getName() + " detected");
-		} else {
-			updateRadioListSignal(radio, mIndex);
-			writeLog(radio->getName() + "'s state changed");
-		}
-	}
+	updateRadioListSignal(_radio_list[index], index);
 }
 void RadioList::deleteRadio(Radio *radio) {
 	for (int i=0;i<_radio_list.count();i++) {

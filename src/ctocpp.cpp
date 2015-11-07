@@ -109,7 +109,6 @@ void on_adv_info(adv_server_t *adv_server, adv_request_t *request) {
 }
 
 void on_online_report(char *id, char* des, int radio_port, int is_online) {
-    //SHOW_LOG(4, fprintf(stdout, "O_REPT:%s(online=%d)\n", id, is_online));
 	if (radio_port >=0 ) {
 		//For Radio
 		RadioList *radio_list = RadioList::getRadioListSingleton();
@@ -122,10 +121,17 @@ void on_online_report(char *id, char* des, int radio_port, int is_online) {
 		if ( is_online == 1 ) {
 			online = true;
 		}
-		Radio *radio = new Radio(name, desc, radio_port, online, false, false);
-		radio_list->addRadio(radio);
+		int index = -1;
+		index = radio_list->searchRadioByName(name);
+		if (index == -1) {
+			Radio *radio = new Radio(name, desc, radio_port, online, false, false);
+			radio_list->addRadio(radio);
+		} else {
+			radio_list->updateRadioState(index, RADIO_ONLINE, online);
+		}
 	} else {
 		//For OIU
+		/*
 		OIUList *oiu_list = OIUList::getOIUListSingleton();	
 		QString name = "WTF_OIU?";
 		QString desc = "WTF_NO_DESC?";
@@ -138,49 +144,60 @@ void on_online_report(char *id, char* des, int radio_port, int is_online) {
 		}
 		OIU *oiu = new OIU(name, status, desc);
 		oiu_list->addOIU(oiu);
+		*/
 	}
 }
 
 void on_tx_report(char *id, int is_tx) {
-    //SHOW_LOG(4, fprintf(stdout, "T_REPT:%s(tx=%d)\n", id, is_tx));
 	RadioList *radio_list = RadioList::getRadioListSingleton();
-	Radio *radio;
-	QString name = "WTF_RADIO?";
-	name = QString::fromLocal8Bit(id);
+
+	QString name="FTW_RADIO?";
+	name = QString::fromLocal8Bit(id);	
 	bool tx = false;
 	int index = -1;
 	index = radio_list->searchRadioByName(name);
+
 	if (index > -1) {
-		radio = radio_list->getRadioByIndex(index);
 		if (is_tx == 1) {
 			tx = true;
 		}
-		radio = new Radio (radio->getName(), radio->getDesc(), radio->getPort(), tx, radio->isSQ(), radio->isOnline());
-		radio_list->addRadio(radio);
+		radio_list->updateRadioState(index, RADIO_TX, tx);
 	} else {
 		//Do nothing
 	}
 }
 void on_rx_report(char *id, int is_rx) {
-    SHOW_LOG(4, fprintf(stdout, "R_REPT:%s(rx=%d)\n", id, is_rx));
-	//wu?
+	RadioList *radio_list = RadioList::getRadioListSingleton();
+
+	QString name="FTW_RADIO?";
+	name = QString::fromLocal8Bit(id);	
+	bool rx = false;
+	int index = -1;
+	index = radio_list->searchRadioByName(name);
+
+	if (index > -1) {
+		if (is_rx == 1) {
+			rx = true;
+		}
+		radio_list->updateRadioState(index, RADIO_RX, rx);
+	} else {
+		//Do nothing
+	}
 }
 void on_sq_report(char *id, int is_sq) {
-    //SHOW_LOG(4, fprintf(stdout, "Q_REPT:%s(sq=%d)\n", id, is_sq));
 	RadioList *radio_list = RadioList::getRadioListSingleton();
-	Radio *radio;
-	QString name = "WTF_RADIO?";
-	name = QString::fromLocal8Bit(id);
+
+	QString name="FTW_RADIO?";
+	name = QString::fromLocal8Bit(id);	
 	bool sq = false;
 	int index = -1;
 	index = radio_list->searchRadioByName(name);
+
 	if (index > -1) {
-		radio = radio_list->getRadioByIndex(index);
 		if (is_sq == 1) {
 			sq = true;
 		}
-		radio = new Radio (radio->getName(), radio->getDesc(), radio->getPort(), radio->isTx(), sq, radio->isOnline());
-		radio_list->addRadio(radio);
+		radio_list->updateRadioState(index, RADIO_SQ, sq);
 	} else {
 		//Do nothing
 	}

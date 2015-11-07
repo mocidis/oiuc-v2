@@ -6,6 +6,8 @@
 #include <QDateTime>
 #include <QFile>
 #include "Config.h"
+#define SCREENS 0
+#define FILES 1
 class Log;
 class LogModel;
 class LogModel : public QAbstractListModel {
@@ -51,5 +53,5 @@ private:
 	int max_buffer_line;
 	int file_count;
 };
-void writeLog(QString msg);
+void writeLog(QString msg, int dev);
 #endif

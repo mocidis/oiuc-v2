@@ -33,7 +33,7 @@ void OIUC::prepare() {
     ics_pjsua_init(&app_data.ics); 
     ics_init(&app_data.ics);
 
-    SET_LOG_LEVEL(5);
+    SET_LOG_LEVEL(4);
 
 	ics_set_default_callback(&on_reg_start_default);
 	ics_set_reg_start_callback(&on_reg_start_impl);

@@ -36,7 +36,7 @@ int main (int argc, char* argv[]) {
 	//prepare for oiuc
 	OIUC *oiuc = OIUC::getOIUC();
 	oiuc->prepare();
-
+	oiuc->start("ntt", "1234");
 	//make sure log file will be flushed after handle the quit signal of application
 	QObject::connect(&app, SIGNAL(aboutToQuit()), log, SLOT(flushLog()));
 
@@ -51,7 +51,7 @@ int main (int argc, char* argv[]) {
 	view.rootContext()->setContextProperty("logModel", log->getLogModel());
 	view.setSource(QUrl::fromLocalFile("qml/Application.qml"));
 
-	writeLog("Start OIUC"); //any log should declare after this line
+	writeLog("Start OIUC", SCREENS); //any log should declare after this line
 	view.show(); //display QML GUI of this application
 	return app.exec(); //event loop of application
 }

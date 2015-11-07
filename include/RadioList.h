@@ -8,6 +8,10 @@
 #include <QtSql>
 #include "Radio.h"
 #include "Log.h"
+#define RADIO_ONLINE 0
+#define RADIO_TX 1
+#define RADIO_RX 2
+#define RADIO_SQ 3
 class RadioList;
 class RadioList : public QObject {
 	Q_OBJECT
@@ -21,6 +25,7 @@ public:
 
 	/*****************Get functions**************************/
 	QList<Radio*> getRadioList(); //return list of radios in this RadioList
+	void updateRadioState(int index, int type, bool value);
 	int searchRadioByName(QString name);
 	Radio* getRadioByIndex(int index);
 
