@@ -55,7 +55,8 @@ int main(int argc , char *argv[]) {
     int n, chose;
     char option[5], sip_add[50];
 
-    int adv_port = ADV_PORT;
+    //int adv_port = ADV_PORT;
+    int adv_port = 2015;
     int gb_port = GB_PORT; 
     
     SET_LOG_LEVEL(4);

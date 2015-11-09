@@ -16,7 +16,14 @@ Rectangle {
     MouseArea {
         id: mouseArea
         anchors { fill: parent }
-        onClicked: oModelItem.isPTT = !oModelItem.isPTT
+		onClicked: {
+			oModelItem.isPTT = !oModelItem.isPTT
+			if (oModelItem.isPTT == true) {
+				oiuc.sendInvite(oModelItem.name);
+			} else {
+				oiuc.repulse(oModelItem.name);
+			}
+		}
     }
     Text {
         id: txtLabel
@@ -160,7 +167,7 @@ Rectangle {
         states: [
             State {
                 name: "sq"
-                when: oModelItem.isRx
+                when: oModelItem.isSQ
                 PropertyChanges { target: sqBtn; color:"green" }
             }
         ]

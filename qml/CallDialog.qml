@@ -45,7 +45,7 @@ DialogCommon {
                 anchors { centerIn:parent }
                 text: "Answer"
             }
-            onClicked: pstn.pstnAnswerCall();
+            onClicked: oiuc.answerCall();
         }
         PushButton {
             property alias text: rightLabel.text
@@ -62,7 +62,7 @@ DialogCommon {
                 anchors { centerIn:parent }
                 text: "Reject"
             }
-            onClicked: pstn.pstnHangupCall()
+            onClicked: oiuc.hangupCall()
         }
     }
     StateGroup {
@@ -77,21 +77,21 @@ DialogCommon {
                 when: dialogState == 1
                 PropertyChanges { target: caption; text: "Outgoing call ..." }
                 PropertyChanges { target: leftBtn; visible: false }
-                PropertyChanges { target: rightBtn; visible: true; text: "Cancel"; onClicked: pstn.pstnHangupCall() }
+                PropertyChanges { target: rightBtn; visible: true; text: "Cancel"; onClicked: oiuc.hangupCall() }
             },
             State {
                 name: "incoming"
                 when: dialogState == 2
                 PropertyChanges { target: caption; text: "Incoming call ..." }
-                PropertyChanges { target: leftBtn; visible: true; text: "Answer"; onClicked: pstn.pstnAnswerCall() }
-                PropertyChanges { target: rightBtn; visible: true; text: "Reject"; onClicked: pstn.pstnHangupCall() }
+                PropertyChanges { target: leftBtn; visible: true; text: "Answer"; onClicked: oiuc.answerCall() }
+                PropertyChanges { target: rightBtn; visible: true; text: "Reject"; onClicked: oiuc.hangupCall() }
             },
             State {
                 name: "connected"
                 when: dialogState == 3
                 PropertyChanges { target: caption; text: "In conversation" }
-                PropertyChanges { target: leftBtn; visible: true; text: "Hold"; onClicked: pstn.pstnHoldCall() }
-                PropertyChanges { target: rightBtn; visible: true; text: "Disconnect"; onClicked: pstn.pstnHangupCall() }
+                PropertyChanges { target: leftBtn; visible: true; text: "Hold"; onClicked: oiuc.holdCall() }
+                PropertyChanges { target: rightBtn; visible: true; text: "Disconnect"; onClicked: oiuc.hangupCall() }
             }
         ]
     }
