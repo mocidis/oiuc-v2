@@ -4,7 +4,7 @@
 #include "gb-receiver.h"
 
 void on_adv_info(adv_server_t *adv_server, adv_request_t *request) {
-    SHOW_LOG(4, fprintf(stdout,"Received: ID = %s\nSDP addr %s:%d\n", request->adv_info.info_id, request->adv_info.sdp_mip, request->adv_info.sdp_port));
+    SHOW_LOG(4, fprintf(stdout,"Received from %s \nSDP addr %s:%d\n", request->adv_info.adv_owner, request->adv_info.sdp_mip, request->adv_info.sdp_port));
 }
 
 void on_online_report(char *id, char *desc, int radio_port, int is_online) {
@@ -84,8 +84,13 @@ int main(int argc , char *argv[]) {
 	ics_add_account(&ics, "192.168.2.50", "quy", "1234");
 
     /*------------ NODE ------------*/
+    adv_server_t adv_server;
+    memset(&adv_server, 0, sizeof(adv_server));
+
     memset(&node, 0, sizeof(node));
     node.on_adv_info_f = &on_adv_info;
+    node.adv_server = &adv_server;
+
     node_init(&node, argv[1], argv[2], argv[3], atoi(argv[4]), gm_cs, gmc_cs, adv_cs);
 
     /*----------- GB --------------*/
@@ -104,7 +109,7 @@ int main(int argc , char *argv[]) {
     // For Test Only: PTT - GM_INFO
     gm_request_t req_info;
     req_info.msg_id = GM_INFO;
-    ansi_copy_str(req_info.gm_info.info_id, argv[1]);
+    ansi_copy_str(req_info.gm_info.gm_owner, argv[1]);
     ansi_copy_str(req_info.gm_info.sdp_mip, "111.111.111.111");
     req_info.gm_info.sdp_port = 1111;
     
