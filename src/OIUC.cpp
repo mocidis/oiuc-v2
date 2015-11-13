@@ -16,6 +16,15 @@ OIUC::OIUC() {
 	logged_in = false;
 	memset(&app_data, 0, sizeof(app_data_t));
 }
+
+static void init_adv_server(app_data_t *app_data, char *adv_cs) {
+    memset(&app_data->adv_server, 0, sizeof(app_data->adv_server));
+    app_data->adv_server.on_request_f = &on_adv_info;
+
+    adv_server_init(&app_data->adv_server, adv_cs);
+    adv_server_start(&app_data->adv_server);
+}
+
 void OIUC::start(QString username, QString password) {
 	char user[20], passwd[20];
     if (username != NULL) {
@@ -49,12 +58,14 @@ void OIUC::prepare() {
 
 	//node
     memset(&app_data.node, 0, sizeof(app_data.node));
-    app_data.node.on_adv_info_f = &on_adv_info;
+   
 	gm_cs = "udp:" + config->getArbiterIP() + ":" + QString::number(config->getPortSendToArbiter());
 	gmc_cs = "udp:" + config->getOIUCIP() + ":" + QString::number(config->getPortOIUCListen());
 	adv_cs = "udp:0.0.0.0:2015";
-    node_init(&app_data.node, config->getOIUCName().toLocal8Bit().data(), config->getLocation().toLocal8Bit().data(), config->getOIUCDescription().toLocal8Bit().data(), -1, strdup(gm_cs.toLocal8Bit().data()), strdup(gmc_cs.toLocal8Bit().data()), strdup(adv_cs.toLocal8Bit().data()));
 
+    init_adv_server(&app_data, adv_cs.toLocal8Bit().data());
+    node_init(&app_data.node, config->getOIUCName().toLocal8Bit().data(), config->getLocation().toLocal8Bit().data(), config->getOIUCDescription().toLocal8Bit().data(), -1, strdup(gm_cs.toLocal8Bit().data()), strdup(gmc_cs.toLocal8Bit().data()), strdup(adv_cs.toLocal8Bit().data()));
+    node_add_adv_server(&app_data.node, &app_data.adv_server);
     //gb
     memset(&app_data.gr, 0, sizeof(app_data.gr));
     app_data.gr.on_online_report_f = &on_online_report;

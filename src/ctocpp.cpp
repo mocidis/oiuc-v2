@@ -48,7 +48,7 @@ void update_online_state( int online, pj_str_t *id, QString &description ) {
     PERROR_IF_TRUE(gm_client_send(&app_data->node.gm_client, &req) < 0, "ERROR:: registered failed - ");
 }
 void on_reg_state_impl(int account_id, char* is_registration, int code, char *reason){
-    SHOW_LOG(5, (qDebug()<< "ON_REG_STATE_IMPL"));
+    SHOW_LOG(5, "ON_REG_STATE_IMPL");
 
 	app_data_t *app_data;
     app_data = OIUC::getOIUC()->getAppData();
@@ -105,7 +105,7 @@ void on_call_media_state_impl(int call_id, int st_code) {
 void on_adv_info(adv_server_t *adv_server, adv_request_t *request) {
 	Q_UNUSED(adv_server);
 	Q_UNUSED(request);
-    SHOW_LOG(4, fprintf(stdout,"Received: ID = %s\nSDP addr %s:%d\n", request->adv_info.info_id, request->adv_info.sdp_mip, request->adv_info.sdp_port));
+    SHOW_LOG(4, "Received: ID = %s\nSDP addr %s:%d\n", request->adv_info.adv_owner, request->adv_info.sdp_mip, request->adv_info.sdp_port);
 }
 
 void on_online_report(char *id, char* des, int radio_port, int is_online) {
