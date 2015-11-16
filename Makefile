@@ -73,6 +73,7 @@ oiuc.pro:
 	echo "TARGET = $(APP)" >> oiuc.pro
 	echo "OBJECTS_DIR = temp" >> oiuc.pro
 	echo "MOC_DIR = temp" >> oiuc.pro
+	echo "RESOURCES += oiuc.qrc" >> oiuc.pro
 	echo "DEFINES += APP_VERSION=\\\\\\\"\\\"$(VERSION)\\\\\\\"\\\"" >> oiuc.pro
 	echo "" >> oiuc.pro
 	echo "DEPENDPATH += . \\" >> oiuc.pro

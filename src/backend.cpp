@@ -10,6 +10,7 @@ void loadGeneralConfig(Config *config, QString backend_location) {
 			db.open();
 		}
 		if (!db.isOpen()) {
+			qDebug() << "-------" << backend_location;
 			exit (EXIT_FAILURE);
 		}
 		QString command = "select * from ics_config";

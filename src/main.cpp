@@ -14,7 +14,6 @@
 #include "OIUList.h"
 int main (int argc, char* argv[]) {
 	QApplication app(argc, argv);
-
 	QStringList args = app.arguments();
 	if (args.count() >= 2) {
 		if (args[1] == "-v" || args[1] == "--version") {
@@ -26,6 +25,7 @@ int main (int argc, char* argv[]) {
 	QDeclarativeView view;
 	//load OIUC config from sqlite3 database
 	Config *config = Config::getConfig();
+	qDebug() << "loading config";
 	loadGeneralConfig(config, "databases/oiuc.db");
 	
 	//start log thread
@@ -49,7 +49,7 @@ int main (int argc, char* argv[]) {
 	view.rootContext()->setContextProperty("radioList", radio_list);
 	view.rootContext()->setContextProperty("oiuList", oiu_list);
 	view.rootContext()->setContextProperty("logModel", log->getLogModel());
-	view.setSource(QUrl::fromLocalFile("qml/Application.qml"));
+	view.setSource(QUrl("qrc:///qml/Application.qml"));
 
 	writeLog("Start OIUC", SCREENS); //any log should declare after this line
 	view.show(); //display QML GUI of this application
