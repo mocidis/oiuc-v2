@@ -10,12 +10,14 @@ extern "C"
 #include "gb-receiver.h"	
 #include "node.h"
 #include "ansi-utils.h"
+#include "endpoint.h"
 }
 typedef struct {
     ics_t ics;
     node_t node;
     gb_receiver_t gr;
     adv_server_t adv_server;
+    endpoint_t endpoint;
 } app_data_t;
 void send_cmd_to_arbiter(char *radio_list, char *cmd);
 //callback functions

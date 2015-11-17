@@ -168,7 +168,7 @@ Rectangle {
             State {
                 name: "sq"
                 when: oModelItem.isSQ
-                PropertyChanges { target: sqBtn; color:"green" }
+                PropertyChanges { target: sqBtn; color:"green"; labelColor: "white" }
             }
         ]
     }

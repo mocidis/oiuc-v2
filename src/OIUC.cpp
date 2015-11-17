@@ -73,6 +73,11 @@ void OIUC::prepare() {
     app_data.gr.on_rx_report_f = &on_rx_report;
     app_data.gr.on_sq_report_f = &on_sq_report;
     gb_receiver_init(&app_data.gr, GB_CS);
+
+    //endpoint
+    app_data.endpoint.pool = app_data.ics.pool;
+    pjmedia_endpt_create(&app_data.ics.cp.factory, NULL, 1, &app_data.endpoint.ep);
+    pjmedia_codec_g711_init(app_data.endpoint.ep);
 }
 
 void OIUC::call (QString number) {
