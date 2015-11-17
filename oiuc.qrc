@@ -55,5 +55,10 @@
 	<file>static/Speaker-fill-white-small.svg</file>
 	<file>static/Speaker-mute-fill-black-small.svg</file>
 	<file>static/Speaker-mute-fill-white-small.svg</file>
+	<file>static/fonts/digital-7 (italic).ttf</file>
+	<file>static/fonts/digital-7 (mono italic).ttf</file>
+	<file>static/fonts/digital-7 (mono).ttf</file>
+	<file>static/fonts/digital-7.ttf</file>
+	<file>static/fonts/monaco.ttf</file>
 </qresource>
 </RCC>

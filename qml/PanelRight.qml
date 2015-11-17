@@ -35,6 +35,7 @@ PanelCommon {
 				width: root.width
 				text: log
 				elide: Text.ElideRight
+				font.family: appFont.name
 			}
 		}
 		clip: true

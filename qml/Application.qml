@@ -22,6 +22,7 @@ Rectangle {
         property bool login: oiuc.isLoggedIn()
     }
 	FontLoader {id: lcdFont; source: "../static/fonts/digital-7 (mono).ttf"}
+	FontLoader {id: appFont; source: "../static/fonts/monaco.ttf"}
     PanelTop {
         id: _TOP
         anchors {
