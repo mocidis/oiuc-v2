@@ -4,6 +4,26 @@
 #include "gb-receiver.h"
 #include "endpoint.h"
 
+void list_all_codecs(pjmedia_endpt *endpoint) {
+    unsigned int count = 100;
+    int i;
+    char buffer[100];
+    pjmedia_codec_mgr *mgr = 0;
+    pjmedia_codec_info codec[20];
+    pj_str_t codec_id = pj_str("");
+
+    mgr = pjmedia_endpt_get_codec_mgr(endpoint);
+    PJ_LOG(3, (__FILE__, "--- mgr = %p", mgr));
+    pjmedia_codec_mgr_enum_codecs(mgr, &count, codec, NULL);
+    
+    PJ_LOG(3, (__FILE__, "count = %p", count));
+    for ( i = 0; i < count; i++ ) {
+        pj_bzero(buffer, sizeof(buffer));
+        pjmedia_codec_info_to_id(&codec[i], buffer, sizeof(buffer));
+        PJ_LOG(3, (__FILE__, "Codec : %s", buffer));
+    }
+}
+
 void on_online_report(char *id, char *desc, int radio_port, int is_online) {
     SHOW_LOG(4, "O_REPT:%s Desc: %s Radio port: %d (online=%d)\n", id,desc, radio_port, is_online);
 }
@@ -70,9 +90,6 @@ int main(int argc , char *argv[]) {
     //int adv_port = ADV_PORT;
     int adv_port = 2015;
     int gb_port = GB_PORT; 
-    
-    SET_LOG_LEVEL(5);
-    pj_log_set_level(5);
 
     gm_cs = argv[5];
     gmc_cs = argv[6];
@@ -85,6 +102,9 @@ int main(int argc , char *argv[]) {
     ics_pool_init(&ics);  
     ics_pjsua_init(&ics);
     ics_init(&ics);
+
+    SET_LOG_LEVEL(3);
+    pj_log_set_level(3);
 
 	ics_set_default_callback(&on_reg_start_default);
 
@@ -113,24 +133,19 @@ int main(int argc , char *argv[]) {
 
     /*----------- STREAM --------------*/
     node_media_config(&node, &streamer, &receiver);
-    node.receiver->pool = ics.pool;
-    node.receiver->ep = pjsua_get_pjmedia_endpt();
+    node.streamer->pool = node.receiver->pool = ics.pool;
+    node.streamer->ep = node.receiver->ep = pjsua_get_pjmedia_endpt();
     pjmedia_codec_g711_init(node.receiver->ep);
 
+    streamer_init(node.streamer, node.streamer->ep, node.receiver->pool);
     receiver_init(node.receiver, node.receiver->ep, node.receiver->pool, 2);
+
+    streamer_config_dev_source(node.streamer, 2);
     receiver_config_dev_sink(node.receiver, 2);
 
     ////////////////////
     pthread_create(&thread, NULL, auto_register, &node) ;  
 
-    ///////////////////////////////////////////////////////////
-    // For Test Only: PTT - GM_INFO
-    gm_request_t req_info;
-    req_info.msg_id = GM_INFO;
-    ansi_copy_str(req_info.gm_info.gm_owner, argv[1]);
-    ansi_copy_str(req_info.gm_info.sdp_mip, "111.111.111.111");
-    req_info.gm_info.sdp_port = 1111;
-    
     while(1) {
         if (fgets(option, sizeof(option), stdin) == NULL ) {
             SHOW_LOG(4, "NULL cmd");
@@ -155,7 +170,10 @@ int main(int argc , char *argv[]) {
                 node_register(&node);
                 break;
             case 't':
-                PERROR_IF_TRUE(gm_client_send(&node.gm_client, &req_info) < 0, "ERROR::send failed - ");
+                node_start_session(&node);
+                break;
+            case 'y':
+                node_stop_session(&node);
                 break;
             case 'd':
                 node_pause(&node);
