@@ -1,4 +1,5 @@
 #include "OIUC.h"
+
 OIUC* OIUC::singleton = 0;
 OIUC* OIUC:: getOIUC() {
 	if (!singleton) {
@@ -17,11 +18,11 @@ OIUC::OIUC() {
 	memset(&app_data, 0, sizeof(app_data_t));
 }
 
-static void init_adv_server(app_data_t *app_data, char *adv_cs) {
+static void init_adv_server(app_data_t *app_data, char *adv_cs, pj_pool_t *pool) {
     memset(&app_data->adv_server, 0, sizeof(app_data->adv_server));
     app_data->adv_server.on_request_f = &on_adv_info;
 
-    adv_server_init(&app_data->adv_server, adv_cs);
+    adv_server_init(&app_data->adv_server, adv_cs, pool);
     adv_server_start(&app_data->adv_server);
 }
 
@@ -55,7 +56,6 @@ void OIUC::prepare() {
 	ics_start(&app_data.ics);
 	config->getPortAsterisk(); // Don't need anymorea, now set default bind to any port
 	ics_connect(&app_data.ics, config->getPortAsterisk());
-
 	//node
     memset(&app_data.node, 0, sizeof(app_data.node));
    
@@ -63,8 +63,16 @@ void OIUC::prepare() {
 	gmc_cs = "udp:" + config->getOIUCIP() + ":" + QString::number(config->getPortOIUCListen());
 	adv_cs = "udp:0.0.0.0:2015";
 
-    init_adv_server(&app_data, adv_cs.toLocal8Bit().data());
-    node_init(&app_data.node, config->getOIUCName().toLocal8Bit().data(), config->getLocation().toLocal8Bit().data(), config->getOIUCDescription().toLocal8Bit().data(), -1, strdup(gm_cs.toLocal8Bit().data()), strdup(gmc_cs.toLocal8Bit().data()), strdup(adv_cs.toLocal8Bit().data()));
+    init_adv_server(&app_data, adv_cs.toLocal8Bit().data(), app_data.ics.pool);
+
+    node_init(&app_data.node, 
+                config->getOIUCName().toLocal8Bit().data(), 
+                config->getLocation().toLocal8Bit().data(), 
+                config->getOIUCDescription().toLocal8Bit().data(), 
+                -1, 
+                gm_cs.toLocal8Bit().data(), 
+                gmc_cs.toLocal8Bit().data(), 
+                app_data.ics.pool);
     node_add_adv_server(&app_data.node, &app_data.adv_server);
     //gb
     memset(&app_data.gr, 0, sizeof(app_data.gr));
@@ -72,7 +80,7 @@ void OIUC::prepare() {
     app_data.gr.on_tx_report_f = &on_tx_report;
     app_data.gr.on_rx_report_f = &on_rx_report;
     app_data.gr.on_sq_report_f = &on_sq_report;
-    gb_receiver_init(&app_data.gr, GB_CS);
+    gb_receiver_init(&app_data.gr, (char *)GB_CS, app_data.ics.pool);
 
     //endpoint
     app_data.endpoint.pool = app_data.ics.pool;

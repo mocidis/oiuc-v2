@@ -83,3 +83,20 @@ int Config::getLogMaxLineDisplay() { return log_max_line_display;}
 QString Config::getOIUCName() { return oiuc_name;}
 QString Config::getLocation() { return location;}
 QString Config::getOIUCIP() { return oiuc_ip;}
+
+void Config::dump() {
+    qDebug() << "----" << asterisk_ip;
+    qDebug() << "----" << port_connect_asterisk;
+    qDebug() << "----" << arbiter_ip;
+    qDebug() << "----" << port_sendto_arbiter;
+    qDebug() << "----" << port_oiuc_listen;
+    qDebug() << "----" << oiuc_description;
+    qDebug() << "----" << speaker_volume;
+    qDebug() << "----" << microphone_volume;
+    qDebug() << "----" << log_max_line_per_file;
+    qDebug() << "----" << log_max_file;
+    qDebug() << "----" << log_max_line_display;
+    qDebug() << "----" << oiuc_name;
+    qDebug() << "----" << location;
+    qDebug() << "----" << oiuc_ip;
+}

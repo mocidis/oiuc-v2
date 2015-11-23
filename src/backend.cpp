@@ -47,14 +47,16 @@ void loadGeneralConfig(Config *config, QString backend_location) {
 			location = query.value(13).toString();
 			oiuc_ip = query.value(14).toString();
 		}
-		config->setAsteriskIP (asterisk_ip);
-		config->setPortAsterisk (port_connect_asterisk);
-		config->setArbiterIP (arbiter_ip);
-		config->setPortSendToArbiter (port_sendto_arbiter);
-		config->setPortOIUCListen (port_oiuc_listen);
-		config->setOIUCDescription (oiuc_description);
-		config->setSpeakerVolume (speaker_volume);
-		config->setMicrophoneVolume (microphone_volume);
+        query.finish();
+        db.close();
+		config->setAsteriskIP(asterisk_ip);
+		config->setPortAsterisk(port_connect_asterisk);
+		config->setArbiterIP(arbiter_ip);
+		config->setPortSendToArbiter(port_sendto_arbiter);
+		config->setPortOIUCListen(port_oiuc_listen);
+		config->setOIUCDescription(oiuc_description);
+		config->setSpeakerVolume(speaker_volume);
+		config->setMicrophoneVolume(microphone_volume);
 		config->setLogDir(log_dir);
 		config->setLogMaxLinePerFile(log_max_line_per_file);
 		config->setLogMaxFile(log_max_file);
@@ -62,6 +64,7 @@ void loadGeneralConfig(Config *config, QString backend_location) {
 		config->setOIUCName(oiuc_name);
 		config->setLocation(location);
 		config->setOIUCIP(oiuc_ip);
+        config->dump();
 	}
 	QSqlDatabase::removeDatabase(backend_location);
 }
