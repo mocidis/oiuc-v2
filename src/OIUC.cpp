@@ -17,9 +17,11 @@ OIUC::OIUC() {
 	memset(&app_data, 0, sizeof(app_data_t));
 }
 
-static void init_adv_server(app_data_t *app_data, char *adv_cs) {
+static void init_adv_server(app_data_t *app_data, char *adv_cs, node_t *node) {
     memset(&app_data->adv_server, 0, sizeof(app_data->adv_server));
     app_data->adv_server.on_request_f = &on_adv_info;
+    app_data->adv_server.on_open_socket_f = &on_open_socket_adv_server;
+    app_data->adv_server.user_data = node;
 
     adv_server_init(&app_data->adv_server, adv_cs);
     adv_server_start(&app_data->adv_server);
@@ -43,6 +45,7 @@ void OIUC::prepare() {
     ics_init(&app_data.ics);
 
     SET_LOG_LEVEL(4);
+    pj_log_set_level(3);
 
 	ics_set_default_callback(&on_reg_start_default);
 	ics_set_reg_start_callback(&on_reg_start_impl);
@@ -63,7 +66,7 @@ void OIUC::prepare() {
 	gmc_cs = "udp:" + config->getOIUCIP() + ":" + QString::number(config->getPortOIUCListen());
 	adv_cs = "udp:0.0.0.0:2015";
 
-    init_adv_server(&app_data, adv_cs.toLocal8Bit().data());
+    init_adv_server(&app_data, adv_cs.toLocal8Bit().data(), &app_data.node);
     node_init(&app_data.node, config->getOIUCName().toLocal8Bit().data(), config->getLocation().toLocal8Bit().data(), config->getOIUCDescription().toLocal8Bit().data(), -1, strdup(gm_cs.toLocal8Bit().data()), strdup(gmc_cs.toLocal8Bit().data()), strdup(adv_cs.toLocal8Bit().data()));
     node_add_adv_server(&app_data.node, &app_data.adv_server);
     //gb
@@ -74,10 +77,20 @@ void OIUC::prepare() {
     app_data.gr.on_sq_report_f = &on_sq_report;
     gb_receiver_init(&app_data.gr, GB_CS);
 
-    //endpoint
-    app_data.endpoint.pool = app_data.ics.pool;
-    pjmedia_endpt_create(&app_data.ics.cp.factory, NULL, 1, &app_data.endpoint.ep);
-    pjmedia_codec_g711_init(app_data.endpoint.ep);
+    //STREAM
+#if 1
+    node_media_config(&app_data.node, &app_data.streamer, &app_data.receiver);
+    app_data.node.streamer->pool = app_data.node.receiver->pool = app_data.ics.pool;
+    app_data.node.streamer->ep = app_data.node.receiver->ep = pjsua_get_pjmedia_endpt();
+    pjmedia_codec_g711_init(app_data.node.streamer->ep);
+    pjmedia_codec_g711_init(app_data.node.receiver->ep);
+
+    streamer_init(app_data.node.streamer, app_data.node.streamer->ep, app_data.node.streamer->pool);
+    receiver_init(app_data.node.receiver, app_data.node.receiver->ep, app_data.node.receiver->pool, 2);
+
+    streamer_config_dev_source(app_data.node.streamer, 2);
+    receiver_config_dev_sink(app_data.node.receiver, 2);
+#endif
 }
 
 void OIUC::call (QString number) {
@@ -141,4 +154,10 @@ void OIUC::repulse(QString guest) {
 }
 void OIUC::PTT() {
 	qDebug() << "*****************PTT PRESSED**********";
+    node_start_session(&app_data.node);
 }
+void OIUC::endPTT() {
+	qDebug() << "*****************PTT RELEASED**********";
+    node_stop_session(&app_data.node);
+}
+

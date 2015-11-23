@@ -97,6 +97,7 @@ Rectangle {
                     radio = radios.get(i);
                     radio.isTx = radio.isPTT;
                 }
+                oiuc.PTT();
             }
             onReleased: {
                 var radio;
@@ -104,6 +105,7 @@ Rectangle {
                     radio = radios.get(i);
                     radio.isTx = false;
                 }
+                oiuc.endPTT();
             }
         }
     }

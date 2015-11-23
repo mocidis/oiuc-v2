@@ -103,8 +103,8 @@ int main(int argc , char *argv[]) {
     ics_pjsua_init(&ics);
     ics_init(&ics);
 
-    SET_LOG_LEVEL(3);
-    pj_log_set_level(3);
+    SET_LOG_LEVEL(4);
+    pj_log_set_level(2);
 
 	ics_set_default_callback(&on_reg_start_default);
 
@@ -141,7 +141,7 @@ int main(int argc , char *argv[]) {
     receiver_init(node.receiver, node.receiver->ep, node.receiver->pool, 2);
 
     streamer_config_dev_source(node.streamer, 2);
-    receiver_config_dev_sink(node.receiver, 2);
+    //receiver_config_dev_sink(node.receiver, 2);
 
     ////////////////////
     pthread_create(&thread, NULL, auto_register, &node) ;  
