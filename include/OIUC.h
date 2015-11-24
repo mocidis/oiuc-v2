@@ -41,6 +41,8 @@ public:
 	Q_INVOKABLE void sendInvite(QString guest);
 	Q_INVOKABLE void repulse(QString guest);
 	Q_INVOKABLE void PTT();
+	Q_INVOKABLE void endPTT();
+
 	void setLoggedIn(int flag, char *reason);
 	Q_INVOKABLE bool isLoggedIn();
 

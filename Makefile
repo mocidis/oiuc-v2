@@ -50,22 +50,22 @@ all: gen-gm gen-gmc gen-adv gen-gb build
 
 gen-gm: $(PROTOCOL_DIR)/$(GM_P)
 	mkdir -p gen
-	awk -f $(USERVER_DIR)/gen-tools/gen.awk $<
+	awk -f $(USERVER_DIR)/gen-tools/gen.awk $< $(USERVER_DIR)
 	touch $@
 
 gen-gmc: $(PROTOCOL_DIR)/$(GMC_P)
 	mkdir -p gen
-	awk -f $(USERVER_DIR)/gen-tools/gen.awk $<
+	awk -f $(USERVER_DIR)/gen-tools/gen.awk $< $(USERVER_DIR)
 	touch $@
 
 gen-adv: $(PROTOCOL_DIR)/$(ADV_P)
 	mkdir -p gen
-	awk -f $(USERVER_DIR)/gen-tools/gen.awk $<
+	awk -f $(USERVER_DIR)/gen-tools/gen.awk $< $(USERVER_DIR)
 	touch $@
 
 gen-gb: $(PROTOCOL_DIR)/$(GB_P)
 	mkdir -p gen
-	awk -f $(USERVER_DIR)/gen-tools/gen.awk $<
+	awk -f $(USERVER_DIR)/gen-tools/gen.awk $< $(USERVER_DIR)
 	touch $@
 oiuc.pro:
 	echo "## Project file gen by Make" > oiuc.pro

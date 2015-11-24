@@ -43,6 +43,7 @@ public:
 	QString getLocation();
 	QString getOIUCIP();
 
+    void dump();
 private:
 	/*****************Constructor*******************/
 	Config ();

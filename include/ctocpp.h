@@ -10,6 +10,7 @@ extern "C"
 #include "gb-receiver.h"	
 #include "node.h"
 #include "ansi-utils.h"
+#include "endpoint.h"
 }
 typedef struct {
     ics_t ics;

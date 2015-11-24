@@ -98,6 +98,7 @@ Window {
                     radio = radios.get(i);
                     radio.isTx = radio.isPTT;
                 }
+                oiuc.PTT();
             }
             onReleased: {
                 var radio;
@@ -105,6 +106,7 @@ Window {
                     radio = radios.get(i);
                     radio.isTx = false;
                 }
+                oiuc.endPTT();
             }
         }
     }
