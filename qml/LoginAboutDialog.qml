@@ -1,4 +1,4 @@
-import QtQuick 1.0
+import QtQuick 2.3
 
 DialogCommon {
     property alias reasonMsg: msgLabel.text
@@ -40,8 +40,11 @@ DialogCommon {
                 Text {
                     horizontalAlignment: Text.AlignRight
                     verticalAlignment: Text.AlignVCenter
+                    /*
                     width: parent.width/3
                     height: parent.height
+                    */
+                    font.pixelSize: 30
                     text: "Username"
                 }
                 Rectangle {
@@ -59,6 +62,7 @@ DialogCommon {
                             leftMargin: 5
                         }
                         text: ""
+                        font.pixelSize: 20
                         MouseArea {
                             anchors {
                                 fill: parent
@@ -80,8 +84,10 @@ DialogCommon {
                 Text {
                     horizontalAlignment: Text.AlignRight
                     verticalAlignment: Text.AlignVCenter
-                    width: parent.width/3
+                    /*width: parent.width/3
                     height: parent.height
+                    */
+                    font.pixelSize: 30
                     text: "Password"
                 }
                 Rectangle {
@@ -99,6 +105,7 @@ DialogCommon {
                             leftMargin: 5
                         }
                         text: ""
+                        font.pixelSize: 20
                         echoMode:TextInput.Password
                         MouseArea {
                             anchors {
@@ -135,6 +142,7 @@ DialogCommon {
                         text: "Ok"
                         font {
                             bold: true
+                            pixelSize: 30
                         }
                         color: _ROOT.appState.loginInProgress?"lightgray":"black"
                     }
@@ -159,6 +167,7 @@ DialogCommon {
                     }
                     Text {
                         anchors.centerIn: parent
+                        font.pixelSize: 30
                         text: "Reset"
                         color: _ROOT.appState.loginInProgress?"lightgray":"black"
                     }

@@ -1,4 +1,4 @@
-import QtQuick 1.0
+import QtQuick 2.3
 ToggleButton {
     property alias text: label.text
 //    property alias textSize: label.font.pixelSize

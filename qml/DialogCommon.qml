@@ -1,4 +1,4 @@
-import QtQuick 1.0
+import QtQuick 2.3
 
 Rectangle {
     property alias captionText: captiontxt.text
@@ -26,6 +26,7 @@ Rectangle {
                 verticalCenter: parent.verticalCenter
                 leftMargin: 5
             }
+            font.pixelSize: 30
             text: "Caption"
         }
         PushButton {

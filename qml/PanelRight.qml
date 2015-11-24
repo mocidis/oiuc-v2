@@ -1,4 +1,4 @@
-import QtQuick 1.0
+import QtQuick 2.3
 PanelCommon {
 	id: root
     /*ListModel {
@@ -36,6 +36,7 @@ PanelCommon {
 				text: log
 				elide: Text.ElideRight
 				font.family: appFont.name
+				font.pixelSize: 16
 			}
 		}
 		clip: true

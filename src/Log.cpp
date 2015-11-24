@@ -141,7 +141,7 @@ QHash<int, QByteArray> LogModel::roleNames() const {
 void writeLog(QString msg, int dev) {
 	Log *log = Log::getLog();
 	QDateTime currentDate = QDateTime::currentDateTime();
-	QString time = currentDate.toString("dd/MM/yy -- hh:mm:ss");
+    QString time = currentDate.toString("dd/MM/yy -- hh:mm:ss");
 	QString line = "[";
 	switch (dev) {
 		case SCREENS:

@@ -1,4 +1,4 @@
-import QtQuick 1.0
+import QtQuick 2.3
 
 //Rectangle {
 DialogCommon {
@@ -18,6 +18,7 @@ DialogCommon {
         anchors {
             centerIn: parent
         }
+        font.pixelSize: 25
         text: "Message goes here ..."
     }
     Item {
@@ -32,8 +33,8 @@ DialogCommon {
         PushButton {
             property alias text: leftLabel.text
             id: leftBtn
-            width: 80
-            height: parent.height
+            width: 200
+            height: parent.height + 20
             anchors {
                 right: rightBtn.left
                 top: parent.top
@@ -44,14 +45,15 @@ DialogCommon {
                 id:leftLabel
                 anchors { centerIn:parent }
                 text: "Answer"
+                font.pixelSize: 30
             }
             onClicked: oiuc.answerCall();
         }
         PushButton {
             property alias text: rightLabel.text
             id: rightBtn
-            width: 80
-            height: parent.height
+            width: 200
+            height: parent.height + 20
             anchors {
                 right: parent.right
                 top: parent.top
@@ -61,6 +63,7 @@ DialogCommon {
                 id: rightLabel
                 anchors { centerIn:parent }
                 text: "Reject"
+                font.pixelSize: 30
             }
             onClicked: oiuc.hangupCall()
         }

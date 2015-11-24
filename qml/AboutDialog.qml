@@ -1,4 +1,4 @@
-import QtQuick 1.0
+import QtQuick 2.3
 
 DialogCommon {
     id: root
@@ -30,6 +30,7 @@ DialogCommon {
                 font.italic: true
                 align: Text.AlignHCenter
                 text: "Intergrated Communication System"
+                font.pixelSize: 30
             }
             Item {
                 width: parent.width

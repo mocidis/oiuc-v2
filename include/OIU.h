@@ -2,7 +2,7 @@
 #define _OIU_H_
 
 #include <QtCore>
-#include <QDeclarativeItem>
+#include <QQuickItem>
 #include <QtSql>
 class OIU;
 class OIU : public QObject {

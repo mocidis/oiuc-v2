@@ -2,9 +2,9 @@
 #define _OIU_LIST_
 
 #include <QtCore>
-#include <QDeclarativeItem>
-#include <QDeclarativeView>
-#include <QDeclarativeContext>
+#include <QQuickItem>
+#include <QQuickView>
+#include <QQmlContext>
 #include <QtSql>
 
 #include "OIU.h"

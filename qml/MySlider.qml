@@ -1,4 +1,4 @@
-import QtQuick 1.0
+import QtQuick 2.3
 Rectangle {
     property variant object: null
     property color buttonColor: "transparent"

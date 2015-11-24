@@ -1,12 +1,13 @@
-import QtQuick 1.0
-Rectangle {
+import QtQuick 2.3
+import QtQuick.Window 2.2
+Window {
+    visible: true
     id: _ROOT
 	width: 1280
     height: 680
-    
-	property ListModel radios : ModelRadios{}
+    property ListModel radios : ModelRadios{}
 	property ListModel oius : ModelOIUs{}
-    
+
     function hasControlledRadio() {
         var ret = false;
         var i;

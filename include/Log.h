@@ -1,7 +1,7 @@
 #ifndef _LOG_H_
 #define _LOG_H_
 #include <QtCore>
-#include <QDeclarativeItem>
+#include <QQuickView>
 #include <QtSql>
 #include <QDateTime>
 #include <QFile>

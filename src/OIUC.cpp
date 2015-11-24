@@ -20,7 +20,8 @@ OIUC::OIUC() {
 static void init_adv_server(app_data_t *app_data, char *adv_cs) {
     memset(&app_data->adv_server, 0, sizeof(app_data->adv_server));
     app_data->adv_server.on_request_f = &on_adv_info;
-
+    app_data->adv_server.on_open_socket_f = &on_open_socket_adv_server;
+    app_data->adv_server.user_data = &app_data->node;
     adv_server_init(&app_data->adv_server, adv_cs);
     adv_server_start(&app_data->adv_server);
 }
@@ -52,11 +53,11 @@ void OIUC::prepare() {
 	ics_set_call_transfer_callback(&on_call_transfer_impl);
 	ics_set_call_media_state_callback(&on_call_media_state_impl);
 
-	ics_start(&app_data.ics);
+    ics_start(&app_data.ics);
 	config->getPortAsterisk(); // Don't need anymorea, now set default bind to any port
 	ics_connect(&app_data.ics, config->getPortAsterisk());
 
-	//node
+    //node
     memset(&app_data.node, 0, sizeof(app_data.node));
    
 	gm_cs = "udp:" + config->getArbiterIP() + ":" + QString::number(config->getPortSendToArbiter());
@@ -64,9 +65,11 @@ void OIUC::prepare() {
 	adv_cs = "udp:0.0.0.0:2015";
 
     init_adv_server(&app_data, adv_cs.toLocal8Bit().data());
+    node_media_config(&app_data.node, &app_data.streamer, &app_data.receiver);
+
     node_init(&app_data.node, config->getOIUCName().toLocal8Bit().data(), config->getLocation().toLocal8Bit().data(), config->getOIUCDescription().toLocal8Bit().data(), -1, strdup(gm_cs.toLocal8Bit().data()), strdup(gmc_cs.toLocal8Bit().data()), strdup(adv_cs.toLocal8Bit().data()));
     node_add_adv_server(&app_data.node, &app_data.adv_server);
-    //gb
+   //gb
     memset(&app_data.gr, 0, sizeof(app_data.gr));
     app_data.gr.on_online_report_f = &on_online_report;
     app_data.gr.on_tx_report_f = &on_tx_report;
@@ -135,5 +138,5 @@ void OIUC::repulse(QString guest) {
 	node_repulse(&app_data.node, strdup(guest.toLocal8Bit().data()));
 }
 void OIUC::PTT() {
-	qDebug() << "*****************PTT PRESSED**********";
+    qDebug() << "*****************PTT PRESSED**********";
 }

@@ -5,12 +5,13 @@ void loadGeneralConfig(Config *config, QString backend_location) {
 		if (QSqlDatabase::contains("ics-database")) {
 			db = QSqlDatabase::database("ics-database");
 		} else {
-			db = QSqlDatabase::addDatabase("QSQLITE", "ics-database");
+            qDebug() << "------- try to open databases";
+            db = QSqlDatabase::addDatabase("QSQLITE", "ics-database");
 			db.setDatabaseName(backend_location);
 			db.open();
-		}
+        }
 		if (!db.isOpen()) {
-			qDebug() << "-------" << backend_location;
+            qDebug() << "------- cannot open databases";
 			exit (EXIT_FAILURE);
 		}
 		QString command = "select * from ics_config";
@@ -61,7 +62,7 @@ void loadGeneralConfig(Config *config, QString backend_location) {
 		config->setLogMaxLineDisplay(log_max_line_display);
 		config->setOIUCName(oiuc_name);
 		config->setLocation(location);
-		config->setOIUCIP(oiuc_ip);
+        config->setOIUCIP(oiuc_ip);
 	}
 	QSqlDatabase::removeDatabase(backend_location);
 }

@@ -1,7 +1,7 @@
 #ifndef _OIUC_H_
 #define _OIUC_H_
-#include <QDeclarativeView>
-#include <QDeclarativeItem>
+#include <QQuickView>
+#include <QQuickItem>
 #include <QDebug>
 #include <QString>
 #include "ctocpp.h"
@@ -17,7 +17,7 @@ extern "C"
 #include "gb-receiver.h"
 }
 class OIUC;
-class OIUC : public QDeclarativeItem {
+class OIUC : public QQuickItem {
 	Q_OBJECT
 public:
 	static OIUC* getOIUC();

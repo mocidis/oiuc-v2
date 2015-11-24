@@ -2,7 +2,7 @@
 #define _RADIO_H_
 
 #include <QtCore>
-#include <QDeclarativeItem>
+#include <QQuickView>
 #include <QtSql>
 class Radio;
 class Radio : public QObject {

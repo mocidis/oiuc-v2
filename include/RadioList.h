@@ -2,9 +2,9 @@
 #define _RADIO_LIST_ 
 
 #include <QtCore>
-#include <QDeclarativeItem>
-#include <QDeclarativeView>
-#include <QDeclarativeContext>
+#include <QQuickItem>
+#include <QQuickView>
+#include <QQmlContext>
 #include <QtSql>
 #include "Radio.h"
 #include "Log.h"
