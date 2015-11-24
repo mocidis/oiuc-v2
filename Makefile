@@ -50,22 +50,22 @@ all: gen-gm gen-gmc gen-adv gen-gb build
 
 gen-gm: $(PROTOCOL_DIR)/$(GM_P)
 	mkdir -p gen
-	awk -f $(USERVER_DIR)/gen-tools/gen.awk $< $(USERVER_DIR)
+	awk -v base_dir=$(USERVER_DIR) -f $(USERVER_DIR)/gen-tools/gen.awk $<
 	touch $@
 
 gen-gmc: $(PROTOCOL_DIR)/$(GMC_P)
 	mkdir -p gen
-	awk -f $(USERVER_DIR)/gen-tools/gen.awk $< $(USERVER_DIR)
+	awk -v base_dir=$(USERVER_DIR) -f $(USERVER_DIR)/gen-tools/gen.awk $<
 	touch $@
 
 gen-adv: $(PROTOCOL_DIR)/$(ADV_P)
 	mkdir -p gen
-	awk -f $(USERVER_DIR)/gen-tools/gen.awk $< $(USERVER_DIR)
+	awk -v base_dir=$(USERVER_DIR) -f $(USERVER_DIR)/gen-tools/gen.awk $<
 	touch $@
 
 gen-gb: $(PROTOCOL_DIR)/$(GB_P)
 	mkdir -p gen
-	awk -f $(USERVER_DIR)/gen-tools/gen.awk $< $(USERVER_DIR)
+	awk -v base_dir=$(USERVER_DIR) -f $(USERVER_DIR)/gen-tools/gen.awk $<
 	touch $@
 oiuc.pro:
 	echo "## Project file gen by Make" > oiuc.pro
@@ -105,7 +105,7 @@ oiuc.pro:
 	echo "              ../group-man/include \\" >> oiuc.pro
 	echo "              ../media-endpoint/include" >> oiuc.pro
 	echo "" >> oiuc.pro
-	echo "QT += declarative sql" >> oiuc.pro
+	echo "QT += qml quick xml svg multimedia sql" >> oiuc.pro
 	echo "QMAKE_CFLAGS += $(MY_CFLAGS)" >> oiuc.pro
 	echo "QMAKE_CXXFLAGS += $(MY_CFLAGS)" >> oiuc.pro
 	echo "QMAKE_LIBS += $(MY_LIBS)" >> oiuc.pro

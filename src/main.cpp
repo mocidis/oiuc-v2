@@ -20,23 +20,6 @@ int main(int argc, char *argv[])
 #else
     loadGeneralConfig(config, "databases/oiuc.db");
 #endif
-/*
-     config->setAsteriskIP ("192.168.2.30");
-     config->setPortAsterisk (5060);
-     config->setArbiterIP ("192.168.2.30");
-     config->setPortSendToArbiter (1994);
-     config->setPortOIUCListen (1993);
-     config->setOIUCDescription ("OIUC-DESC");
-     config->setSpeakerVolume (0.5);
-     config->setMicrophoneVolume (0.5);
-     config->setLogDir("/tmp/");
-     config->setLogMaxLinePerFile(1000);
-     config->setLogMaxFile(10);
-     config->setLogMaxLineDisplay(200);
-     config->setOIUCName("FTW");
-     config->setLocation("HAN");
-     config->setOIUCIP("192.168.2.112");
-*/
      Log *log = Log::getLog();
      log->setFilename(config->getLogDir() + "oiuc.log");
      log->start();
@@ -56,7 +39,7 @@ int main(int argc, char *argv[])
      engine.load(QUrl(QStringLiteral("qrc:/qml/Application.qml")));
      return app.exec();
 }
-=======
+/*
 #include <QDeclarativeView>
 #include <QApplication>
 #include <QDeclarativeItem>
@@ -128,3 +111,4 @@ int main (int argc, char* argv[]) {
 	view.show(); //display QML GUI of this application
 	return pApp->exec(); //event loop of application
 }
+*/

@@ -33,7 +33,7 @@ GEN_SRCS:=gm-client.c gmc-server.c adv-server.c gb-server.c
 
 JSONC_DIR:=../json-c/output
 
-CFLAGS:=$(shell pkg-config --cflags libpjproject) -fms-extensions
+CFLAGS:=-std=c99 $(shell pkg-config --cflags libpjproject) -fms-extensions
 CFLAGS+=-I$(ICS_DIR)/include -I$(Q_DIR)/include -I$(O_DIR)/include
 CFLAGS+=-I$(C_DIR)/include
 CFLAGS+=-I../json-c/output/include/json-c
@@ -49,22 +49,22 @@ all: gen-gm gen-gmc gen-adv gen-gb  $(APP)
 
 gen-gm: $(PROTOCOL_DIR)/$(GM_P)
 	mkdir -p gen
-	awk -f $(USERVER_DIR)/gen-tools/gen.awk $<
+	awk -v base_dir=$(USERVER_DIR) -f $(USERVER_DIR)/gen-tools/gen.awk $<
 	touch $@
 
 gen-gmc: $(PROTOCOL_DIR)/$(GMC_P)
 	mkdir -p gen
-	awk -f $(USERVER_DIR)/gen-tools/gen.awk $<
+	awk -v base_dir=$(USERVER_DIR) -f $(USERVER_DIR)/gen-tools/gen.awk $<
 	touch $@
 
 gen-adv: $(PROTOCOL_DIR)/$(ADV_P)
 	mkdir -p gen
-	awk -f $(USERVER_DIR)/gen-tools/gen.awk $<
+	awk -v base_dir=$(USERVER_DIR) -f $(USERVER_DIR)/gen-tools/gen.awk $<
 	touch $@
 
 gen-gb: $(PROTOCOL_DIR)/$(GB_P)
 	mkdir -p gen
-	awk -f $(USERVER_DIR)/gen-tools/gen.awk $<
+	awk -v base_dir=$(USERVER_DIR) -f $(USERVER_DIR)/gen-tools/gen.awk $<
 	touch $@
 
 $(APP): $(NODE_SRCS:.c=.o) $(GEN_SRCS:.c=.o) $(C_SRCS:.c=.o) $(APP_SRCS:.c=.o) $(ICS_SRCS:.c=.o) $(O_SRCS:.c=.o) $(Q_SRCS:.c=.o) $(EP_SRCS:.c=.o)

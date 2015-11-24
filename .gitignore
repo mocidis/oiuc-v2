@@ -31,4 +31,4 @@
 # Debug files
 *.dSYM/
 # Database files
-database/*.db
+database/oiuc.db

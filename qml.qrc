@@ -21,7 +21,6 @@
         <file>qml/RadioView.qml</file>
         <file>qml/ScrollBar.qml</file>
         <file>qml/TelephoneKeyboard.qml</file>
-        <file>qml/test.qml</file>
         <file>qml/ToggleButton.qml</file>
         <file>qml/ToggleKey.qml</file>
         <file>qml/ToggleTextButton.qml</file>
@@ -54,11 +53,5 @@
         <file>static/Speaker-fill-white-small.svg</file>
         <file>static/Speaker-mute-fill-black-small.svg</file>
         <file>static/Speaker-mute-fill-white-small.svg</file>
-        <file>static/fonts/digital-7 (italic).ttf</file>
-        <file>static/fonts/digital-7 (mono italic).ttf</file>
-        <file>static/fonts/digital-7 (mono).ttf</file>
-        <file>static/fonts/digital-7.ttf</file>
-        <file>static/fonts/monaco.ttf</file>
-        <file>qml/main.qml</file>
     </qresource>
 </RCC>

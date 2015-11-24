@@ -44,6 +44,8 @@ void OIUC::prepare() {
     ics_pjsua_init(&app_data.ics); 
     ics_init(&app_data.ics);
 
+	qDebug() << "INIT DONE";
+
     SET_LOG_LEVEL(4);
     pj_log_set_level(3);
 
@@ -58,6 +60,9 @@ void OIUC::prepare() {
     ics_start(&app_data.ics);
 	config->getPortAsterisk(); // Don't need anymorea, now set default bind to any port
 	ics_connect(&app_data.ics, config->getPortAsterisk());
+
+	qDebug() << "ICS STARTED";
+
 	//node
     memset(&app_data.node, 0, sizeof(app_data.node));
    
@@ -76,6 +81,8 @@ void OIUC::prepare() {
                 gmc_cs.toLocal8Bit().data(), 
                 app_data.ics.pool);
     node_add_adv_server(&app_data.node, &app_data.adv_server);
+
+	qDebug() << "NODE INIT DONE";
    //gb
     memset(&app_data.gr, 0, sizeof(app_data.gr));
     app_data.gr.on_online_report_f = &on_online_report;
@@ -84,8 +91,9 @@ void OIUC::prepare() {
     app_data.gr.on_sq_report_f = &on_sq_report;
     gb_receiver_init(&app_data.gr, (char *)GB_CS, app_data.ics.pool);
 
+	qDebug() << "GB DONE";
     //STREAM
-#if 1
+#if 0
     node_media_config(&app_data.node, &app_data.streamer, &app_data.receiver);
     app_data.node.streamer->pool = app_data.node.receiver->pool = app_data.ics.pool;
     app_data.node.streamer->ep = app_data.node.receiver->ep = pjsua_get_pjmedia_endpt();

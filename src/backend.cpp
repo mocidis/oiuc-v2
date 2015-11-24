@@ -48,8 +48,8 @@ void loadGeneralConfig(Config *config, QString backend_location) {
 			location = query.value(13).toString();
 			oiuc_ip = query.value(14).toString();
 		}
-        query.finish();
-        db.close();
+        //query.finish();
+        //db.close();
 		config->setAsteriskIP(asterisk_ip);
 		config->setPortAsterisk(port_connect_asterisk);
 		config->setArbiterIP(arbiter_ip);

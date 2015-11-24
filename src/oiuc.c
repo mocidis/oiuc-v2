@@ -4,26 +4,6 @@
 #include "gb-receiver.h"
 #include "endpoint.h"
 
-void list_all_codecs(pjmedia_endpt *endpoint) {
-    unsigned int count = 100;
-    int i;
-    char buffer[100];
-    pjmedia_codec_mgr *mgr = 0;
-    pjmedia_codec_info codec[20];
-    pj_str_t codec_id = pj_str("");
-
-    mgr = pjmedia_endpt_get_codec_mgr(endpoint);
-    PJ_LOG(3, (__FILE__, "--- mgr = %p", mgr));
-    pjmedia_codec_mgr_enum_codecs(mgr, &count, codec, NULL);
-    
-    PJ_LOG(3, (__FILE__, "count = %p", count));
-    for ( i = 0; i < count; i++ ) {
-        pj_bzero(buffer, sizeof(buffer));
-        pjmedia_codec_info_to_id(&codec[i], buffer, sizeof(buffer));
-        PJ_LOG(3, (__FILE__, "Codec : %s", buffer));
-    }
-}
-
 void on_online_report(char *id, char *desc, int radio_port, int is_online) {
     SHOW_LOG(4, "O_REPT:%s Desc: %s Radio port: %d (online=%d)\n", id,desc, radio_port, is_online);
 }
@@ -42,16 +22,20 @@ void on_reg_state_impl(int account_id, char* is_registration, int code, char *re
 void on_incoming_call_impl(int account_id, int call_id, int st_code, char *remote_contact, char *local_contact);
 void on_call_state_impl(int call_id, int st_code, char *st_text);
 
-static void init_adv_server(adv_server_t *adv_server, char *adv_cs, node_t *node) {
-    memset(adv_server, 0, sizeof(*adv_server));
+static void init_adv_server(adv_server_t *adv_server, char *adv_cs, node_t *node, pj_pool_t *pool) {
+	SHOW_LOG(3, "blah  blah\n");
+    memset(adv_server, 0, sizeof(adv_server));
 
     adv_server->on_request_f = &on_adv_info;
     adv_server->on_open_socket_f = &on_open_socket_adv_server;
     adv_server->user_data = node;
-    
-    adv_server_init(adv_server, adv_cs);
+	
+	SHOW_LOG(3, "blahhhhhhhhhhh  blah\n");
+    adv_server_init(adv_server, adv_cs, pool);
     adv_server_start(adv_server);
+	SHOW_LOG(3, "ADV SERVER STARTED\n");
 }
+
 void *auto_register(void *node_data) {
     node_t *node = (node_t *)node_data;
     while (1) {
@@ -104,7 +88,7 @@ int main(int argc , char *argv[]) {
     ics_init(&ics);
 
     SET_LOG_LEVEL(4);
-    pj_log_set_level(2);
+    pj_log_set_level(3);
 
 	ics_set_default_callback(&on_reg_start_default);
 
@@ -115,13 +99,14 @@ int main(int argc , char *argv[]) {
 
 	ics_start(&ics);
 	ics_connect(&ics, 1235);
-	ics_add_account(&ics, "192.168.2.50", "quy", "1234");
-
+	ics_add_account(&ics, "192.168.2.30", "ntt", "1234");
+	SHOW_LOG(3, "ICS STARTED\n");
     /*------------ NODE ------------*/
     memset(&node, 0, sizeof(node));
-    init_adv_server(&adv_server, adv_cs, &node);
-    node_init(&node, argv[1], argv[2], argv[3], atoi(argv[4]), gm_cs, gmc_cs, adv_cs);
-    node_add_adv_server(&node, &adv_server);
+    //init_adv_server(&adv_server, adv_cs, &node, ics.pool);
+    node_init(&node, argv[1], argv[2], argv[3], atoi(argv[4]), gm_cs, gmc_cs, ics.pool);
+    //node_add_adv_server(&node, &adv_server);
+	SHOW_LOG(3, "NODE INIT DONE\n");
     /*----------- GB --------------*/
     memset(&gr, 0, sizeof(gr));
     gr.on_online_report_f = &on_online_report;
@@ -129,9 +114,14 @@ int main(int argc , char *argv[]) {
     gr.on_rx_report_f = &on_rx_report;
     gr.on_sq_report_f = &on_sq_report;
     
-    gb_receiver_init(&gr, gb_cs);
-
+    gb_receiver_init(&gr, (char *)GB_CS, ics.pool);
+	SHOW_LOG(3, "GB INIT DONE\n");
+	while(1) {
+		SHOW_LOG(3, "TEST\n");
+		sleep(1);
+	};
     /*----------- STREAM --------------*/
+#if 0
     node_media_config(&node, &streamer, &receiver);
     node.streamer->pool = node.receiver->pool = ics.pool;
     node.streamer->ep = node.receiver->ep = pjsua_get_pjmedia_endpt();
@@ -145,7 +135,7 @@ int main(int argc , char *argv[]) {
 
     ////////////////////
     pthread_create(&thread, NULL, auto_register, &node) ;  
-
+#endif
     while(1) {
         if (fgets(option, sizeof(option), stdin) == NULL ) {
             SHOW_LOG(4, "NULL cmd");
@@ -160,7 +150,7 @@ int main(int argc , char *argv[]) {
                 node_invite(&node, guest);
                 break;
             case 'l':
-                memset(guest, 0 , sizeof(guest));
+               memset(guest, 0 , sizeof(guest));
                 n = sprintf(guest, "RIUC1%c", option[1]);
                 guest[n] = '\0';
 
