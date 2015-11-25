@@ -18,7 +18,7 @@ DialogCommon {
         anchors {
             centerIn: parent
         }
-        font.pixelSize: 25
+        font.pixelSize: 20
         text: "Message goes here ..."
     }
     Item {
@@ -31,6 +31,7 @@ DialogCommon {
             rightMargin: 10
         }
         PushButton {
+			color: "#1aff1a"
             property alias text: leftLabel.text
             id: leftBtn
             width: 200
@@ -45,11 +46,12 @@ DialogCommon {
                 id:leftLabel
                 anchors { centerIn:parent }
                 text: "Answer"
-                font.pixelSize: 30
+                font.pixelSize: 20
             }
             onClicked: oiuc.answerCall();
         }
         PushButton {
+			color: "#ff4d4d"
             property alias text: rightLabel.text
             id: rightBtn
             width: 200
@@ -63,7 +65,7 @@ DialogCommon {
                 id: rightLabel
                 anchors { centerIn:parent }
                 text: "Reject"
-                font.pixelSize: 30
+                font.pixelSize: 20
             }
             onClicked: oiuc.hangupCall()
         }

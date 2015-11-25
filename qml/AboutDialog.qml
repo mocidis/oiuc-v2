@@ -20,7 +20,7 @@ DialogCommon {
             }
             spacing: 10
             Text {
-                font.pixelSize: 30
+                font.pixelSize: 20
                 font.bold: true
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
@@ -30,7 +30,7 @@ DialogCommon {
                 font.italic: true
                 align: Text.AlignHCenter
                 text: "Intergrated Communication System"
-                font.pixelSize: 30
+                font.pixelSize: 20
             }
             Item {
                 width: parent.width
@@ -54,6 +54,7 @@ DialogCommon {
                     text: "version 1.0"
                 }
             }
+			
         }
         LabelCommon {
             id: copyright

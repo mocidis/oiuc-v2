@@ -40,11 +40,11 @@ DialogCommon {
                 Text {
                     horizontalAlignment: Text.AlignRight
                     verticalAlignment: Text.AlignVCenter
-                    /*
+                    
                     width: parent.width/3
                     height: parent.height
-                    */
-                    font.pixelSize: 30
+                    
+                    font.pixelSize: 20
                     text: "Username"
                 }
                 Rectangle {
@@ -84,10 +84,10 @@ DialogCommon {
                 Text {
                     horizontalAlignment: Text.AlignRight
                     verticalAlignment: Text.AlignVCenter
-                    /*width: parent.width/3
+                    width: parent.width/3
                     height: parent.height
-                    */
-                    font.pixelSize: 30
+                    
+                    font.pixelSize: 20
                     text: "Password"
                 }
                 Rectangle {
@@ -142,7 +142,7 @@ DialogCommon {
                         text: "Ok"
                         font {
                             bold: true
-                            pixelSize: 30
+                            pixelSize: 20
                         }
                         color: _ROOT.appState.loginInProgress?"lightgray":"black"
                     }
@@ -167,7 +167,7 @@ DialogCommon {
                     }
                     Text {
                         anchors.centerIn: parent
-                        font.pixelSize: 30
+                        font.pixelSize: 20
                         text: "Reset"
                         color: _ROOT.appState.loginInProgress?"lightgray":"black"
                     }
@@ -190,7 +190,7 @@ DialogCommon {
             }
             spacing: 10
             Text {
-                font.pixelSize: 30
+                font.pixelSize: 20
                 font.bold: true
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
