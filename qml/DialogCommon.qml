@@ -1,4 +1,4 @@
-import QtQuick 2.3
+@QtQuick
 
 Rectangle {
     property alias captionText: captiontxt.text

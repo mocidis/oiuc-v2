@@ -46,7 +46,10 @@ APP:=oiuc.app
 
 USERVER_DIR:=../userver
 
-all: gen-gm gen-gmc gen-adv gen-gb build
+all: gen-qml gen-gm gen-gmc gen-adv gen-gb build
+
+gen-qml:
+	./build_qml.sh $(QT_QUICK_VER) $(QML_GEN_DIR)
 
 gen-gm: $(PROTOCOL_DIR)/$(GM_P)
 	mkdir -p gen
@@ -74,7 +77,7 @@ oiuc.pro:
 	echo "OBJECTS_DIR = temp" >> oiuc.pro
 	echo "MOC_DIR = temp" >> oiuc.pro
 	echo "RESOURCES += qml.qrc" >> oiuc.pro
-	echo "DEFINES += APP_VERSION=\\\\\\\"\\\"$(VERSION)\\\\\\\"\\\"" >> oiuc.pro
+	echo "DEFINES += APP_VERSION=\\\\\\\"\\\"$(VERSION)\\\\\\\"\\\" QML_GEN_DIR=\\\\\\\"\\\"$(QML_GEN_DIR)\\\\\\\"\\\"" >> oiuc.pro
 	echo "" >> oiuc.pro
 	echo "DEPENDPATH += . \\" >> oiuc.pro
 	echo "              include \\" >> oiuc.pro
@@ -105,7 +108,8 @@ oiuc.pro:
 	echo "              ../group-man/include \\" >> oiuc.pro
 	echo "              ../media-endpoint/include" >> oiuc.pro
 	echo "" >> oiuc.pro
-	echo "QT += qml quick xml svg multimedia sql" >> oiuc.pro
+	echo "equals(QT_MAJOR_VERSION, 5) {QT += qml quick xml svg multimedia sql}" >> oiuc.pro
+	echo "equals(QT_MAJOR_VERSION, 4) {QT += declarative svg xml multimedia sql core gui}" >> oiuc.pro
 	echo "QMAKE_CFLAGS += $(MY_CFLAGS)" >> oiuc.pro
 	echo "QMAKE_CXXFLAGS += $(MY_CFLAGS)" >> oiuc.pro
 	echo "QMAKE_LIBS += $(MY_LIBS)" >> oiuc.pro
@@ -122,7 +126,7 @@ build: Makefile.qt.mk
 
 clean:
 	make clean -f Makefile.qt.mk
-	rm -fr temp oiuc.pro Makefile.qt.mk gen $(APP) gen-gm gen-gmc gen-adv gen-gb /tmp/oiuc.log
+	rm -fr temp oiuc.pro Makefile.qt.mk gen $(APP) gen-gm gen-gmc gen-adv gen-gb /tmp/oiuc.log $(QML_GEN_DIR) qml.qrc
 
 test:
 	make -f Makefile.quy

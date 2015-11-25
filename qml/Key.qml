@@ -1,4 +1,4 @@
-import QtQuick 2.3
+@QtQuick
 PushButton {
     property alias text: label.text
     property alias textColor: label.color

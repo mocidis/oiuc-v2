@@ -1,6 +1,7 @@
-import QtQuick 2.3
-import QtQuick.Window 2.2
-Window {
+@QtQuick
+@QtWindow
+
+@Window {
     visible: true
     id: _ROOT
 	width: 1280

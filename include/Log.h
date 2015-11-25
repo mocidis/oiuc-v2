@@ -1,7 +1,13 @@
 #ifndef _LOG_H_
 #define _LOG_H_
 #include <QtCore>
+#include <QtGlobal>
+
+#if QT_VERSION >= 0x050000
 #include <QQuickView>
+#else
+#include <QDeclarativeItem>
+#endif
 #include <QtSql>
 #include <QDateTime>
 #include <QFile>

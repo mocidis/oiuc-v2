@@ -1,4 +1,4 @@
-import QtQuick 2.3
+@QtQuick
 
 PanelCommon {
     property int itemWidth: 120

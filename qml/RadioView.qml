@@ -1,4 +1,4 @@
-import QtQuick 2.3
+@QtQuick
 
 Rectangle {
     property int btnSize: 50

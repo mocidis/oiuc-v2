@@ -1,4 +1,4 @@
-import QtQuick 2.3
+@QtQuick
 
 Rectangle {
 	property alias text: call_number.text

@@ -1,5 +1,13 @@
+#include <QtGlobal>
+#if QT_VERSION >= 0x050000
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#else
+#include <QDeclarativeView>
+#include <QApplication>
+#include <QDeclarativeItem>
+#include <QDeclarativeContext>
+#endif
 #include <QDebug>
 #include <QVariant>
 #include "OIUC.h"
@@ -12,8 +20,13 @@
 #include "OIUList.h"
 int main(int argc, char *argv[])
 {
+#if QT_VERSION >= 0x050000
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
+#else
+	QApplication app(argc, argv);
+	QDeclarativeView engine;
+#endif
     Config *config = Config::getConfig();
 #ifdef ICS_ANDROID
     loadGeneralConfig(config, "assets:/databases/oiuc.db");
@@ -36,7 +49,18 @@ int main(int argc, char *argv[])
      engine.rootContext()->setContextProperty("oiuList", oiu_list);
      engine.rootContext()->setContextProperty("logModel", log->getLogModel());
      writeLog("Start OIUC", SCREENS);
-     engine.load(QUrl(QStringLiteral("qrc:/qml/Application.qml")));
+#if QT_VERSION >= 0x050000
+	 QString qml_url = "qrc:/";
+	 qml_url.append(QString::fromLocal8Bit(QML_GEN_DIR));
+	 qml_url.append("/Application.qml");
+     engine.load(QUrl(qml_url));
+#else
+	 QString qml_url = "qrc:///";
+	 qml_url.append(QString::fromLocal8Bit(QML_GEN_DIR));
+	 qml_url.append("/Application.qml");
+	 engine.setSource(QUrl(qml_url));
+	 engine.show();
+#endif
      return app.exec();
 }
 /*

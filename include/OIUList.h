@@ -1,10 +1,17 @@
 #ifndef _OIU_LIST_
 #define _OIU_LIST_
 
+#include <QtGlobal>
 #include <QtCore>
+#if QT_VERSION >= 0x050000
 #include <QQuickItem>
 #include <QQuickView>
 #include <QQmlContext>
+#else
+#include <QDeclarativeItem>
+#include <QDeclarativeView>
+#include <QDeclarativeContext>
+#endif
 #include <QtSql>
 
 #include "OIU.h"

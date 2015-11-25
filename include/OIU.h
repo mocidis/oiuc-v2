@@ -1,8 +1,17 @@
 #ifndef _OIU_H_
 #define _OIU_H_
 
+#include <QtGlobal>
 #include <QtCore>
+
+#if QT_VERSION >= 0x050000
+#include <QQuickView>
 #include <QQuickItem>
+#else
+#include <QDeclarativeView>
+#include <QDeclarativeItem>
+#endif
+
 #include <QtSql>
 class OIU;
 class OIU : public QObject {

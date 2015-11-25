@@ -1,8 +1,17 @@
 #ifndef _RADIO_H_
 #define _RADIO_H_
 
+#include <QtGlobal>
 #include <QtCore>
+
+#if QT_VERSION >= 0x050000
 #include <QQuickView>
+#include <QQuickItem>
+#else
+#include <QDeclarativeView>
+#include <QDeclarativeItem>
+#endif
+
 #include <QtSql>
 class Radio;
 class Radio : public QObject {

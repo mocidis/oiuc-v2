@@ -1,4 +1,4 @@
-import QtQuick 2.3
+@QtQuick
 
 DialogCommon {
     property alias reasonMsg: msgLabel.text
