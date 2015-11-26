@@ -93,7 +93,7 @@ void OIUC::prepare() {
 
 	qDebug() << "GB DONE";
     //STREAM
-#if 0
+#if 1
     node_media_config(&app_data.node, &app_data.streamer, &app_data.receiver);
     app_data.node.streamer->pool = app_data.node.receiver->pool = app_data.ics.pool;
     app_data.node.streamer->ep = app_data.node.receiver->ep = pjsua_get_pjmedia_endpt();
