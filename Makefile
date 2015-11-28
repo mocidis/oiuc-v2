@@ -28,6 +28,8 @@ EP_SRC:=../media-endpoint/src/endpoint.c
 
 GB_SRC:= ../group-man/src/gb-receiver.c
 
+HT_SRC:=../hash-table/src/hash-table.c
+
 CORE_SRC:= ../concurrent_queue/src/queue.c \
            ../ics/src/ics-command.c \
            ../ics/src/ics.c \
@@ -108,7 +110,9 @@ oiuc.pro: $(QML_GEN_DIR) $(addprefix $(QML_GEN_DIR)/, $(QMLS)) qml.qrc
 	echo "              ../group-man/src \\" >> oiuc.pro
 	echo "              ../group-man/include \\" >> oiuc.pro
 	echo "              ../media-endpoint/src \\" >> oiuc.pro
-	echo "              ../media-endpoint/include" >> oiuc.pro
+	echo "              ../media-endpoint/include \\" >> oiuc.pro
+	echo "              ../hash-table/src \\" >> oiuc.pro
+	echo "              ../hash-table/include" >> oiuc.pro
 	echo "" >> oiuc.pro
 	echo "INCLUDEPATH += . \\" >> oiuc.pro
 	echo "               include \\" >> oiuc.pro
@@ -118,7 +122,8 @@ oiuc.pro: $(QML_GEN_DIR) $(addprefix $(QML_GEN_DIR)/, $(QMLS)) qml.qrc
 	echo "               ../object-pool/include \\" >> oiuc.pro
 	echo "               ../common/include \\" >> oiuc.pro
 	echo "              ../group-man/include \\" >> oiuc.pro
-	echo "              ../media-endpoint/include" >> oiuc.pro
+	echo "              ../media-endpoint/include \\" >> oiuc.pro
+	echo "              ../hash-table/include " >> oiuc.pro
 	echo "" >> oiuc.pro
 	echo "equals(QT_MAJOR_VERSION, 5) {QT += qml quick xml svg multimedia sql}" >> oiuc.pro
 	echo "equals(QT_MAJOR_VERSION, 4) {QT += declarative svg xml multimedia sql core gui}" >> oiuc.pro
@@ -126,9 +131,9 @@ oiuc.pro: $(QML_GEN_DIR) $(addprefix $(QML_GEN_DIR)/, $(QMLS)) qml.qrc
 	echo "QMAKE_CXXFLAGS += $(MY_CFLAGS)" >> oiuc.pro
 	echo "QMAKE_LIBS += $(MY_LIBS)" >> oiuc.pro
 	echo "" >> oiuc.pro
-	echo "HEADERS += $(subst /src/,/include/,$(CPP_SRC:.cpp=.h)) $(subst /src/,/include/,$(NODE_SRC:.c=.h)) $(subst /src/,/include/,$(GB_SRC:.c=.h)) $(GEN_SRC:.c=.h) $(subst /src/,/include/,$(CORE_SRC:.c=.h)) $(subst /src/,/include/,$(EP_SRC:.c=.h))">> oiuc.pro
+	echo "HEADERS += $(subst /src/,/include/,$(CPP_SRC:.cpp=.h)) $(subst /src/,/include/,$(NODE_SRC:.c=.h)) $(subst /src/,/include/,$(GB_SRC:.c=.h)) $(GEN_SRC:.c=.h) $(subst /src/,/include/,$(CORE_SRC:.c=.h)) $(subst /src/,/include/,$(EP_SRC:.c=.h)) $(subst /src/,/include/,$(EP_SRC:.c=.h))">> oiuc.pro
 	echo "" >> oiuc.pro
-	echo "SOURCES += $(CPP_SRC) $(GEN_SRC) $(CORE_SRC) $(NODE_SRC) $(GB_SRC) $(EP_SRC)" >> oiuc.pro
+	echo "SOURCES += $(CPP_SRC) $(GEN_SRC) $(CORE_SRC) $(NODE_SRC) $(GB_SRC) $(EP_SRC) $(HT_SRC)" >> oiuc.pro
 
 Makefile.qt.mk: oiuc.pro
 	qmake -makefile $(QMAKE_OPT) $< -o $@

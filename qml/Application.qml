@@ -97,7 +97,7 @@
                 var radio;
                 for (var i = 0; i < radios.count; i++) {
                     radio = radios.get(i);
-                    radio.isTx = radio.isPTT;
+                    //radio.isTx = radio.isPTT;
                 }
                 oiuc.PTT();
             }
