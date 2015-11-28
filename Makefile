@@ -39,6 +39,8 @@ CORE_SRC:= ../concurrent_queue/src/queue.c \
 
 include custom.mk
 
+QMLS:=$(shell ls -1 $(QML_DIR))
+
 MY_CFLAGS+=-g $(shell pkg-config --cflags libpjproject json-c) -I$(PROTOCOLS_DIR)/include -D__ICS_INTEL__
 MY_LIBS:=-g $(shell pkg-config --libs libpjproject json-c)
 
@@ -46,10 +48,20 @@ APP:=oiuc.app
 
 USERVER_DIR:=../userver
 
-all: gen-qml gen-gm gen-gmc gen-adv gen-gb build
 
-gen-qml:
-	./build_qml.sh $(QT_QUICK_VER) $(QML_GEN_DIR)
+all: gen-gm gen-gmc gen-adv gen-gb build
+
+#gen-qml:
+#	./build_qml.sh $(QT_QUICK_VER) $(QML_GEN_DIR)
+
+$(QML_GEN_DIR):
+	mkdir -p $(QML_GEN_DIR)
+
+$(QML_GEN_DIR)/%.qml: $(QML_DIR)/%.qml
+	sed -e 's/@QtQuick/$(QtQuick)/g' -e 's/@QtWindow/$(QtWindow)/g' -e 's/@Window/$(Window)/g' < $< > $@
+
+qml.qrc: qml.qrc.template
+	sed 's/@QML_GEN_DIR/'$(QML_GEN_DIR)'/g' < $< > $@
 
 gen-gm: $(PROTOCOL_DIR)/$(GM_P)
 	mkdir -p gen
@@ -70,7 +82,7 @@ gen-gb: $(PROTOCOL_DIR)/$(GB_P)
 	mkdir -p gen
 	awk -v base_dir=$(USERVER_DIR) -f $(USERVER_DIR)/gen-tools/gen.awk $<
 	touch $@
-oiuc.pro:
+oiuc.pro: $(QML_GEN_DIR) $(addprefix $(QML_GEN_DIR)/, $(QMLS)) qml.qrc
 	echo "## Project file gen by Make" > oiuc.pro
 	echo "TEMPLATE = app" >> oiuc.pro
 	echo "TARGET = $(APP)" >> oiuc.pro
@@ -125,8 +137,9 @@ build: Makefile.qt.mk
 	make -f Makefile.qt.mk 
 
 clean:
+	rm -fr temp gen $(APP) gen-gm gen-gmc gen-adv gen-gb /tmp/oiuc.log $(QML_GEN_DIR) qml.qrc
 	make clean -f Makefile.qt.mk
-	rm -fr temp oiuc.pro Makefile.qt.mk gen $(APP) gen-gm gen-gmc gen-adv gen-gb /tmp/oiuc.log $(QML_GEN_DIR) qml.qrc
+	rm -fr Makefile.qt.mk oiuc.pro 
 
 test:
 	make -f Makefile.quy
