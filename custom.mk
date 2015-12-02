@@ -12,10 +12,12 @@ QML_DIR:=qml
 QML_GEN_DIR:=qml-gen
 QT_QUICK_VER:=4
 
-#QtQuick:=import QtQuick 1.1
-#QtWindow:=
-#Window:=Rectangle
-
-QtQuick:=import QtQuick 2.3
-QtWindow:=import QtQuick.Window 2.2
-Window:=Window
+ifeq ($(QT_QUICK_VER),4)
+	QtQuick:=import QtQuick 1.1
+	QtWindow:=
+	Window:=Rectangle
+else
+	QtQuick:=import QtQuick 2.3
+	QtWindow:=import QtQuick.Window 2.2
+	Window:=Window
+endif
