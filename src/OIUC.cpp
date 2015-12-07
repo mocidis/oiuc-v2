@@ -152,6 +152,15 @@ void OIUC::releaseHoldCall () {
 void OIUC::signalLoginStart() {
 	emit loginStart();
 }
+
+void OIUC::signalPTTPressed() {
+    emit pTTPressed();
+}
+
+void OIUC::signalPTTReleased() {
+    emit pTTReleased();
+}
+
 void OIUC::runCallingState(QString msg, int st_code) {
 	emit callingState(msg, st_code);
 }

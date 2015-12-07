@@ -1,13 +1,16 @@
 #ifndef _OIUC_H_
 #define _OIUC_H_
 #include <QtGlobal>
+
 #if QT_VERSION >= 0x050000
 #include <QQuickView>
 #include <QQuickItem>
 #else
 #include <QDeclarativeView>
 #include <QDeclarativeItem>
-#endif
+#endif // QT_VERSION
+
+
 #include <QDebug>
 #include <QString>
 #include "ctocpp.h"
@@ -26,11 +29,16 @@ extern "C"
 class OIUC;
 #if QT_VERSION >= 0x050000
 class OIUC : public QQuickItem {
+#else
+class OIUC : public QDeclarativeItem {
+#endif // QT_VERSION
 	Q_OBJECT
 public:
 	static OIUC* getOIUC();
     void signalLoginStart();
 	void runCallingState(QString msg, int st_code);
+    void signalPTTPressed();
+    void signalPTTReleased();
 	app_data_t *getAppData();
 
 	Q_INVOKABLE void call (QString number);
@@ -59,6 +67,8 @@ signals:
 	void callingState(QString msg, int st_code);
     void loginStart();
 	void loggedInChange(QString reason);
+    void pTTPressed();
+    void pTTReleased();
 public slots:
 private:
 	OIUC();
@@ -75,7 +85,8 @@ private:
 	QString gmc_cs; //connection string
 	QString adv_cs; //connection string
 };
-#else
+#if 0
+//#else
 class OIUC : public QDeclarativeItem {
 	Q_OBJECT
 public:
@@ -126,6 +137,7 @@ private:
 	QString gmc_cs; //connection string
 	QString adv_cs; //connection string
 };
+#endif // #if 0
 
-#endif
+
 #endif  //end of __OIUC_H__

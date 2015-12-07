@@ -93,8 +93,12 @@
             }
             label: "Push-To-Talk"
             labelColor: "white"
+            onClicked: {
+                console.log("++++++ clicked ++++++");
+            }
             onPressed: { 
                 var radio;
+                console.log("++++++ pressed ++++++");
                 for (var i = 0; i < radios.count; i++) {
                     radio = radios.get(i);
                     //radio.isTx = radio.isPTT;

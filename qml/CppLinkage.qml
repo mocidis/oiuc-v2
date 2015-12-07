@@ -43,6 +43,14 @@ Item {
                 _CALLDIALOG.dialogState = 0;    
             }
         }
+        onPTTPressed: {
+            console.log(" ---- PTT pressed\n");
+            _PTTBTN.clicked(null);
+        }
+        onPTTReleased: {
+            console.log(" ---- PTT released\n");
+            _PTTBTN.released(null);
+        }
     }
     Connections {
         target: radioList
