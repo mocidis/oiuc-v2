@@ -33,6 +33,9 @@ GEN_SRCS:=gm-client.c gmc-server.c adv-server.c gb-server.c
 
 JSONC_DIR:=../json-c/output
 
+HT_DIR:=../hash-table
+HT_SRCS:=hash-table.c
+
 CFLAGS:=-std=c99 $(shell pkg-config --cflags libpjproject) -fms-extensions
 CFLAGS+=-I$(ICS_DIR)/include -I$(Q_DIR)/include -I$(O_DIR)/include
 CFLAGS+=-I$(C_DIR)/include
@@ -41,6 +44,7 @@ CFLAGS+=-I$(PROTOCOLS_DIR)/include
 CFLAGS+=-I$(GEN_DIR)
 CFLAGS+=-I$(NODE_DIR)/include
 CFLAGS+=-I$(EP_DIR)/include
+CFLAGS+=-I$(HT_DIR)/include
 CFLAGS+=-D__ICS_INTEL__
 
 LIBS:= $(shell pkg-config --libs libpjproject) $(JSONC_DIR)/lib/libjson-c.a -lpthread
@@ -67,7 +71,7 @@ gen-gb: $(PROTOCOL_DIR)/$(GB_P)
 	awk -v base_dir=$(USERVER_DIR) -f $(USERVER_DIR)/gen-tools/gen.awk $<
 	touch $@
 
-$(APP): $(NODE_SRCS:.c=.o) $(GEN_SRCS:.c=.o) $(C_SRCS:.c=.o) $(APP_SRCS:.c=.o) $(ICS_SRCS:.c=.o) $(O_SRCS:.c=.o) $(Q_SRCS:.c=.o) $(EP_SRCS:.c=.o)
+$(APP): $(NODE_SRCS:.c=.o) $(GEN_SRCS:.c=.o) $(C_SRCS:.c=.o) $(APP_SRCS:.c=.o) $(ICS_SRCS:.c=.o) $(O_SRCS:.c=.o) $(Q_SRCS:.c=.o) $(EP_SRCS:.c=.o) $(HT_SRCS:.c=.o)
 	gcc -o $@ $^ $(LIBS)
 
 $(ICS_SRCS:.c=.o): %.o: $(ICS_DIR)/src/%.c
@@ -88,5 +92,7 @@ $(APP_SRCS:.c=.o): %.o: src/%.c
 	gcc -c -o $@ $^ $(CFLAGS)
 $(EP_SRCS:.c=.o) : %.o: $(EP_DIR)/src/%.c
 	gcc -c -o $@ $^ $(CFLAGS)
+$(HT_SRCS:.c=.o) : %.o : $(HT_DIR)/src/%.c
+	gcc -o $@ -c $< $(CFLAGS)
 clean:
 	rm -fr *.o gen gen-gm gen-gmc gen-adv gen-gb $(APP)

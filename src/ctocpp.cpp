@@ -202,3 +202,24 @@ void on_sq_report(char *id, int is_sq) {
 		//Do nothing
 	}
 }
+
+void on_pttc_ptt(int ptt) {
+    fprintf(stdout, "PTTC - ptt is %d\n", ptt);
+
+    app_data_t *app_data;    
+    app_data = OIUC::getOIUC()->getAppData();
+
+    switch(ptt) {
+        case 1:
+            node_start_session(&app_data->node);
+            break;
+        case 0:
+            node_stop_session(&app_data->node);
+            break;
+        default:
+            qDebug() << "Unknown signal ptt\n";
+            break;      
+    }
+
+}
+

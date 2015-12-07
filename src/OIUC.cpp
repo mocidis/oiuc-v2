@@ -19,35 +19,43 @@ OIUC::OIUC() {
 }
 
 static void init_adv_server(app_data_t *app_data, char *adv_cs, node_t *node, pj_pool_t *pool) {
-    memset(&app_data->adv_server, 0, sizeof(app_data->adv_server));
-    app_data->adv_server.on_request_f = &on_adv_info;
-    app_data->adv_server.on_open_socket_f = &on_open_socket_adv_server;
-    app_data->adv_server.user_data = node;
-    adv_server_init(&app_data->adv_server, adv_cs, pool);
-    adv_server_start(&app_data->adv_server);
+	memset(&app_data->adv_server, 0, sizeof(app_data->adv_server));
+	app_data->adv_server.on_request_f = &on_adv_info;
+	app_data->adv_server.on_open_socket_f = &on_open_socket_adv_server;
+	app_data->adv_server.user_data = node;
+	adv_server_init(&app_data->adv_server, adv_cs, pool);
+	adv_server_start(&app_data->adv_server);
+}
+
+void on_leaving_server(char *owner_id, char *adv_ip) {
+    app_data_t *app_data;    
+    app_data = OIUC::getOIUC()->getAppData();
+
+    adv_server_leave(app_data->node.adv_server, adv_ip);
 }
 
 void OIUC::start(QString username, QString password) {
 	char user[20], passwd[20];
-    if (username != NULL) {
-        this->username = username;
-        this->password = password;
+	if (username != NULL) {
+		this->username = username;
+		this->password = password;
 
-        strncpy(user, username.toLocal8Bit().constData(), 20);
-        strncpy(passwd, password.toLocal8Bit().constData(), 20);
-        ics_add_account(&app_data.ics, config->getAsteriskIP().toLocal8Bit().data(), user, passwd); 
-    }
+		strncpy(user, username.toLocal8Bit().constData(), 20);
+		strncpy(passwd, password.toLocal8Bit().constData(), 20);
+		ics_add_account(&app_data.ics, config->getAsteriskIP().toLocal8Bit().data(), user, passwd); 
+	}
 }
 void OIUC::prepare() {
-	//ics
-    ics_pool_init(&app_data.ics);
-    ics_pjsua_init(&app_data.ics); 
-    ics_init(&app_data.ics);
+
+    /*---------------- ICS  -----------------*/
+	ics_pool_init(&app_data.ics);
+	ics_pjsua_init(&app_data.ics); 
+	ics_init(&app_data.ics);
 
 	qDebug() << "INIT DONE";
 
-    SET_LOG_LEVEL(4);
-    pj_log_set_level(3);
+	SET_LOG_LEVEL(4);
+	pj_log_set_level(3);
 
 	ics_set_default_callback(&on_reg_start_default);
 	ics_set_reg_start_callback(&on_reg_start_impl);
@@ -57,54 +65,60 @@ void OIUC::prepare() {
 	ics_set_call_transfer_callback(&on_call_transfer_impl);
 	ics_set_call_media_state_callback(&on_call_media_state_impl);
 
-    ics_start(&app_data.ics);
+	ics_start(&app_data.ics);
 	config->getPortAsterisk(); // Don't need anymorea, now set default bind to any port
 	ics_connect(&app_data.ics, config->getPortAsterisk());
 
 	qDebug() << "ICS STARTED";
 
-	//node
-    memset(&app_data.node, 0, sizeof(app_data.node));
+    /*---------------- PTTC  -----------------*/
+    pttc_init(&app_data.serial, &app_data.pttc, on_pttc_ptt, app_data.ics.pool);
+    pttc_start(&app_data.serial, config->getSerialFile().toLocal8Bit().data());
+
+    /*---------------- ICS  -----------------*/
+	memset(&app_data.node, 0, sizeof(app_data.node));
    
 	gm_cs = "udp:" + config->getArbiterIP() + ":" + QString::number(config->getPortSendToArbiter());
 	gmc_cs = "udp:" + config->getOIUCIP() + ":" + QString::number(config->getPortOIUCListen());
 	adv_cs = "udp:0.0.0.0:2015";
 
-    init_adv_server(&app_data, adv_cs.toLocal8Bit().data(), &app_data.node, app_data.ics.pool);
-
-    node_init(&app_data.node, 
-                config->getOIUCName().toLocal8Bit().data(), 
-                config->getLocation().toLocal8Bit().data(), 
-                config->getOIUCDescription().toLocal8Bit().data(), 
-                -1, 
-                gm_cs.toLocal8Bit().data(), 
-                gmc_cs.toLocal8Bit().data(), 
-                app_data.ics.pool);
-    node_add_adv_server(&app_data.node, &app_data.adv_server);
+	init_adv_server(&app_data, adv_cs.toLocal8Bit().data(), &app_data.node, app_data.ics.pool);
+    app_data.node.on_leaving_server_f = &on_leaving_server;
+	node_init(&app_data.node, 
+				config->getOIUCName().toLocal8Bit().data(), 
+				config->getLocation().toLocal8Bit().data(), 
+				config->getOIUCDescription().toLocal8Bit().data(), 
+				-1, 
+				gm_cs.toLocal8Bit().data(), 
+				gmc_cs.toLocal8Bit().data(), 
+				app_data.ics.pool);
+	node_add_adv_server(&app_data.node, &app_data.adv_server);
 
 	qDebug() << "NODE INIT DONE";
-   //gb
-    memset(&app_data.gr, 0, sizeof(app_data.gr));
-    app_data.gr.on_online_report_f = &on_online_report;
-    app_data.gr.on_tx_report_f = &on_tx_report;
-    app_data.gr.on_rx_report_f = &on_rx_report;
-    app_data.gr.on_sq_report_f = &on_sq_report;
-    gb_receiver_init(&app_data.gr, (char *)GB_CS, app_data.ics.pool);
+
+    /*---------------- GB  -----------------*/
+	memset(&app_data.gr, 0, sizeof(app_data.gr));
+	app_data.gr.on_online_report_f = &on_online_report;
+	app_data.gr.on_tx_report_f = &on_tx_report;
+	app_data.gr.on_rx_report_f = &on_rx_report;
+	app_data.gr.on_sq_report_f = &on_sq_report;
+	gb_receiver_init(&app_data.gr, (char *)GB_CS, app_data.ics.pool);
 
 	qDebug() << "GB DONE";
-    //STREAM
+
+    /*---------------- STREAM  -----------------*/
 #if 1
-    node_media_config(&app_data.node, &app_data.streamer, &app_data.receiver);
-    app_data.node.streamer->pool = app_data.node.receiver->pool = app_data.ics.pool;
-    app_data.node.streamer->ep = app_data.node.receiver->ep = pjsua_get_pjmedia_endpt();
-    pjmedia_codec_g711_init(app_data.node.streamer->ep);
-    pjmedia_codec_g711_init(app_data.node.receiver->ep);
+	node_media_config(&app_data.node, &app_data.streamer, &app_data.receiver);
+	app_data.node.streamer->pool = app_data.node.receiver->pool = app_data.ics.pool;
+	app_data.node.streamer->ep = app_data.node.receiver->ep = pjsua_get_pjmedia_endpt();
+	pjmedia_codec_g711_init(app_data.node.streamer->ep);
+	pjmedia_codec_g711_init(app_data.node.receiver->ep);
 
-    streamer_init(app_data.node.streamer, app_data.node.streamer->ep, app_data.node.streamer->pool);
-    receiver_init(app_data.node.receiver, app_data.node.receiver->ep, app_data.node.receiver->pool, 2);
+	streamer_init(app_data.node.streamer, app_data.node.streamer->ep, app_data.node.streamer->pool);
+	receiver_init(app_data.node.receiver, app_data.node.receiver->ep, app_data.node.receiver->pool, config->getNumberChannels());
 
-    streamer_config_dev_source(app_data.node.streamer, 2);
-    receiver_config_dev_sink(app_data.node.receiver, 2);
+	streamer_config_dev_source(app_data.node.streamer, config->getSoundStreamerIdx());
+	//receiver_config_dev_sink(app_data.node.receiver, config->getSoundReceiverIdx());
 #endif
 }
 
@@ -121,7 +135,7 @@ void OIUC::hangupAllCall () {
 	ics_hangup_call(&app_data.ics, 1);
 }
 void OIUC::conferenceCall () {
-    // TODO
+	// TODO
 }
 void OIUC::answerCall () { 
 	ics_answer_call(&app_data.ics);
@@ -136,9 +150,8 @@ void OIUC::releaseHoldCall () {
 	ics_release_hold(&app_data.ics);
 }
 void OIUC::signalLoginStart() {
-    emit loginStart();
+	emit loginStart();
 }
-
 void OIUC::runCallingState(QString msg, int st_code) {
 	emit callingState(msg, st_code);
 }
@@ -156,7 +169,7 @@ bool OIUC::isLoggedIn() {
 	return logged_in;
 }
 void OIUC::stop() {
-    ics_set_registration(&app_data.ics, 0);
+	ics_set_registration(&app_data.ics, 0);
 }
 
 void OIUC::sendInvite(QString guest) {
@@ -169,10 +182,15 @@ void OIUC::repulse(QString guest) {
 }
 void OIUC::PTT() {
 	qDebug() << "*****************PTT PRESSED**********";
-    node_start_session(&app_data.node);
+	node_start_session(&app_data.node);
 }
 void OIUC::endPTT() {
 	qDebug() << "*****************PTT RELEASED**********";
-    node_stop_session(&app_data.node);
+	node_stop_session(&app_data.node);
 }
-
+/*
+void OIUC::adjust_volume(int stream_idx, int incremental) {
+    incremental = incremental * 256 - 128;
+    receiver_adjust_volume(&app_data.receiver, int stream_idx, int incremental) {
+}
+*/

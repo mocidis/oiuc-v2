@@ -45,7 +45,10 @@ Rectangle {
                 pixelSize: fontSize
             }
         }
-        onClicked: object.oItem.volume = (object.oItem.volume > 0.9)?1:(object.oItem.volume + 0.1);
+        onClicked: {
+            object.oItem.volume = (object.oItem.volume > 0.9)?1:(object.oItem.volume + 0.1);
+            oiuc.adjust_volume(stream_idx, object_oItem.volume);
+        }
     }
     Item {
         anchors {

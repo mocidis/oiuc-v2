@@ -31,7 +31,12 @@ void loadGeneralConfig(Config *config, QString backend_location) {
 		QString oiuc_name;
 		QString location;
 		QString oiuc_ip;
-		while (query.next()) {
+        int snd_streamer_idx = 0;
+        int snd_receiver_idx = 0;
+        QString serial_file;
+        int nchans = 0;
+
+        while (query.next()) {
 			asterisk_ip = query.value(0).toString();
 			port_connect_asterisk = query.value(1).toInt();
 			arbiter_ip = query.value(2).toString();
@@ -47,6 +52,10 @@ void loadGeneralConfig(Config *config, QString backend_location) {
 			oiuc_name = query.value(12).toString();
 			location = query.value(13).toString();
 			oiuc_ip = query.value(14).toString();
+            snd_streamer_idx = query.value(15).toInt();
+            snd_receiver_idx = query.value(16).toInt();
+            serial_file = query.value(17).toString();
+            nchans = query.value(18).toInt();
 		}
         //query.finish();
         //db.close();
@@ -65,6 +74,10 @@ void loadGeneralConfig(Config *config, QString backend_location) {
 		config->setOIUCName(oiuc_name);
 		config->setLocation(location);
 		config->setOIUCIP(oiuc_ip);
+        config->setSoundStreamerIdx(snd_streamer_idx); 
+        config->setSoundReceiverIdx(snd_receiver_idx); 
+        config->setSerialFile(serial_file);
+        config->setNumberChannels(nchans);
         config->dump();
 	}
 	QSqlDatabase::removeDatabase(backend_location);

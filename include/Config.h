@@ -25,6 +25,10 @@ public:
 	void setOIUCName(QString value);
 	void setLocation(QString value);
 	void setOIUCIP(QString value);
+	void setSoundStreamerIdx(int value);
+	void setSoundReceiverIdx(int value);
+	void setSerialFile(QString value);
+    void setNumberChannels(int value);
 
 	/**************GET FUNCTIONS*************/
 	QString getAsteriskIP();
@@ -42,6 +46,10 @@ public:
 	QString getOIUCName();
 	QString getLocation();
 	QString getOIUCIP();
+	int getSoundStreamerIdx();
+	int getSoundReceiverIdx();
+	QString getSerialFile();
+    int getNumberChannels();
 
     void dump();
 private:
@@ -65,6 +73,10 @@ private:
 	QString oiuc_name;
 	QString location;
 	QString oiuc_ip;
+    int snd_streamer_idx;
+    int snd_receiver_idx;
+    QString serial_file;
+    int nchans;
 };
 
 #endif

@@ -17,6 +17,7 @@ extern "C"
 {
 #include <unistd.h>
 #include <pjsua-lib/pjsua.h>
+#include "pttc_uart.h"
 #include "ansi-utils.h"
 #include "ics.h"
 #include "node.h"
@@ -98,8 +99,8 @@ public:
 
 	Q_INVOKABLE void sendInvite(QString guest);
 	Q_INVOKABLE void repulse(QString guest);
-	Q_INVOKABLE void PTT();
-	Q_INVOKABLE void endPTT();
+	Q_INVOKABLE void PTT ();
+	Q_INVOKABLE void endPTT ();
 
 	void setLoggedIn(int flag, char *reason);
 	Q_INVOKABLE bool isLoggedIn();

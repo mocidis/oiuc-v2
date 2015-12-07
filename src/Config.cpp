@@ -67,7 +67,18 @@ void Config::setLocation(QString value) {
 void Config::setOIUCIP(QString value) {
 	oiuc_ip = value;
 }
-
+void Config::setSoundStreamerIdx(int value) {
+    snd_streamer_idx = value;   
+}
+void Config::setSoundReceiverIdx(int value) {
+    snd_receiver_idx = value;   
+}
+void Config::setSerialFile(QString value) {
+    serial_file = value;
+}
+void Config::setNumberChannels(int value) {
+    nchans = value;
+}
 /**************GET FUNCTIONS*************/
 QString Config::getAsteriskIP() { return asterisk_ip;}
 int Config::getPortAsterisk() { return port_connect_asterisk;}
@@ -83,6 +94,10 @@ int Config::getLogMaxLineDisplay() { return log_max_line_display;}
 QString Config::getOIUCName() { return oiuc_name;}
 QString Config::getLocation() { return location;}
 QString Config::getOIUCIP() { return oiuc_ip;}
+int Config::getSoundStreamerIdx() { return snd_streamer_idx;}
+int Config::getSoundReceiverIdx() { return snd_streamer_idx;}
+QString Config::getSerialFile() { return serial_file;}
+int Config::getNumberChannels() { return nchans;}
 
 void Config::dump() {
     qDebug() << "----" << asterisk_ip;
@@ -99,4 +114,8 @@ void Config::dump() {
     qDebug() << "----" << oiuc_name;
     qDebug() << "----" << location;
     qDebug() << "----" << oiuc_ip;
+    qDebug() << "----" << snd_streamer_idx;
+    qDebug() << "----" << snd_receiver_idx;
+    qDebug() << "----" << serial_file;
+    qDebug() << "----" << nchans;
 }
