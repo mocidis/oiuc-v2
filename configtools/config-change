@@ -1,0 +1,4 @@
+#!/bin/bash
+param=$1
+value=$2
+sqlite3 ../databases/oiuc.db "update ics_config set $param='$value'";

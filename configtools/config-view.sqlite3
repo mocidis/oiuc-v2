@@ -1,0 +1,3 @@
+.header on
+.mode list
+select * from ics_config;
