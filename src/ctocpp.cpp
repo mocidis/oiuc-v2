@@ -211,10 +211,12 @@ void on_pttc_ptt(int ptt) {
 
     switch(ptt) {
         case 1:
-            node_start_session(&app_data->node);
+            OIUC::getOIUC()->signalPTTPressed();
+            //node_start_session(&app_data->node);
             break;
         case 0:
-            node_stop_session(&app_data->node);
+            OIUC::getOIUC()->signalPTTReleased();
+            //node_stop_session(&app_data->node);
             break;
         default:
             qDebug() << "Unknown signal ptt\n";
