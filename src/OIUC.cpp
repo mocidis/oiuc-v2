@@ -115,11 +115,12 @@ void OIUC::prepare() {
 	pjmedia_codec_g711_init(app_data.node.receiver->ep);
 
 	streamer_init(app_data.node.streamer, app_data.node.streamer->ep, app_data.node.streamer->pool);
-    qDebug() << "channels " <<config->getNumberChannels();
-	receiver_init(app_data.node.receiver, app_data.node.receiver->ep, app_data.node.receiver->pool, );
+	receiver_init(app_data.node.receiver, app_data.node.receiver->ep, app_data.node.receiver->pool, config->getNumberChannels());
 
+    qDebug() << "Channels number: "<<config->getNumberChannels() << "receiver idx = %d " << config->getSoundReceiverIdx();
 	//streamer_config_dev_source(app_data.node.streamer, config->getSoundStreamerIdx());
-	receiver_config_dev_sink(app_data.node.receiver, config->getSoundReceiverIdx());
+	//receiver_config_dev_sink(app_data.node.receiver, config->getSoundReceiverIdx());
+	receiver_config_dev_sink(app_data.node.receiver, 8);
 #endif
 }
 

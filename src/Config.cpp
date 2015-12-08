@@ -95,7 +95,7 @@ QString Config::getOIUCName() { return oiuc_name;}
 QString Config::getLocation() { return location;}
 QString Config::getOIUCIP() { return oiuc_ip;}
 int Config::getSoundStreamerIdx() { return snd_streamer_idx;}
-int Config::getSoundReceiverIdx() { return snd_streamer_idx;}
+int Config::getSoundReceiverIdx() { return snd_receiver_idx;}
 QString Config::getSerialFile() { return serial_file;}
 int Config::getNumberChannels() { return nchans;}
 
