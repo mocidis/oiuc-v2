@@ -46,8 +46,8 @@ include custom.mk
 
 QMLS:=$(shell ls -1 $(QML_DIR))
 
-MY_CFLAGS+=-g $(shell pkg-config --cflags libpjproject json-c) -I$(PROTOCOLS_DIR)/include -D__ICS_INTEL__
-MY_LIBS:=-g $(shell pkg-config --libs libpjproject json-c)
+MY_CFLAGS+=-g $(LIBS_DIR)/include -I$(PROTOCOLS_DIR)/include -D__ICS_INTEL__
+MY_LIBS:=-g $(LIBS)
 
 APP:=oiuc.app
 
@@ -129,12 +129,14 @@ oiuc.pro: $(QML_GEN_DIR) $(addprefix $(QML_GEN_DIR)/, $(QMLS)) qml.qrc
 	echo "			  ../group-man/include \\" >> oiuc.pro
 	echo "			  ../media-endpoint/include \\" >> oiuc.pro
 	echo "			  ../hash-table/include \\" >> oiuc.pro
-	echo "			  ../serial/include " >> oiuc.pro
+	echo "			  ../serial/include \\" >> oiuc.pro
+	echo "			  $(LIBS_DIR)/include \\" >> oiuc.pro
+	echo "			  $(LIBS_DIR)/include/json-c " >> oiuc.pro
 	echo "" >> oiuc.pro
 	echo "equals(QT_MAJOR_VERSION, 5) {QT += qml quick xml svg multimedia sql}" >> oiuc.pro
 	echo "equals(QT_MAJOR_VERSION, 4) {QT += declarative svg xml multimedia sql core gui}" >> oiuc.pro
-	echo "QMAKE_CFLAGS += $(MY_CFLAGS)" >> oiuc.pro
-	echo "QMAKE_CXXFLAGS += $(MY_CFLAGS)" >> oiuc.pro
+#	echo "QMAKE_CFLAGS += $(MY_CFLAGS)" >> oiuc.pro
+#	echo "QMAKE_CXXFLAGS += $(MY_CFLAGS)" >> oiuc.pro
 	echo "QMAKE_LIBS += $(MY_LIBS)" >> oiuc.pro
 	echo "" >> oiuc.pro
 	echo "HEADERS += $(subst /src/,/include/,$(CPP_SRC:.cpp=.h)) $(subst /src/,/include/,$(NODE_SRC:.c=.h)) $(subst /src/,/include/,$(GB_SRC:.c=.h)) $(GEN_SRC:.c=.h) $(subst /src/,/include/,$(CORE_SRC:.c=.h)) $(subst /src/,/include/,$(EP_SRC:.c=.h)) $(subst /src/,/include/,$(EP_SRC:.c=.h)) $(subst /src/,/include/,$(PTTC_SRC:.c=.h))">> oiuc.pro
@@ -148,8 +150,8 @@ build: Makefile.qt.mk
 	make -f Makefile.qt.mk 
 
 clean:
-	rm -fr temp gen $(APP) gen-gm gen-gmc gen-adv gen-gb /tmp/oiuc.log $(QML_GEN_DIR) qml.qrc
 	make clean -f Makefile.qt.mk
+	rm -fr temp gen $(APP) gen-gm gen-gmc gen-adv gen-gb /tmp/oiuc.log $(QML_GEN_DIR) qml.qrc
 	rm -fr Makefile.qt.mk oiuc.pro 
 
 test:
