@@ -48,6 +48,7 @@ endif
 ifeq ($(CROSS_COMPILE),$(MINGW_X86))
 	CROSS_TOOL:=gcc
 	LIBS_DIR:=../libs/mingw32-i586
+    LIBS:=-L$(LIBS_DIR)/lib -lpjsua2-i586-pc-mingw32 -lstdc++ -lpjsua-i586-pc-mingw32 -lpjsip-ua-i586-pc-mingw32 -lpjsip-simple-i586-pc-mingw32 -lpjsip-i586-pc-mingw32 -lpjmedia-codec-i586-pc-mingw32 -lpjmedia-i586-pc-mingw32 -lpjmedia-videodev-i586-pc-mingw32 -lpjmedia-audiodev-i586-pc-mingw32 -lpjmedia-i586-pc-mingw32 -lpjnath-i586-pc-mingw32 -lpjlib-util-i586-pc-mingw32  -lsrtp-i586-pc-mingw32 -lresample-i586-pc-mingw32 -lgsmcodec-i586-pc-mingw32 -lspeex-i586-pc-mingw32 -lilbccodec-i586-pc-mingw32 -lg7221codec-i586-pc-mingw32 -lportaudio-i586-pc-mingw32  -lpj-i586-pc-mingw32 -lm -lpthread -ljson-c
 endif
 ifeq ($(CROSS_COMPILE),$(MACOS_X86_64))
 	CROSS_TOOL:=gcc
