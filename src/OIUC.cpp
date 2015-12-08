@@ -199,9 +199,9 @@ void OIUC::endPTT() {
 	qDebug() << "*****************PTT RELEASED**********";
 	node_stop_session(&app_data.node);
 }
-/*
+
 void OIUC::adjust_volume(int stream_idx, int incremental) {
     incremental = incremental * 256 - 128;
     receiver_adjust_volume(&app_data.receiver, int stream_idx, int incremental) {
 }
-*/
+

@@ -26,6 +26,7 @@ Rectangle {
         }
         onClicked: {
             object.oItem.volume = (object.oItem.volume < 0.1)?0:(object.oItem.volume - 0.1);
+            oiuc.adjust_volume(stream_idx, object_oItem.volume);
         }
     }
     PushButton {
