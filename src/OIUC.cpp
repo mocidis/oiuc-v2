@@ -72,8 +72,10 @@ void OIUC::prepare() {
 	qDebug() << "ICS STARTED";
 
     /*---------------- PTTC  -----------------*/
+	/*
     pttc_init(&app_data.serial, &app_data.pttc, on_pttc_ptt, app_data.ics.pool);
     pttc_start(&app_data.serial, config->getSerialFile().toLocal8Bit().data());
+	*/
 
     /*---------------- ICS  -----------------*/
 	memset(&app_data.node, 0, sizeof(app_data.node));
@@ -107,7 +109,7 @@ void OIUC::prepare() {
 	qDebug() << "GB DONE";
 
     /*---------------- STREAM  -----------------*/
-#if 1
+#if 0
 	node_media_config(&app_data.node, &app_data.streamer, &app_data.receiver);
 	app_data.node.streamer->pool = app_data.node.receiver->pool = app_data.ics.pool;
 	app_data.node.streamer->ep = app_data.node.receiver->ep = pjsua_get_pjmedia_endpt();
