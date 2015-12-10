@@ -6,6 +6,14 @@
 CROSS_COMPILE:=3
 QT_QUICK_VER:=4
 
+#constant values for specific platforms
+ARMV7L:=1
+LINUX_X86:=2
+LINUX_X86_64:=3
+MINGW_X86:=4
+MACOS_X86_64:=5
+MSYS_X86:=6
+
 QMAKE_OPT:= 
 MY_CFLAGS:=-D__ICS_INTEL__
 VERSION:=1.0.1
@@ -24,34 +32,39 @@ else
 	Window:=Window
 endif
 
-
-ARMV7L:=1
-LINUX_X86:=2
-LINUX_X86_64:=3
-MINGW_X86:=4
-MACOS_X86_64:=5
 ifeq ($(CROSS_COMPILE),$(ARMV7L))
-	CROSS_TOOL:=arm-none-linux-gnueabi-gcc
+	CROSS_TOOL:=$(EX)-gcc
 	LIBS_DIR:=../libs/linux-armv7l
-	LIBS:= -L$(LIBS_DIR)/lib $(LIBS_DIR)/lib/libjson-c.a -lpjsua2-arm-none-linux-gnueabi -lstdc++ -lpjsua-arm-none-linux-gnueabi -lpjsip-ua-arm-none-linux-gnueabi -lpjsip-simple-arm-none-linux-gnueabi -lpjsip-arm-none-linux-gnueabi -lpjmedia-codec-arm-none-linux-gnueabi -lpjmedia-arm-none-linux-gnueabi -lpjmedia-videodev-arm-none-linux-gnueabi -lpjmedia-audiodev-arm-none-linux-gnueabi -lpjmedia-arm-none-linux-gnueabi -lpjnath-arm-none-linux-gnueabi -lpjlib-util-arm-none-linux-gnueabi -lsrtp-arm-none-linux-gnueabi -lresample-arm-none-linux-gnueabi -lgsmcodec-arm-none-linux-gnueabi -lspeex-arm-none-linux-gnueabi -lilbccodec-arm-none-linux-gnueabi -lg7221codec-arm-none-linux-gnueabi -lportaudio-arm-none-linux-gnueabi -lpj-arm-none-linux-gnueabi -lm -lrt -lpthread -lsqlite3 -lasound
+	EX:=arm-none-linux-gnueabi
+	LIBS:= -L$(LIBS_DIR)/lib $(LIBS_DIR)/lib/libjson-c.a -lpjsua2-$(EX) -lstdc++ -lpjsua-$(EX) -lpjsip-ua-$(EX) -lpjsip-simple-$(EX) -lpjsip-$(EX) -lpjmedia-codec-$(EX) -lpjmedia-$(EX) -lpjmedia-videodev-$(EX) -lpjmedia-audiodev-$(EX) -lpjmedia-$(EX) -lpjnath-$(EX) -lpjlib-util-$(EX) -lsrtp-$(EX) -lresample-$(EX) -lgsmcodec-$(EX) -lspeex-$(EX) -lilbccodec-$(EX) -lg7221codec-$(EX) -lportaudio-$(EX) -lpj-$(EX) -lm -lrt -lpthread -lsqlite3 -lasound
 endif
 ifeq ($(CROSS_COMPILE),$(LINUX_X86))
 	CROSS_TOOL:=gcc
 	LIBS_DIR:=../libs/linux-i686
-	LIBS:= -L$(LIBS_DIR)/lib $(LIBS_DIR)/lib/libjson-c.a -lpjsua2-i686-pc-linux-gnu -lstdc++ -lpjsua-i686-pc-linux-gnu -lpjsip-ua-i686-pc-linux-gnu -lpjsip-simple-i686-pc-linux-gnu -lpjsip-i686-pc-linux-gnu -lpjmedia-codec-i686-pc-linux-gnu -lpjmedia-i686-pc-linux-gnu -lpjmedia-videodev-i686-pc-linux-gnu -lpjmedia-audiodev-i686-pc-linux-gnu -lpjmedia-i686-pc-linux-gnu -lpjnath-i686-pc-linux-gnu -lpjlib-util-i686-pc-linux-gnu -lsrtp-i686-pc-linux-gnu -lresample-i686-pc-linux-gnu -lgsmcodec-i686-pc-linux-gnu -lspeex-i686-pc-linux-gnu -lilbccodec-i686-pc-linux-gnu -lg7221codec-i686-pc-linux-gnu -lportaudio-i686-pc-linux-gnu -lpj-i686-pc-linux-gnu -lm -lrt -lpthread -lasound -lpthread -pthread -lm -lsqlite3
+	EX:=i686-pc-linux-gnu
+	LIBS:= -L$(LIBS_DIR)/lib $(LIBS_DIR)/lib/libjson-c.a -lpjsua2-$(EX) -lstdc++ -lpjsua-$(EX) -lpjsip-ua-$(EX) -lpjsip-simple-$(EX) -lpjsip-$(EX) -lpjmedia-codec-$(EX) -lpjmedia-$(EX) -lpjmedia-videodev-$(EX) -lpjmedia-audiodev-$(EX) -lpjmedia-$(EX) -lpjnath-$(EX) -lpjlib-util-$(EX) -lsrtp-$(EX) -lresample-$(EX) -lgsmcodec-$(EX) -lspeex-$(EX) -lilbccodec-$(EX) -lg7221codec-$(EX) -lportaudio-$(EX) -lpj-$(EX) -lm -lrt -lpthread -lasound -lpthread -pthread -lm -lsqlite3
 endif
 ifeq ($(CROSS_COMPILE),$(LINUX_X86_64))
 	CROSS_TOOL:=gcc
 	LIBS_DIR:=../libs/linux-x86_64
-    LIBS:= -L$(LIBS_DIR)/lib -ljson-c -lpjsua2-x86_64-unknown-linux-gnu -lstdc++ -lpjsua-x86_64-unknown-linux-gnu -lpjsip-ua-x86_64-unknown-linux-gnu -lpjsip-simple-x86_64-unknown-linux-gnu -lpjsip-x86_64-unknown-linux-gnu -lpjmedia-codec-x86_64-unknown-linux-gnu -lpjmedia-x86_64-unknown-linux-gnu -lpjmedia-videodev-x86_64-unknown-linux-gnu -lpjmedia-audiodev-x86_64-unknown-linux-gnu -lpjnath-x86_64-unknown-linux-gnu -lpjlib-util-x86_64-unknown-linux-gnu -lsrtp-x86_64-unknown-linux-gnu -lresample-x86_64-unknown-linux-gnu -lgsmcodec-x86_64-unknown-linux-gnu -lspeex-x86_64-unknown-linux-gnu -lilbccodec-x86_64-unknown-linux-gnu -lg7221codec-x86_64-unknown-linux-gnu -lportaudio-x86_64-unknown-linux-gnu -lpj-x86_64-unknown-linux-gnu -ldl -lz -lm -lrt -lpthread -lasound -lsqlite3
+	EX:=x86_64-unknown-linux-gnu
+    LIBS:= -L$(LIBS_DIR)/lib -ljson-c -lpjsua2-$(EX) -lstdc++ -lpjsua-$(EX) -lpjsip-ua-$(EX) -lpjsip-simple-$(EX) -lpjsip-$(EX) -lpjmedia-codec-$(EX) -lpjmedia-$(EX) -lpjmedia-videodev-$(EX) -lpjmedia-audiodev-$(EX) -lpjnath-$(EX) -lpjlib-util-$(EX) -lsrtp-$(EX) -lresample-$(EX) -lgsmcodec-$(EX) -lspeex-$(EX) -lilbccodec-$(EX) -lg7221codec-$(EX) -lportaudio-$(EX) -lpj-$(EX) -ldl -lz -lm -lrt -lpthread -lasound -lsqlite3
 endif
 ifeq ($(CROSS_COMPILE),$(MINGW_X86))
 	CROSS_TOOL:=gcc
 	LIBS_DIR:=../libs/mingw32-i586
-    LIBS:=-L$(LIBS_DIR)/lib -lpjsua2-i586-pc-mingw32 -lstdc++ -lpjsua-i586-pc-mingw32 -lpjsip-ua-i586-pc-mingw32 -lpjsip-simple-i586-pc-mingw32 -lpjsip-i586-pc-mingw32 -lpjmedia-codec-i586-pc-mingw32 -lpjmedia-i586-pc-mingw32 -lpjmedia-videodev-i586-pc-mingw32 -lpjmedia-audiodev-i586-pc-mingw32 -lpjmedia-i586-pc-mingw32 -lpjnath-i586-pc-mingw32 -lpjlib-util-i586-pc-mingw32  -lsrtp-i586-pc-mingw32 -lresample-i586-pc-mingw32 -lgsmcodec-i586-pc-mingw32 -lspeex-i586-pc-mingw32 -lilbccodec-i586-pc-mingw32 -lg7221codec-i586-pc-mingw32 -lportaudio-i586-pc-mingw32  -lpj-i586-pc-mingw32 -lm -lpthread -ljson-c
+	EX:=i586-pc-mingw32
+    LIBS:=-L$(LIBS_DIR)/lib -lpjsua2-$(EX) -lstdc++ -lpjsua-$(EX) -lpjsip-ua-$(EX) -lpjsip-simple-$(EX) -lpjsip-$(EX) -lpjmedia-codec-$(EX) -lpjmedia-$(EX) -lpjmedia-videodev-$(EX) -lpjmedia-audiodev-$(EX) -lpjmedia-$(EX) -lpjnath-$(EX) -lpjlib-util-$(EX)  -lsrtp-$(EX) -lresample-$(EX) -lgsmcodec-$(EX) -lspeex-$(EX) -lilbccodec-$(EX) -lg7221codec-$(EX) -lportaudio-$(EX)  -lpj-$(EX) -lm -lpthread -ljson-c
 endif
 ifeq ($(CROSS_COMPILE),$(MACOS_X86_64))
 	CROSS_TOOL:=gcc
 	LIBS_DIR:=../libs/darwin-x86_64
-    LIBS:=-L$(LIBS_DIR)/lib -lpjsua2-x86_64-apple-darwin12.5.0 -lstdc++ -lpjsua-x86_64-apple-darwin12.5.0 -lpjsip-ua-x86_64-apple-darwin12.5.0 -lpjsip-simple-x86_64-apple-darwin12.5.0 -lpjsip-x86_64-apple-darwin12.5.0 -lpjmedia-codec-x86_64-apple-darwin12.5.0 -lpjmedia-x86_64-apple-darwin12.5.0 -lpjmedia-videodev-x86_64-apple-darwin12.5.0 -lpjmedia-audiodev-x86_64-apple-darwin12.5.0 -lpjmedia-x86_64-apple-darwin12.5.0 -lpjnath-x86_64-apple-darwin12.5.0 -lpjlib-util-x86_64-apple-darwin12.5.0  -lsrtp-x86_64-apple-darwin12.5.0 -lresample-x86_64-apple-darwin12.5.0 -lgsmcodec-x86_64-apple-darwin12.5.0 -lspeex-x86_64-apple-darwin12.5.0 -lilbccodec-x86_64-apple-darwin12.5.0 -lg7221codec-x86_64-apple-darwin12.5.0 -lportaudio-x86_64-apple-darwin12.5.0  -lpj-x86_64-apple-darwin12.5.0 -lm -lpthread  -framework CoreAudio -framework CoreServices -framework AudioUnit -framework AudioToolbox -framework Foundation -framework AppKit -framework QTKit -framework QuartzCore -framework OpenGL  -L/opt/local/lib -lavformat -lavcodec -lswscale -lavutil  -lcrypto -lssl -lsqlite3 -ljson-c
+	EX:=x86_64-apple-darwin12.5.0
+    LIBS:=-L$(LIBS_DIR)/lib -lpjsua2-$(EX) -lstdc++ -lpjsua-$(EX) -lpjsip-ua-$(EX) -lpjsip-simple-$(EX) -lpjsip-$(EX) -lpjmedia-codec-$(EX) -lpjmedia-$(EX) -lpjmedia-videodev-$(EX) -lpjmedia-audiodev-$(EX) -lpjmedia-$(EX) -lpjnath-$(EX) -lpjlib-util-$(EX)  -lsrtp-$(EX) -lresample-$(EX) -lgsmcodec-$(EX) -lspeex-$(EX) -lilbccodec-$(EX) -lg7221codec-$(EX) -lportaudio-$(EX)  -lpj-$(EX) -lm -lpthread  -framework CoreAudio -framework CoreServices -framework AudioUnit -framework AudioToolbox -framework Foundation -framework AppKit -framework QTKit -framework QuartzCore -framework OpenGL  -L/opt/local/lib -lavformat -lavcodec -lswscale -lavutil  -lcrypto -lssl -lsqlite3 -ljson-c
+endif
+ifeq ($(CROSS_COMPILE),$(MSYS_X86))
+	CROSS_TOOL:=gcc
+	LIBS_DIR:=../libs/msys-i686
+	EX:=i686-pc-msys
+    LIBS:=-L$(LIBS_DIR)/lib -lpjsua2-$(EX) -lstdc++ -lpjsua-$(EX) -lpjsip-ua-$(EX) -lpjsip-simple-$(EX) -lpjsip-$(EX) -lpjmedia-codec-$(EX) -lpjmedia-$(EX) -lpjmedia-videodev-$(EX) -lpjmedia-audiodev-$(EX) -lpjmedia-$(EX) -lpjnath-$(EX) -lpjlib-util-$(EX)  -lsrtp-$(EX) -lresample-$(EX) -lgsmcodec-$(EX) -lspeex-$(EX) -lilbccodec-$(EX) -lg7221codec-$(EX) -lportaudio-$(EX)  -lpj-$(EX) -lm -lpthread -ljson-c
 endif
