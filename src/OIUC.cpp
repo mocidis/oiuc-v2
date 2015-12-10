@@ -52,8 +52,8 @@ void OIUC::prepare() {
 	ics_pjsua_init(&app_data.ics); 
 	ics_init(&app_data.ics);
 
-	qDebug() << "INIT DONE";
-
+	//qDebug() << "INIT DONE";
+#if 1
 	SET_LOG_LEVEL(4);
 	pj_log_set_level(3);
 
@@ -66,18 +66,18 @@ void OIUC::prepare() {
 	ics_set_call_media_state_callback(&on_call_media_state_impl);
 
 	ics_start(&app_data.ics);
-	config->getPortAsterisk(); // Don't need anymorea, now set default bind to any port
+	config->getPortAsterisk(); // Don't need anymore, now set default bind to any port
 	ics_connect(&app_data.ics, config->getPortAsterisk());
 
 	qDebug() << "ICS STARTED";
-
+#endif
     /*---------------- PTTC  -----------------*/
-	/*
+#if 0
     pttc_init(&app_data.serial, &app_data.pttc, on_pttc_ptt, app_data.ics.pool);
     pttc_start(&app_data.serial, config->getSerialFile().toLocal8Bit().data());
-	*/
-
+#endif
     /*---------------- ICS  -----------------*/
+#if 1
 	memset(&app_data.node, 0, sizeof(app_data.node));
    
 	gm_cs = "udp:" + config->getArbiterIP() + ":" + QString::number(config->getPortSendToArbiter());
@@ -97,8 +97,9 @@ void OIUC::prepare() {
 	node_add_adv_server(&app_data.node, &app_data.adv_server);
 
 	qDebug() << "NODE INIT DONE";
-
+#endif
     /*---------------- GB  -----------------*/
+#if 0
 	memset(&app_data.gr, 0, sizeof(app_data.gr));
 	app_data.gr.on_online_report_f = &on_online_report;
 	app_data.gr.on_tx_report_f = &on_tx_report;
@@ -107,9 +108,9 @@ void OIUC::prepare() {
 	gb_receiver_init(&app_data.gr, (char *)GB_CS, app_data.ics.pool);
 
 	qDebug() << "GB DONE";
-
+#endif
     /*---------------- STREAM  -----------------*/
-#if 0
+#if 1
 	node_media_config(&app_data.node, &app_data.streamer, &app_data.receiver);
 	app_data.node.streamer->pool = app_data.node.receiver->pool = app_data.ics.pool;
 	app_data.node.streamer->ep = app_data.node.receiver->ep = pjsua_get_pjmedia_endpt();
@@ -117,12 +118,13 @@ void OIUC::prepare() {
 	pjmedia_codec_g711_init(app_data.node.receiver->ep);
 
 	streamer_init(app_data.node.streamer, app_data.node.streamer->ep, app_data.node.streamer->pool);
-	receiver_init(app_data.node.receiver, app_data.node.receiver->ep, app_data.node.receiver->pool, config->getNumberChannels());
+	receiver_init(app_data.node.receiver, app_data.node.receiver->ep, app_data.node.receiver->pool, 2);
 
-    qDebug() << "Channels number: "<<config->getNumberChannels() << "receiver idx = %d " << config->getSoundReceiverIdx();
 	//streamer_config_dev_source(app_data.node.streamer, config->getSoundStreamerIdx());
 	//receiver_config_dev_sink(app_data.node.receiver, config->getSoundReceiverIdx());
-	receiver_config_dev_sink(app_data.node.receiver, 8);
+	//streamer_config_dev_source(app_data.node.streamer, 7);
+	receiver_config_dev_sink(app_data.node.receiver, 2);
+    //qDebug() << "STREAM INIT...DONE\n";
 #endif
 }
 
@@ -201,9 +203,9 @@ void OIUC::endPTT() {
 	qDebug() << "*****************PTT RELEASED**********";
 	node_stop_session(&app_data.node);
 }
-
+/*
 void OIUC::adjust_volume(int stream_idx, int incremental) {
     incremental = incremental * 256 - 128;
     receiver_adjust_volume(&app_data.receiver, int stream_idx, int incremental) {
 }
-
+*/
