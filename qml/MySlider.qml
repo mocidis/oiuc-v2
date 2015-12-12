@@ -10,6 +10,7 @@ Rectangle {
     PushButton {
         id: leftBtn
         color: buttonColor
+        offColor: buttonColor
         anchors { 
             left: parent.left
             top: parent.top
@@ -26,12 +27,14 @@ Rectangle {
         }
         onClicked: {
             object.oItem.volume = (object.oItem.volume < 0.1)?0:(object.oItem.volume - 0.1);
-            oiuc.adjust_volume(stream_idx, object_oItem.volume);
+            console.log("index = " + index + "volume =" + object.oItem.volume);
+            oiuc.adjust_volume(index, object.oItem.volume);
         }
     }
     PushButton {
         id: rightBtn
         color: buttonColor
+        offColor: buttonColor
         anchors { 
             right: parent.right
             top: parent.top
@@ -48,7 +51,8 @@ Rectangle {
         }
         onClicked: {
             object.oItem.volume = (object.oItem.volume > 0.9)?1:(object.oItem.volume + 0.1);
-            oiuc.adjust_volume(stream_idx, object_oItem.volume);
+            console.log("index = " + index + "volume =" + object.oItem.volume);
+            oiuc.adjust_volume(index, object.oItem.volume);
         }
     }
     Item {

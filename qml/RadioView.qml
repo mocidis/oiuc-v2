@@ -66,6 +66,7 @@ Rectangle {
         PushTextButton {
             id: rxBtn
             color: "lightgray"
+            offColor: "lightgray"
             onColor: "darkgray"
             label: "Rx"
             labelColor: "white"

@@ -82,6 +82,7 @@
         PushTextButton {
             id: _PTTBTN
             color: "maroon"
+            offColor: "maroon"
             radius: 10
             anchors {
                 fill: parent

@@ -99,7 +99,7 @@ void OIUC::prepare() {
 	qDebug() << "NODE INIT DONE";
 #endif
     /*---------------- GB  -----------------*/
-#if 0
+#if 1
 	memset(&app_data.gr, 0, sizeof(app_data.gr));
 	app_data.gr.on_online_report_f = &on_online_report;
 	app_data.gr.on_tx_report_f = &on_tx_report;
@@ -122,7 +122,7 @@ void OIUC::prepare() {
 
 	//streamer_config_dev_source(app_data.node.streamer, config->getSoundStreamerIdx());
 	//receiver_config_dev_sink(app_data.node.receiver, config->getSoundReceiverIdx());
-	//streamer_config_dev_source(app_data.node.streamer, 7);
+	streamer_config_dev_source(app_data.node.streamer, 2);
 	receiver_config_dev_sink(app_data.node.receiver, 2);
     //qDebug() << "STREAM INIT...DONE\n";
 #endif
@@ -203,9 +203,10 @@ void OIUC::endPTT() {
 	qDebug() << "*****************PTT RELEASED**********";
 	node_stop_session(&app_data.node);
 }
-/*
-void OIUC::adjust_volume(int stream_idx, int incremental) {
+
+void OIUC::adjust_volume(int stream_idx, float incremental) {
     incremental = incremental * 256 - 128;
-    receiver_adjust_volume(&app_data.receiver, int stream_idx, int incremental) {
+    qDebug() << "icremental = " << incremental;
+    receiver_adjust_volume(&app_data.receiver, stream_idx, incremental);
 }
-*/
+
