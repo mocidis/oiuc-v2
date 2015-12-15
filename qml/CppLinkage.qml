@@ -74,7 +74,7 @@ Item {
                 radios.setProperty(mIndex, "isTx", bTx);
                 radios.setProperty(mIndex, "isRx", bRx);
                 radios.setProperty(mIndex, "isSQ", bSQ);
-                radios.setProperty(mIndex, "volume", rVolume);
+                //radios.setProperty(mIndex, "volume", rVolume);
             }
         }
     }

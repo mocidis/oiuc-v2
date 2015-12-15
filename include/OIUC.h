@@ -59,6 +59,7 @@ public:
 	Q_INVOKABLE void PTT();
 	Q_INVOKABLE void endPTT();
 	Q_INVOKABLE void adjust_volume(int stream_idx, float incremental);
+	Q_INVOKABLE void adjust_master_volume(float incremental);
 
 	void setLoggedIn(int flag, char *reason);
 	Q_INVOKABLE bool isLoggedIn();

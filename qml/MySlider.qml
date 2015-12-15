@@ -3,6 +3,7 @@ Rectangle {
     property variant object: null
     property color buttonColor: "transparent"
     property int fontSize: 9
+    property bool masterVolume: false
     border {
         width: 1
         color: "navy"
@@ -26,9 +27,14 @@ Rectangle {
             }
         }
         onClicked: {
-            object.oItem.volume = (object.oItem.volume < 0.1)?0:(object.oItem.volume - 0.1);
-            console.log("index = " + index + "volume =" + object.oItem.volume);
-            oiuc.adjust_volume(index, object.oItem.volume);
+            if (masterVolume) {
+                object.oItem.volume = (object.oItem.volume < 0.1)?0:(object.oItem.volume - 0.1);
+                oiuc.adjust_master_volume(object.oItem.volume);
+            } else {
+                object.oItem.volume = (object.oItem.volume < 0.1)?0:(object.oItem.volume - 0.1);
+                console.log("index = " + index + "volume =" + object.oItem.volume);
+                oiuc.adjust_volume(index, object.oItem.volume);
+            }
         }
     }
     PushButton {
@@ -50,9 +56,14 @@ Rectangle {
             }
         }
         onClicked: {
-            object.oItem.volume = (object.oItem.volume > 0.9)?1:(object.oItem.volume + 0.1);
-            console.log("index = " + index + "volume =" + object.oItem.volume);
-            oiuc.adjust_volume(index, object.oItem.volume);
+            if (masterVolume) {
+                object.oItem.volume = (object.oItem.volume > 0.9)?1:(object.oItem.volume + 0.1);
+                oiuc.adjust_master_volume(object.oItem.volume);
+            } else {
+                object.oItem.volume = (object.oItem.volume > 0.9)?1:(object.oItem.volume + 0.1);
+                console.log("index = " + index + "volume =" + object.oItem.volume);
+                oiuc.adjust_volume(index, object.oItem.volume);
+            }
         }
     }
     Item {

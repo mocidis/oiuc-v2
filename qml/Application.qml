@@ -169,6 +169,7 @@
         id: _SLIDER
         width: 200
         height: 50
+        masterVolume: true
         fontSize: 16
         anchors {
             top: _TOP.bottom

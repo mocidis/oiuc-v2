@@ -118,12 +118,12 @@ void OIUC::prepare() {
 	pjmedia_codec_g711_init(app_data.node.receiver->ep);
 
 	streamer_init(app_data.node.streamer, app_data.node.streamer->ep, app_data.node.streamer->pool);
-	receiver_init(app_data.node.receiver, app_data.node.receiver->ep, app_data.node.receiver->pool, 2);
+	receiver_init(app_data.node.receiver, app_data.node.receiver->ep, app_data.node.receiver->pool, config->getNumberChannels());
 
-	//streamer_config_dev_source(app_data.node.streamer, config->getSoundStreamerIdx());
-	//receiver_config_dev_sink(app_data.node.receiver, config->getSoundReceiverIdx());
-	streamer_config_dev_source(app_data.node.streamer, 2);
-	receiver_config_dev_sink(app_data.node.receiver, 2);
+	streamer_config_dev_source(app_data.node.streamer, config->getSoundStreamerIdx());
+	receiver_config_dev_sink(app_data.node.receiver, config->getSoundReceiverIdx());
+	//streamer_config_dev_source(app_data.node.streamer, 2);
+	//receiver_config_dev_sink(app_data.node.receiver, 2);
     //qDebug() << "STREAM INIT...DONE\n";
 #endif
 }
@@ -208,5 +208,12 @@ void OIUC::adjust_volume(int stream_idx, float incremental) {
     incremental = incremental * 256 - 128;
     qDebug() << "icremental = " << incremental;
     receiver_adjust_volume(&app_data.receiver, stream_idx, incremental);
+}
+
+void OIUC::adjust_master_volume(float incremental) {
+    incremental = incremental * 256 - 128;
+    qDebug() << "icremental = " << incremental;
+
+    receiver_adjust_master_volume(&app_data.receiver, incremental);
 }
 

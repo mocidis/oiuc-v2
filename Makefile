@@ -31,7 +31,7 @@ GB_SRC:= ../group-man/src/gb-receiver.c
 HT_SRC:=../hash-table/src/hash-table.c
 
 PTTC_SRC:= ../serial/src/pttc_uart.c \
-		   ../serial/src/serial_utils.c
+           ../serial/src/serial_utils.c
 
 CORE_SRC:= ../concurrent_queue/src/queue.c \
 		   ../ics/src/ics-command.c \
@@ -46,8 +46,8 @@ include custom.mk
 
 QMLS:=$(shell ls -1 $(QML_DIR))
 
-MY_CFLAGS+=-g $(shell pkg-config --cflags libpjproject json-c) -I$(PROTOCOLS_DIR)/include -D__ICS_INTEL__
-MY_LIBS:=-g $(shell pkg-config --libs libpjproject json-c)
+MY_CFLAGS+=-g $(LIBS_DIR)/include -I$(PROTOCOLS_DIR)/include -D__ICS_INTEL__
+MY_LIBS:=-g $(LIBS)
 
 APP:=oiuc.app
 
@@ -57,7 +57,7 @@ USERVER_DIR:=../userver
 all: gen-gm gen-gmc gen-adv gen-gb build
 
 #gen-qml:
-#   ./build_qml.sh $(QT_QUICK_VER) $(QML_GEN_DIR)
+#	./build_qml.sh $(QT_QUICK_VER) $(QML_GEN_DIR)
 
 $(QML_GEN_DIR):
 	mkdir -p $(QML_GEN_DIR)
@@ -97,44 +97,46 @@ oiuc.pro: $(QML_GEN_DIR) $(addprefix $(QML_GEN_DIR)/, $(QMLS)) qml.qrc
 	echo "DEFINES += APP_VERSION=\\\\\\\"\\\"$(VERSION)\\\\\\\"\\\" QML_GEN_DIR=\\\\\\\"\\\"$(QML_GEN_DIR)\\\\\\\"\\\"" >> oiuc.pro
 	echo "" >> oiuc.pro
 	echo "DEPENDPATH += . \\" >> oiuc.pro
-	echo "			include \\" >> oiuc.pro
-	echo "			src \\" >> oiuc.pro
-	echo "			gen \\" >> oiuc.pro
-	echo "			../concurrent_queue/include \\" >> oiuc.pro
-	echo "			../concurrent_queue/src \\" >> oiuc.pro
-	echo "			../concurrent_queue/test \\" >> oiuc.pro
-	echo "			../ics/include \\" >> oiuc.pro
-	echo "			../ics/src \\" >> oiuc.pro
-	echo "			../ics/test \\" >> oiuc.pro
-	echo "			../object-pool/include \\" >> oiuc.pro
-	echo "			../object-pool/src \\" >> oiuc.pro
-	echo "			../common/include \\" >> oiuc.pro
-	echo "			../common/src \\" >> oiuc.pro
-	echo "			../group-man/src \\" >> oiuc.pro
-	echo "			../group-man/include \\" >> oiuc.pro
-	echo "			../media-endpoint/src \\" >> oiuc.pro
-	echo "			../media-endpoint/include \\" >> oiuc.pro
-	echo "			../hash-table/src \\" >> oiuc.pro
-	echo "			../hash-table/include \\" >> oiuc.pro
-	echo "			../serial/src \\" >> oiuc.pro
-	echo "			../serial/include" >> oiuc.pro
+	echo "			  include \\" >> oiuc.pro
+	echo "			  src \\" >> oiuc.pro
+	echo "			  gen \\" >> oiuc.pro
+	echo "			  ../concurrent_queue/include \\" >> oiuc.pro
+	echo "			  ../concurrent_queue/src \\" >> oiuc.pro
+	echo "			  ../concurrent_queue/test \\" >> oiuc.pro
+	echo "			  ../ics/include \\" >> oiuc.pro
+	echo "			  ../ics/src \\" >> oiuc.pro
+	echo "			  ../ics/test \\" >> oiuc.pro
+	echo "			  ../object-pool/include \\" >> oiuc.pro
+	echo "			  ../object-pool/src \\" >> oiuc.pro
+	echo "			  ../common/include \\" >> oiuc.pro
+	echo "			  ../common/src \\" >> oiuc.pro
+	echo "			  ../group-man/src \\" >> oiuc.pro
+	echo "			  ../group-man/include \\" >> oiuc.pro
+	echo "			  ../media-endpoint/src \\" >> oiuc.pro
+	echo "			  ../media-endpoint/include \\" >> oiuc.pro
+	echo "			  ../hash-table/src \\" >> oiuc.pro
+	echo "			  ../hash-table/include \\" >> oiuc.pro
+	echo "			  ../serial/src \\" >> oiuc.pro
+	echo "			  ../serial/include" >> oiuc.pro
 	echo "" >> oiuc.pro
 	echo "INCLUDEPATH += . \\" >> oiuc.pro
-	echo "			 include \\" >> oiuc.pro
-	echo "			 gen \\" >> oiuc.pro
-	echo "			 ../ics/include \\" >> oiuc.pro
-	echo "			 ../concurrent_queue/include \\" >> oiuc.pro
-	echo "			 ../object-pool/include \\" >> oiuc.pro
-	echo "			 ../common/include \\" >> oiuc.pro
-	echo "			../group-man/include \\" >> oiuc.pro
-	echo "			../media-endpoint/include \\" >> oiuc.pro
-	echo "			../hash-table/include \\" >> oiuc.pro
-	echo "			../serial/include " >> oiuc.pro
+	echo "			   include \\" >> oiuc.pro
+	echo "			   gen \\" >> oiuc.pro
+	echo "			   ../ics/include \\" >> oiuc.pro
+	echo "			   ../concurrent_queue/include \\" >> oiuc.pro
+	echo "			   ../object-pool/include \\" >> oiuc.pro
+	echo "			   ../common/include \\" >> oiuc.pro
+	echo "			  ../group-man/include \\" >> oiuc.pro
+	echo "			  ../media-endpoint/include \\" >> oiuc.pro
+	echo "			  ../hash-table/include \\" >> oiuc.pro
+	echo "			  ../serial/include \\" >> oiuc.pro
+	echo "			  $(LIBS_DIR)/include \\" >> oiuc.pro
+	echo "			  $(LIBS_DIR)/include/json-c " >> oiuc.pro
 	echo "" >> oiuc.pro
 	echo "equals(QT_MAJOR_VERSION, 5) {QT += qml quick xml svg multimedia sql}" >> oiuc.pro
 	echo "equals(QT_MAJOR_VERSION, 4) {QT += declarative svg xml multimedia sql core gui}" >> oiuc.pro
-	echo "QMAKE_CFLAGS += $(MY_CFLAGS)" >> oiuc.pro
-	echo "QMAKE_CXXFLAGS += $(MY_CFLAGS)" >> oiuc.pro
+#	echo "QMAKE_CFLAGS += $(MY_CFLAGS)" >> oiuc.pro
+#	echo "QMAKE_CXXFLAGS += $(MY_CFLAGS)" >> oiuc.pro
 	echo "QMAKE_LIBS += $(MY_LIBS)" >> oiuc.pro
 	echo "" >> oiuc.pro
 	echo "HEADERS += $(subst /src/,/include/,$(CPP_SRC:.cpp=.h)) $(subst /src/,/include/,$(NODE_SRC:.c=.h)) $(subst /src/,/include/,$(GB_SRC:.c=.h)) $(GEN_SRC:.c=.h) $(subst /src/,/include/,$(CORE_SRC:.c=.h)) $(subst /src/,/include/,$(EP_SRC:.c=.h)) $(subst /src/,/include/,$(EP_SRC:.c=.h)) $(subst /src/,/include/,$(PTTC_SRC:.c=.h))">> oiuc.pro
@@ -148,8 +150,8 @@ build: Makefile.qt.mk
 	make -f Makefile.qt.mk 
 
 clean:
-	rm -fr temp gen $(APP) gen-gm gen-gmc gen-adv gen-gb /tmp/oiuc.log $(QML_GEN_DIR) qml.qrc
 	make clean -f Makefile.qt.mk
+	rm -fr temp gen $(APP) gen-gm gen-gmc gen-adv gen-gb /tmp/oiuc.log $(QML_GEN_DIR) qml.qrc
 	rm -fr Makefile.qt.mk oiuc.pro 
 
 test:

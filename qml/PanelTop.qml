@@ -106,6 +106,7 @@ PanelCommon {
         }
         onClicked: {
             speaker.value = false;
+            console.log("zzzz");
             _SLIDER.object = value?microphone:null
         }
         oItem: QtObject {
