@@ -49,6 +49,7 @@ void update_online_state( int online, pj_str_t *id, QString &description ) {
 }
 void on_reg_state_impl(int account_id, char* is_registration, int code, char *reason){
     SHOW_LOG(5, "ON_REG_STATE_IMPL");
+    int i = 0;
 
 	app_data_t *app_data;
     app_data = OIUC::getOIUC()->getAppData();

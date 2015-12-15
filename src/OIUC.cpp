@@ -76,7 +76,7 @@ void OIUC::prepare() {
     pttc_init(&app_data.serial, &app_data.pttc, on_pttc_ptt, app_data.ics.pool);
     pttc_start(&app_data.serial, config->getSerialFile().toLocal8Bit().data());
 #endif
-    /*---------------- ICS  -----------------*/
+    /*---------------- NODE  -----------------*/
 #if 1
 	memset(&app_data.node, 0, sizeof(app_data.node));
    
