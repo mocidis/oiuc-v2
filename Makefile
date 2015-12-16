@@ -49,7 +49,7 @@ QMLS:=$(shell ls -1 $(QML_DIR))
 MY_CFLAGS+=-g $(LIBS_DIR)/include -I$(PROTOCOLS_DIR)/include -D__ICS_INTEL__
 MY_LIBS:=-g $(LIBS)
 
-APP:=oiuc.app
+APP:=opconsole.app
 
 USERVER_DIR:=../userver
 

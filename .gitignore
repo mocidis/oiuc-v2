@@ -30,8 +30,5 @@
 
 # Debug files
 *.dSYM/
-<<<<<<< HEAD
-=======
 # Database files
 database/oiuc.db
->>>>>>> c55e5342d4c5768577cab2706390ff2e2c778ac3
