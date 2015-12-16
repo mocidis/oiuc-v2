@@ -1,0 +1,5 @@
+@QtQuick
+
+Rectangle {
+    color: "white"
+}
