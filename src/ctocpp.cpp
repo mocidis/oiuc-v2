@@ -47,12 +47,26 @@ void update_online_state( int online, pj_str_t *id, QString &description ) {
     //Send MG_REQ
     PERROR_IF_TRUE(gm_client_send(&app_data->node.gm_client, &req) < 0, "ERROR:: registered failed - ");
 }
-void on_reg_state_impl(int account_id, char* is_registration, int code, char *reason){
-    SHOW_LOG(5, "ON_REG_STATE_IMPL");
-    int i = 0;
 
-	app_data_t *app_data;
+void get_radio_list() {
+    app_data_t *app_data;    
     app_data = OIUC::getOIUC()->getAppData();
+    gm_request_t req;
+
+    req.msg_id = GM_GET_INFO;
+
+    memset(req.gm_get_info.owner_id, 0, sizeof(req.gm_get_info.owner_id));
+    ansi_copy_str(req.gm_get_info.owner_id, app_data->node.id);
+
+    //Send MG_REQ
+    PERROR_IF_TRUE(gm_client_send(&app_data->node.gm_client, &req) < 0, "ERROR:: gm get info failed - ");
+}
+
+
+void on_reg_state_impl(int account_id, char* is_registration, int code, char *reason){
+    SHOW_LOG(5, "ON_REG_STATE_IMPL\n");
+    RadioList *radio_list = RadioList::getRadioListSingleton();
+    QList<Radio*> _radio_list;
 
 	ics_t *data;
 	data = (ics_t *)pjsua_acc_get_user_data(account_id);
@@ -73,6 +87,12 @@ void on_reg_state_impl(int account_id, char* is_registration, int code, char *re
         oiuc->setLoggedIn(online, reason);
     }
     update_online_state(online, id, description);
+
+    _radio_list = radio_list->getRadioList();
+
+    if (_radio_list.count() == 0) {
+        get_radio_list();
+    }
 }
 
 void on_incoming_call_impl(int account_id, int call_id, int st_code, char *remote_contact, char *local_contact) {
