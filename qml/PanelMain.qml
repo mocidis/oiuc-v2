@@ -20,8 +20,16 @@ PanelCommon {
                     oModelItem: _ROOT.radios.get(index)
                 }
             }
+            Repeater {
+                id: repeater_oiu
+                model: _ROOT.oius
+                delegate: OIUView {
+                    btnSize: 80
+                    oModelItem: _ROOT.oius.get(index)
+                }
+            }
         }
-        contentHeight: 160 * (repeater.count + 1) / 2
+        contentHeight: 160 * (repeater.count + repeater_oiu.count + 1) / 2
     }
     ScrollBar {
         scrollArea: flickable

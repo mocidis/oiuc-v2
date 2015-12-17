@@ -19,6 +19,7 @@
         <file>@QML_GEN_DIR/PushButton.qml</file>
         <file>@QML_GEN_DIR/PushTextButton.qml</file>
         <file>@QML_GEN_DIR/RadioView.qml</file>
+        <file>@QML_GEN_DIR/OIUView.qml</file>
         <file>@QML_GEN_DIR/ScrollBar.qml</file>
         <file>@QML_GEN_DIR/TelephoneKeyboard.qml</file>
         <file>@QML_GEN_DIR/ToggleButton.qml</file>

@@ -16,7 +16,6 @@ PanelCommon {
         spacing: 5
         PushTextButton {
             color: "transparent"
-            offColor: "transparent"
             onColor: "navy"
             width: labelWidth + 60
             height: root.height
@@ -28,7 +27,6 @@ PanelCommon {
         }
         PushTextButton {
             color: "transparent"
-            offColor: "transparent"
             onColor: "navy"
             width: labelWidth + 60
             height: root.height
@@ -41,7 +39,6 @@ PanelCommon {
         PushTextButton {
             id: logoutBtn
             color: "transparent"
-            offColor: "transparent"
             onColor: "navy"
             width: labelWidth + 60
             height: root.height
@@ -106,7 +103,6 @@ PanelCommon {
         }
         onClicked: {
             speaker.value = false;
-            console.log("zzzz");
             _SLIDER.object = value?microphone:null
         }
         oItem: QtObject {

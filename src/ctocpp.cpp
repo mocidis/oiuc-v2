@@ -7,6 +7,7 @@
 #include "RadioList.h"
 #include "OIU.h"
 #include "OIUList.h"
+#include "Config.h"
 #define MAX_URI_LENGTH 100
 
 void on_reg_start_impl(int account_id) {
@@ -152,20 +153,27 @@ void on_online_report(char *id, char* des, int radio_port, int is_online) {
 		}
 	} else {
 		//For OIU
-		/*
-		OIUList *oiu_list = OIUList::getOIUListSingleton();	
-		QString name = "WTF_OIU?";
+		OIUList *oiu_list = OIUList::getOIUListSingleton();
+		QString name = "WTF_RADIO?";
 		QString desc = "WTF_NO_DESC?";
-		QString status = "offline";
 
 		name = QString::fromLocal8Bit(id);
 		desc = QString::fromLocal8Bit(des);
-		if (is_online == 1) {
-			status = "online";
+		bool online = false;
+		if ( is_online == 1 ) {
+			online = true;
 		}
-		OIU *oiu = new OIU(name, status, desc);
-		oiu_list->addOIU(oiu);
-		*/
+		int index = -1;
+		if (name == Config::getConfig()->getOIUCName()) {
+			return;	
+		}
+		index = oiu_list->searchOIUByName(name);
+		if (index == -1) {
+			OIU *oiu = new OIU(name, desc, -1, online, false, false);
+			oiu_list->addOIU(oiu);
+		} else {
+			oiu_list->updateOIUState(index, OIU_ONLINE, online);
+		}
 	}
 }
 

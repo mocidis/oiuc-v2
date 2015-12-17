@@ -17,6 +17,14 @@
         }
         return ret;
     }
+    function hasControlledOIU() {
+        var ret = false;
+        var i;
+        for(i = 0; i < oius.count; i++) {
+            ret |= oius.get(i).isPTT;
+        }
+        return ret;
+    }
 
     CppLinkage { }
     property QtObject appState: QtObject {
@@ -64,7 +72,7 @@
     }
     Item {
         height: 80
-        visible: appState.login && hasControlledRadio()
+        visible: appState.login && (hasControlledRadio() || hasControlledOIU())
         anchors {
             bottom: parent.bottom
             left: parent.left
@@ -82,7 +90,6 @@
         PushTextButton {
             id: _PTTBTN
             color: "maroon"
-            offColor: "maroon"
             radius: 10
             anchors {
                 fill: parent
@@ -169,7 +176,6 @@
         id: _SLIDER
         width: 200
         height: 50
-        masterVolume: true
         fontSize: 16
         anchors {
             top: _TOP.bottom

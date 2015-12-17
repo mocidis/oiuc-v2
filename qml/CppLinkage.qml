@@ -83,15 +83,25 @@ Item {
         onUpdateOIUList: {
             if (mIndex == -1) {
                 oius.append({
-                    "name": name, 
-                    "status":status, 
-                    "description":desc,
-                    "iState": 0
+					"name": name,
+					"description": desc,
+					"port": name,
+                    "isOnline": bOnline,
+                    "isPTT": false,
+                    "isTx": bTx,
+                    "isRx": bRx,
+                    "isRxBlocked": false,
+                    "isSQ": bSQ,
+                    "volume": 0.5
                 });
             } else {
                 oius.setProperty(mIndex, "name", name);
-                oius.setProperty(mIndex, "status", status);
-                oius.setProperty(mIndex, "description", desc);
+                oius.setProperty(mIndex, "port", name);
+                oius.setProperty(mIndex, "isOnline", bOnline);
+                oius.setProperty(mIndex, "isTx", bTx);
+                oius.setProperty(mIndex, "isRx", bRx);
+                oius.setProperty(mIndex, "isSQ", bSQ);
+                //radios.setProperty(mIndex, "volume", rVolume);
             }
         }
     }

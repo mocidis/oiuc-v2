@@ -17,22 +17,37 @@ class OIU;
 class OIU : public QObject {
 	Q_OBJECT
 public:
-	// constructor
-	OIU(QString name, QString status, QString desc);
+	/****************Constructor*******************/
+	OIU(QString name, QString desc, int port, bool isOnline, bool isTx, bool isSQ);
 
-	//add and set functions
-	void setStatus (QString status);
+	/*************Add and Set functions************/
+	void setDowntime(double downtime);
 
-	//get functions
+	/************Get functions********************/
 	QString getName();
-	QString getStatus();
+    bool isOnline();
+    bool isTx();
+    bool isRx();
+    bool isSQ();
+    double getVolume();
 	QString getDesc();
-
+	int getPort();
+    
+    void setOnline(bool val);
+    void setTx(bool val);
+    void setRx(bool val);
+    void setSQ(bool val);
+    void setVolume(double val);
 
 private:
-	QString _name; //name of oiu
-	QString _status;  //1=online or 0=offline
+	QString _name;
 	QString _desc;
+	int _port;
+    bool _isOnline;
+    bool _isTx;
+    bool _isRx;
+    bool _isSQ;
+    double _volume;
 };
 
 #endif

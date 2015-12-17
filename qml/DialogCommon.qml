@@ -31,7 +31,6 @@ Rectangle {
         }
         PushButton {
             color: "black"
-            offColor: "black"
             width: 30
             height: 30
             anchors {

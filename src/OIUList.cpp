@@ -1,5 +1,4 @@
 #include "OIUList.h"
-
 /*****************Constructor******************/
 OIUList* OIUList::_oiu_manager = 0;
 OIUList* OIUList::getOIUListSingleton() {
@@ -8,31 +7,41 @@ OIUList* OIUList::getOIUListSingleton() {
 	}
 	return _oiu_manager;
 }
-OIUList::OIUList() { }
-
+OIUList::OIUList() {}
 /*****************Add and Set functions******************/
 void OIUList::addOIU(OIU *oiu) {
-	int flags = 0;
-	int mIndex = -1;
-	for (int i=0; i < _oiu_list.count(); i++) {
-		if (_oiu_list[i]->getName() == oiu->getName()) {
-			flags = 1;
-			if (_oiu_list[i]->getStatus() != oiu->getStatus()) {
-				_oiu_list[i]->setStatus(oiu->getStatus());
-				flags = 2;
-				mIndex = i;
-			}
-			break;	
-		}
+	_oiu_list.append(oiu);
+	updateOIUListSignal(oiu, -1);
+	writeLog("detected " + oiu->getName(), SCREENS);
+}
+void OIUList::updateOIUState(int index, int type, bool value) {
+	QString msg;
+	if (value == false) {
+		msg = "OFF";
+	} else {
+		msg = "ON";
 	}
-	if (flags == 0 || flags == 2) {
-		if (flags == 0) {
-			_oiu_list.append(oiu);
-			updateOIUListSignal(oiu, mIndex);
-		} else {
-			updateOIUListSignal(oiu, mIndex);
-		}
+	switch (type) {
+		case OIU_ONLINE:
+			_oiu_list[index]->setOnline(value);
+			writeLog("change ONLINE state " + _oiu_list[index]->getName() + " " + msg, SCREENS);
+			break;
+		case OIU_TX:
+			_oiu_list[index]->setTx(value);
+			writeLog("change TX state " + _oiu_list[index]->getName() + " " + msg, SCREENS);
+			break;
+		case OIU_RX:
+			_oiu_list[index]->setRx(value);
+			writeLog("change RX state " + _oiu_list[index]->getName() + " " + msg, SCREENS);
+			break;
+		case OIU_SQ:
+			_oiu_list[index]->setSQ(value);
+			writeLog("change SQ state " + _oiu_list[index]->getName() + " " + msg, SCREENS);
+			break;
+		default:
+			break;
 	}
+	updateOIUListSignal(_oiu_list[index], index);
 }
 void OIUList::deleteOIU(OIU *oiu) {
 	for (int i=0;i<_oiu_list.count();i++) {
@@ -42,12 +51,35 @@ void OIUList::deleteOIU(OIU *oiu) {
 	}
 }
 /*****************Get functions******************/
-QList<OIU*> OIUList::getOIUList() {
-	return _oiu_list;
+QList<OIU*> OIUList::getOIUList() { return _oiu_list;}
+void OIUList::updateOIUListSignal(OIU* oiu, int mIndex) {
+	emit updateOIUList(
+            oiu->getName(),
+			oiu->getDesc(),
+			oiu->getPort(),
+            oiu->isOnline(),
+            oiu->isTx(),
+            oiu->isRx(),
+            oiu->isSQ(),
+            oiu->getVolume(),
+            mIndex
+    );
 }
-void OIUList::updateOIUListSignal (OIU *oiu, int mIndex) {
-	QString name = oiu->getName();
-	QString status = oiu->getStatus();
-	QString desc = oiu->getDesc();
-	emit updateOIUList (name, status, desc, mIndex);
+int OIUList::searchOIUByName(QString name) {
+	int n = _oiu_list.count();
+	bool flag = false;
+	int index=0;
+	for (index=0; index<n; index++) {
+		if (_oiu_list[index]->getName() == name) {
+			flag = true;
+			break;
+		}
+	}
+	if (flag == true) {
+		return index;
+	}
+	return -1; //not found
+}
+OIU* OIUList::getOIUByIndex(int index) {
+	return _oiu_list[index];
 }

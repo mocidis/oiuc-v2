@@ -11,7 +11,6 @@ Rectangle {
     PushButton {
         id: leftBtn
         color: buttonColor
-        offColor: buttonColor
         anchors { 
             left: parent.left
             top: parent.top
@@ -40,7 +39,6 @@ Rectangle {
     PushButton {
         id: rightBtn
         color: buttonColor
-        offColor: buttonColor
         anchors { 
             right: parent.right
             top: parent.top

@@ -32,7 +32,6 @@ DialogCommon {
         }
         PushButton {
 			color: "#1aff1a"
-			offColor: "#1aff1a"
             property alias text: leftLabel.text
             id: leftBtn
             width: 200
@@ -53,7 +52,6 @@ DialogCommon {
         }
         PushButton {
 			color: "#ff4d4d"
-			offColor: "#ff4d4d"
             property alias text: rightLabel.text
             id: rightBtn
             width: 200
