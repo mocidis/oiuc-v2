@@ -86,8 +86,9 @@ void OIUC::prepare() {
 
 	init_adv_server(&app_data, adv_cs.toLocal8Bit().data(), &app_data.node, app_data.ics.pool);
     app_data.node.on_leaving_server_f = &on_leaving_server;
+    QString oiuc_name = "OIUC-" + config->getOIUCName();
 	node_init(&app_data.node, 
-				config->getOIUCName().toLocal8Bit().data(), 
+				oiuc_name.toLocal8Bit().data(), 
 				config->getLocation().toLocal8Bit().data(), 
 				config->getOIUCDescription().toLocal8Bit().data(), 
 				-1, 
@@ -124,7 +125,7 @@ void OIUC::prepare() {
 	receiver_config_dev_sink(app_data.node.receiver, config->getSoundReceiverIdx());
 	//streamer_config_dev_source(app_data.node.streamer, 2);
 	//receiver_config_dev_sink(app_data.node.receiver, 2);
-    //qDebug() << "STREAM INIT...DONE\n";
+    qDebug() << "STREAM INIT...DONE\n";
 #endif
 }
 

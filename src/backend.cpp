@@ -79,6 +79,8 @@ void loadGeneralConfig(Config *config, QString backend_location) {
         config->setSerialFile(serial_file);
         config->setNumberChannels(nchans);
         config->dump();
+
+        qDebug() << "======================D: " << oiuc_name;
 	}
 	QSqlDatabase::removeDatabase(backend_location);
 }

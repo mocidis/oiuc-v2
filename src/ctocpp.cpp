@@ -34,6 +34,12 @@ void update_online_state( int online, pj_str_t *id, QString &description ) {
 
     req.msg_id = GM_REG;
 
+    ansi_copy_str(req.gm_reg.reg_id, app_data->node.id);
+    ansi_copy_str(req.gm_reg.gmc_cs,app_data->node.gmc_cs);
+    ansi_copy_str(req.gm_reg.location,app_data->node.location);
+    ansi_copy_str(req.gm_reg.desc,app_data->node.desc);
+
+/*
     memset(req.gm_reg.reg_id, 0, sizeof(req.gm_reg.reg_id));
     strncpy(req.gm_reg.reg_id, app_data->node.id, strlen(app_data->node.id));
     memset(req.gm_reg.gmc_cs, 0, sizeof(req.gm_reg.gmc_cs));
@@ -42,7 +48,7 @@ void update_online_state( int online, pj_str_t *id, QString &description ) {
     strncpy(req.gm_reg.location, app_data->node.location, strlen(app_data->node.location));
     memset(req.gm_reg.desc, 0, sizeof(req.gm_reg.desc));
     strncpy(req.gm_reg.desc, app_data->node.desc, strlen(app_data->node.desc));
-
+*/
     req.gm_reg.radio_port = app_data->node.radio_port;    
 
     //Send MG_REQ
@@ -56,7 +62,6 @@ void get_radio_list() {
 
     req.msg_id = GM_GET_INFO;
 
-    memset(req.gm_get_info.owner_id, 0, sizeof(req.gm_get_info.owner_id));
     ansi_copy_str(req.gm_get_info.owner_id, app_data->node.id);
 
     //Send MG_REQ
@@ -65,7 +70,7 @@ void get_radio_list() {
 
 
 void on_reg_state_impl(int account_id, char* is_registration, int code, char *reason){
-    SHOW_LOG(5, "ON_REG_STATE_IMPL\n");
+    SHOW_LOG(3, "ON_REG_STATE_IMPL\n");
     RadioList *radio_list = RadioList::getRadioListSingleton();
     QList<Radio*> _radio_list;
 
@@ -91,7 +96,10 @@ void on_reg_state_impl(int account_id, char* is_registration, int code, char *re
 
     _radio_list = radio_list->getRadioList();
 
+    SHOW_LOG(3, "List count: %d\n", _radio_list.count());
+
     if (_radio_list.count() == 0) {
+        SHOW_LOG(3, "Get radio list\n");          
         get_radio_list();
     }
 }
@@ -158,6 +166,7 @@ void on_online_report(char *id, char* des, int radio_port, int is_online) {
 		QString desc = "WTF_NO_DESC?";
 
 		name = QString::fromLocal8Bit(id);
+        name.remove(0,5); //remove OIUC prefix
 		desc = QString::fromLocal8Bit(des);
 		bool online = false;
 		if ( is_online == 1 ) {
