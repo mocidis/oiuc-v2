@@ -72,7 +72,7 @@ void OIUC::prepare() {
 	qDebug() << "ICS STARTED";
 #endif
     /*---------------- PTTC  -----------------*/
-#if 0
+#if 1
     pttc_init(&app_data.serial, &app_data.pttc, on_pttc_ptt, app_data.ics.pool);
     pttc_start(&app_data.serial, config->getSerialFile().toLocal8Bit().data());
 #endif
@@ -214,7 +214,6 @@ void OIUC::adjust_volume(int stream_idx, float incremental) {
 void OIUC::adjust_master_volume(float incremental) {
     incremental = incremental * 256 - 128;
     qDebug() << "icremental = " << incremental;
-
     receiver_adjust_master_volume(&app_data.receiver, incremental);
 }
 

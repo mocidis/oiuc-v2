@@ -1,6 +1,6 @@
 @QtQuick
 @QtWindow
-
+import PTTButton 1.0
 @Window {
     visible: true
     id: _ROOT
@@ -25,7 +25,6 @@
         }
         return ret;
     }
-
     CppLinkage { }
     property QtObject appState: QtObject {
         property bool loginInProgress: false
@@ -70,59 +69,64 @@
             leftMargin: 1
         }
     }
-    Item {
-        height: 80
-        visible: appState.login && (hasControlledRadio() || hasControlledOIU())
-        anchors {
-            bottom: parent.bottom
-            left: parent.left
-            right: _MAIN.right
-        }
-        Rectangle {
-            height: 1
-            color: "black"
-            anchors {
-                top: parent.top
-                left: parent.left
-                right: parent.right
-            }
-        }
-        PushTextButton {
-            id: _PTTBTN
-            color: "maroon"
-            radius: 10
-            anchors {
-                fill: parent
-                margins: 10
-            }
-            font {
-                pixelSize: 32
-                bold: true
-            }
-            label: "Push-To-Talk"
-            labelColor: "white"
-            onClicked: {
-                console.log("++++++ clicked ++++++");
-            }
-            onPressed: { 
-                var radio;
-                console.log("++++++ pressed ++++++");
-                for (var i = 0; i < radios.count; i++) {
-                    radio = radios.get(i);
-                    //radio.isTx = radio.isPTT;
-                }
-                oiuc.PTT();
-            }
-            onReleased: {
-                var radio;
-                for (var i = 0; i < radios.count; i++) {
-                    radio = radios.get(i);
-                    radio.isTx = false;
-                }
-                oiuc.endPTT();
-            }
-        }
-    }
+	Item {
+		id: thanhnt_item
+		height: 80
+		visible: appState.login && (hasControlledRadio() || hasControlledOIU())
+		anchors {
+			bottom: parent.bottom
+			left: parent.left
+			right: _MAIN.right
+		}
+		Rectangle {
+			height: 1
+			color: "black"
+			anchors {
+				top: parent.top
+				left: parent.left
+				right: parent.right
+			}
+		}
+		PushTextButton {
+			id: _PTTBTN
+			color: "maroon"
+			radius: 10
+			anchors {
+				fill: parent
+				margins: 10
+			}
+			font {
+				pixelSize: 32
+				bold: true
+			}
+			label: "Push-To-Talk"
+			labelColor: "white"
+			onClicked: {
+				console.log("++++++ clicked ++++++");
+			}
+			onPressed: { 
+				var radio;
+				console.log("++++++ pressed ++++++: ");
+				for (var i = 0; i < radios.count; i++) {
+					radio = radios.get(i);
+					//radio.isTx = radio.isPTT;
+				}
+				oiuc.PTT();
+			}
+			onReleased: {
+				var radio;
+				for (var i = 0; i < radios.count; i++) {
+					radio = radios.get(i);
+					radio.isTx = false;
+				}
+				oiuc.endPTT();
+			}
+		}
+		PTT {
+			id: pttc
+			pos: Qt.point(_PTTBTN.x + thanhnt_item.x, _PTTBTN.y + thanhnt_item.y)
+		}
+	}
     TelephoneKeyboard {
         id: _TELKB
         anchors {

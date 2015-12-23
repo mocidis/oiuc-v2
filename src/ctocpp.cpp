@@ -1,4 +1,7 @@
 #include <QtCore>
+#include <QQuickWindow>
+#include <QMouseEvent>
+#include <QGuiApplication>
 #include <QString>
 #include "ctocpp.h"
 #include "Config.h"
@@ -8,6 +11,7 @@
 #include "OIU.h"
 #include "OIUList.h"
 #include "Config.h"
+#include "PTTButton.h"
 #define MAX_URI_LENGTH 100
 
 void on_reg_start_impl(int account_id) {
@@ -246,15 +250,20 @@ void on_pttc_ptt(int ptt) {
 
     app_data_t *app_data;    
     app_data = OIUC::getOIUC()->getAppData();
-
+	QMouseEvent *m_click_event = new QMouseEvent(QEvent::MouseButtonPress,PTTButton::globalPTTPos, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+	QMouseEvent *m_release_event = new QMouseEvent(QEvent::MouseButtonRelease, PTTButton::globalPTTPos, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
     switch(ptt) {
         case 1:
-            OIUC::getOIUC()->signalPTTPressed();
+            //OIUC::getOIUC()->signalPTTPressed();
             //node_start_session(&app_data->node);
+			QCoreApplication::sendEvent(qApp->allWindows()[0], m_click_event);
+			//QCoreApplication::sendEvent(qApp->allWindows()[0], m_release_event);
             break;
         case 0:
-            OIUC::getOIUC()->signalPTTReleased();
+            //OIUC::getOIUC()->signalPTTReleased();
             //node_stop_session(&app_data->node);
+			QCoreApplication::sendEvent(qApp->allWindows()[0], m_release_event);
+			qDebug() << "PENDING__________:"<< QCoreApplication::hasPendingEvents();
             break;
         default:
             qDebug() << "Unknown signal ptt\n";
@@ -262,4 +271,3 @@ void on_pttc_ptt(int ptt) {
     }
 
 }
-

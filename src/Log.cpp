@@ -20,7 +20,10 @@ Log::Log() {
 void Log::logs(QString msg) {
 	Config *config = Config::getConfig();
 	logModel->addLog(msg);
-	if (logModel->rowCount() >= config->getLogMaxLineDisplay()) {
+	int maxline = config->getLogMaxLineDisplay();
+	qDebug() << "--------------------" << maxline;
+	if (logModel->rowCount() >= maxline) {
+		qDebug() << "+++++++++++++++++++++++++++++" << maxline;
 		logModel->removeAt(logModel->rowCount() - 1);
 	}
 }
@@ -100,8 +103,9 @@ LogModel::LogModel () {
 }
 void LogModel::addLog(QString msg)
 {
-    beginInsertRows(QModelIndex(), 0, 0);
-	list.insert(0, msg);
+    beginInsertRows(QModelIndex(), rowCount()-1, rowCount()-1);
+	//list.insert(0, msg);
+	list.append(msg);
     endInsertRows();
 }
 

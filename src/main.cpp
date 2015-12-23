@@ -2,6 +2,8 @@
 #if QT_VERSION >= 0x050000
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQuickWindow>
+#include <QScreen>
 #else
 #include <QDeclarativeView>
 #include <QApplication>
@@ -18,8 +20,10 @@
 #include "Radio.h"
 #include "OIU.h"
 #include "OIUList.h"
+#include "PTTButton.h"
 int main(int argc, char *argv[])
 {
+	qmlRegisterType<PTTButton>("PTTButton", 1, 0, "PTT");
 #if QT_VERSION >= 0x050000
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
@@ -33,35 +37,37 @@ int main(int argc, char *argv[])
 #else
     loadGeneralConfig(config, "databases/oiuc.db");
 #endif
-     Log *log = Log::getLog();
-     log->setFilename(config->getLogDir() + "oiuc.log");
-     log->start();
-     //prepare for oiuc
-     OIUC *oiuc = OIUC::getOIUC();
-     oiuc->prepare();
-     oiuc->start("ntt", "1234");
-     //make sure log file will be flushed after handle the quit signal of application
-     QObject::connect(&app, SIGNAL(aboutToQuit()), log, SLOT(flushLog()));
-     RadioList *radio_list = RadioList::getRadioListSingleton();
-     OIUList *oiu_list = OIUList::getOIUListSingleton();
-     engine.rootContext()->setContextProperty("oiuc", oiuc);
-     engine.rootContext()->setContextProperty("radioList", radio_list);
-     engine.rootContext()->setContextProperty("oiuList", oiu_list);
-     engine.rootContext()->setContextProperty("logModel", log->getLogModel());
-     writeLog("Start OIUC", SCREENS);
+	Log *log = Log::getLog();
+	log->setFilename(config->getLogDir() + "oiuc.log");
+	log->start();
+	//prepare for oiuc
+	OIUC *oiuc = OIUC::getOIUC();
+	oiuc->prepare();
+	oiuc->start("ntt", "1234");
+	//make sure log file will be flushed after handle the quit signal of application
+	QObject::connect(&app, SIGNAL(aboutToQuit()), log, SLOT(flushLog()));
+	RadioList *radio_list = RadioList::getRadioListSingleton();
+	OIUList *oiu_list = OIUList::getOIUListSingleton();
+	engine.rootContext()->setContextProperty("oiuc", oiuc);
+	engine.rootContext()->setContextProperty("radioList", radio_list);
+	engine.rootContext()->setContextProperty("oiuList", oiu_list);
+	engine.rootContext()->setContextProperty("logModel", log->getLogModel());
+	writeLog("Start OIUC", SCREENS);
 #if QT_VERSION >= 0x050000
-	 QString qml_url = "qrc:/";
-	 qml_url.append(QString::fromLocal8Bit(QML_GEN_DIR));
-	 qml_url.append("/Application.qml");
-     engine.load(QUrl(qml_url));
+	QString qml_url = "qrc:/";
+	qml_url.append(QString::fromLocal8Bit(QML_GEN_DIR));
+	qml_url.append("/Application.qml");
+	engine.load(QUrl(qml_url));
+	QQuickWindow *window = qobject_cast<QQuickWindow*>(engine.rootObjects().at(0));
+	window->showFullScreen();
 #else
-	 QString qml_url = "qrc:///";
-	 qml_url.append(QString::fromLocal8Bit(QML_GEN_DIR));
-	 qml_url.append("/Application.qml");
-	 engine.setSource(QUrl(qml_url));
-	 engine.show();
+	QString qml_url = "qrc:///";
+	qml_url.append(QString::fromLocal8Bit(QML_GEN_DIR));
+	qml_url.append("/Application.qml");
+	engine.setSource(QUrl(qml_url));
+	engine.show();
 #endif
-     return app.exec();
+	return app.exec();
 }
 /*
 #include <QDeclarativeView>
