@@ -17,15 +17,11 @@ Log::Log() {
 	logModel = new LogModel();
 	logModel->roleNames();
 	connect(this, SIGNAL(wLog(QString)), logModel, SLOT(onWLog(QString)));
+	connect(this, SIGNAL(clearLog()), logModel, SLOT(onClearLog()));
 }
 void Log::logs(QString msg) {
 	Config *config = Config::getConfig();
-	//logModel->addLog(msg);
 	emit wLog(msg);
-	int maxline = config->getLogMaxLineDisplay();
-	if (logModel->rowCount() >= maxline) {
-		logModel->removeAt(logModel->rowCount() - 1);
-	}
 }
 void Log::setFilename(QString _filename) {
 	filename = _filename;
@@ -37,29 +33,25 @@ QString Log::getFilename() {
 
 void Log::run() {
 	logfile.setFileName(filename);
-	fileMaintenance();
-	if (!logfile.open(QIODevice::WriteOnly | QIODevice::Text) ) {
+	if (!logfile.open(QIODevice::Append | QIODevice::Text) ) {
 		return;
 	}
 	out.setDevice(&logfile);
 	int _max_line = 0;
 	int _max_buffer_line = 0;
 	QString filenameS="";
+	QString msg;
 	while(1) {
 		if (!q_log.isEmpty()) {
-			QString msg = q_log.dequeue();
-			//out << q_log.dequeue() << "\n";
+			msg = q_log.dequeue();
 			out << msg << "\n";
 			logs(msg);
 			_max_buffer_line++;
 			_max_line++;
 		}
 		if (_max_line >= max_line) {
+			emit clearLog();
 			out.flush();
-			filenameS = filename;
-			filenameS += QString::number(file_count%max_file);
-			logfile.copy(this->getFilename(), filenameS);
-			logfile.resize(0);
 			_max_line = 0;
 			filenameS = "";
 			file_count++;
@@ -71,23 +63,8 @@ void Log::run() {
 	} 
 		logfile.close();
 }
-void Log::fileMaintenance() {
-	for (int i=0; i<max_file; i++) {
-		QFile file(filename + QString::number(i));
-		if (!file.exists()) {
-			QFileInfo info(logfile);
-			file_count = i;
-			if (info.size() != 0) {
-				QString filenameS = filename + QString::number(file_count);
-				logfile.copy(filename, filenameS); 
-				file_count++;
-			}
-			break;
-		}
-	}
-}
 void Log::flushLog() {
-	out << "\nFILE FLUSHED";
+	out << "\nFILE FLUSHED\n\n";
 	out.flush();
 	logfile.close();
 }
@@ -127,6 +104,7 @@ QVariant LogModel::data(const QModelIndex & index, int role) const {
 void LogModel::clear() {
 	beginResetModel();
 	list.clear();
+	qDebug() << "-------------------------------CLEAR----------------------------------";
 	endResetModel();
 }
 void LogModel::removeAt(int index) {
@@ -146,7 +124,9 @@ QHash<int, QByteArray> LogModel::roleNames() const {
 void LogModel::onWLog(QString msg) {
 	addLog(msg);
 }
-
+void LogModel::onClearLog() {
+	clear();
+}
 /**********************************/
 void writeLog(QString msg) {
 	QDateTime currentDate = QDateTime::currentDateTime();

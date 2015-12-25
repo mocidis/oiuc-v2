@@ -25,7 +25,7 @@ PanelCommon {
 		delegate: Rectangle {
             width: parent.width
             height: 30
-            color: (index % 2 == 0) ? "white":"#F0F0F0"
+            //color: (index % 2 == 0) ? "white":"#F0F0F0"
 			Text {
                 anchors {
                     left: parent.left

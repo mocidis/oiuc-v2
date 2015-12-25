@@ -71,7 +71,7 @@ void OIUC::prepare() {
 	qDebug() << "ICS STARTED";
 #endif
     /*---------------- PTTC  -----------------*/
-#if 1
+#if 0
     pttc_init(&app_data.serial, &app_data.pttc, on_pttc_ptt, app_data.ics.pool);
     pttc_start(&app_data.serial, config->getSerialFile().toLocal8Bit().data());
 #endif

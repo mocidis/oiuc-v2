@@ -33,6 +33,7 @@ public:
 #endif
 public slots:
 	void onWLog(QString msg);
+	void onClearLog();
 private:
 	QList <QString> list;
 };
@@ -48,11 +49,11 @@ public slots:
 	void flushLog();
 signals:
 	void wLog(QString msg);
+	void clearLog();
 private:
 	Log();
 	static Log* log;
 	void run(); //thread
-	void fileMaintenance(); //mananage log file
 
 	LogModel *logModel;
 	QFile logfile;
