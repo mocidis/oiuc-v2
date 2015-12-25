@@ -1,7 +1,12 @@
-#include <QtCore>
+#include <QtGlobal>
+#if QT_VERSION >= 0x050000
 #include <QQuickWindow>
-#include <QMouseEvent>
 #include <QGuiApplication>
+#else
+#include <QApplication>
+#endif
+#include <QtCore>
+#include <QMouseEvent>
 #include <QString>
 #include "ctocpp.h"
 #include "Config.h"
@@ -161,7 +166,10 @@ void on_online_report(char *id, char* des, int radio_port, int is_online) {
 			Radio *radio = new Radio(name, desc, radio_port, online, false, false);
 			radio_list->addRadio(radio);
 		} else {
-			radio_list->updateRadioState(index, RADIO_ONLINE, online);
+			Radio *radio = radio_list->getRadioByIndex(index);
+			if (radio->isOnline() != online) {
+				radio_list->updateRadioState(index, RADIO_ONLINE, online);
+			}
 		}
 	} else {
 		//For OIU
@@ -185,7 +193,10 @@ void on_online_report(char *id, char* des, int radio_port, int is_online) {
 			OIU *oiu = new OIU(name, desc, -1, online, false, false);
 			oiu_list->addOIU(oiu);
 		} else {
-			oiu_list->updateOIUState(index, OIU_ONLINE, online);
+			OIU *oiu = oiu_list->getOIUByIndex(index);
+			if (oiu->isOnline() != online) {
+				oiu_list->updateOIUState(index, OIU_ONLINE, online);
+			}
 		}
 	}
 }
@@ -247,7 +258,6 @@ void on_sq_report(char *id, int is_sq) {
 
 void on_pttc_ptt(int ptt) {
     fprintf(stdout, "PTTC - ptt is %d\n", ptt);
-
     app_data_t *app_data;    
     app_data = OIUC::getOIUC()->getAppData();
 	QMouseEvent *m_click_event = new QMouseEvent(QEvent::MouseButtonPress,PTTButton::globalPTTPos, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
@@ -256,14 +266,21 @@ void on_pttc_ptt(int ptt) {
         case 1:
             //OIUC::getOIUC()->signalPTTPressed();
             //node_start_session(&app_data->node);
+#if QT_VERSION >= 0x050000
 			QCoreApplication::sendEvent(qApp->allWindows()[0], m_click_event);
-			//QCoreApplication::sendEvent(qApp->allWindows()[0], m_release_event);
+			writeLog("Press Push-To-Talk");
+#else
+			QCoreApplication::sendEvent(QApplication::widgetAt(PTTButton::globalPTTPos), m_click_event);
+#endif
             break;
         case 0:
             //OIUC::getOIUC()->signalPTTReleased();
             //node_stop_session(&app_data->node);
+#if QT_VERSION >= 0x050000
 			QCoreApplication::sendEvent(qApp->allWindows()[0], m_release_event);
-			qDebug() << "PENDING__________:"<< QCoreApplication::hasPendingEvents();
+#else
+			QCoreApplication::sendEvent(QApplication::widgetAt(PTTButton::globalPTTPos), m_release_event);
+#endif
             break;
         default:
             qDebug() << "Unknown signal ptt\n";

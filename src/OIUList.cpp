@@ -12,7 +12,7 @@ OIUList::OIUList() {}
 void OIUList::addOIU(OIU *oiu) {
 	_oiu_list.append(oiu);
 	updateOIUListSignal(oiu, -1);
-	writeLog("detected " + oiu->getName(), SCREENS);
+	writeLog("detected " + oiu->getName());
 }
 void OIUList::updateOIUState(int index, int type, bool value) {
 	QString msg;
@@ -24,19 +24,19 @@ void OIUList::updateOIUState(int index, int type, bool value) {
 	switch (type) {
 		case OIU_ONLINE:
 			_oiu_list[index]->setOnline(value);
-			writeLog("change ONLINE state " + _oiu_list[index]->getName() + " " + msg, SCREENS);
+			writeLog("change ONLINE state " + _oiu_list[index]->getName() + " " + msg);
 			break;
 		case OIU_TX:
 			_oiu_list[index]->setTx(value);
-			writeLog("change TX state " + _oiu_list[index]->getName() + " " + msg, SCREENS);
+			writeLog("change TX state " + _oiu_list[index]->getName() + " " + msg);
 			break;
 		case OIU_RX:
 			_oiu_list[index]->setRx(value);
-			writeLog("change RX state " + _oiu_list[index]->getName() + " " + msg, SCREENS);
+			writeLog("change RX state " + _oiu_list[index]->getName() + " " + msg);
 			break;
 		case OIU_SQ:
 			_oiu_list[index]->setSQ(value);
-			writeLog("change SQ state " + _oiu_list[index]->getName() + " " + msg, SCREENS);
+			writeLog("change SQ state " + _oiu_list[index]->getName() + " " + msg);
 			break;
 		default:
 			break;

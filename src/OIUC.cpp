@@ -1,5 +1,4 @@
 #include "OIUC.h"
-
 OIUC* OIUC::singleton = 0;
 OIUC* OIUC:: getOIUC() {
 	if (!singleton) {

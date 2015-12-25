@@ -7,5 +7,4 @@ QPoint PTTButton::globalPTTPos;
 QPoint PTTButton::setPos(QPoint point) {
 	pos = point;
 	PTTButton::globalPTTPos = pos;
-	qDebug() << "-------------------POS CHANGED:" << PTTButton::globalPTTPos;
 }

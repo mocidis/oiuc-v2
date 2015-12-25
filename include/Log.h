@@ -31,6 +31,8 @@ public:
 #if QT_VERSION > 0x050000
     QHash<int, QByteArray> roleNames() const;
 #endif
+public slots:
+	void onWLog(QString msg);
 private:
 	QList <QString> list;
 };
@@ -44,6 +46,8 @@ public:
 	LogModel* getLogModel();
 public slots:
 	void flushLog();
+signals:
+	void wLog(QString msg);
 private:
 	Log();
 	static Log* log;
@@ -59,5 +63,5 @@ private:
 	int max_buffer_line;
 	int file_count;
 };
-void writeLog(QString msg, int dev);
+void writeLog(QString msg);
 #endif

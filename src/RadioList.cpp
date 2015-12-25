@@ -13,7 +13,7 @@ RadioList::RadioList() {}
 void RadioList::addRadio(Radio *radio) {
 	_radio_list.append(radio);
 	updateRadioListSignal(radio, -1);
-	writeLog("detected " + radio->getName(), SCREENS);
+	writeLog("detected " + radio->getName());
 }
 void RadioList::updateRadioState(int index, int type, bool value) {
 	QString msg;
@@ -25,19 +25,19 @@ void RadioList::updateRadioState(int index, int type, bool value) {
 	switch (type) {
 		case RADIO_ONLINE:
 			_radio_list[index]->setOnline(value);
-			writeLog("change ONLINE state " + _radio_list[index]->getName() + " " + msg, SCREENS);
+			writeLog("change ONLINE state " + _radio_list[index]->getName() + " " + msg);
 			break;
 		case RADIO_TX:
 			_radio_list[index]->setTx(value);
-			writeLog("change TX state " + _radio_list[index]->getName() + " " + msg, SCREENS);
+			writeLog("change TX state " + _radio_list[index]->getName() + " " + msg);
 			break;
 		case RADIO_RX:
 			_radio_list[index]->setRx(value);
-			writeLog("change RX state " + _radio_list[index]->getName() + " " + msg, SCREENS);
+			writeLog("change RX state " + _radio_list[index]->getName() + " " + msg);
 			break;
 		case RADIO_SQ:
 			_radio_list[index]->setSQ(value);
-			writeLog("change SQ state " + _radio_list[index]->getName() + " " + msg, SCREENS);
+			writeLog("change SQ state " + _radio_list[index]->getName() + " " + msg);
 			break;
 		default:
 			break;

@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 	engine.rootContext()->setContextProperty("radioList", radio_list);
 	engine.rootContext()->setContextProperty("oiuList", oiu_list);
 	engine.rootContext()->setContextProperty("logModel", log->getLogModel());
-	writeLog("Start OIUC", SCREENS);
+	writeLog("Start OIUC");
 #if QT_VERSION >= 0x050000
 	QString qml_url = "qrc:/";
 	qml_url.append(QString::fromLocal8Bit(QML_GEN_DIR));
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 	qml_url.append(QString::fromLocal8Bit(QML_GEN_DIR));
 	qml_url.append("/Application.qml");
 	engine.setSource(QUrl(qml_url));
-	engine.show();
+	engine.showFullScreen();
 #endif
 	return app.exec();
 }

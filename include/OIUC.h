@@ -5,17 +5,21 @@
 #if QT_VERSION >= 0x050000
 #include <QQuickView>
 #include <QQuickItem>
+#include <QGuiApplication>
 #else
 #include <QDeclarativeView>
 #include <QDeclarativeItem>
+#include <QApplication>
 #endif // QT_VERSION
 
-
+#include <QMouseEvent>
 #include <QDebug>
 #include <QString>
 #include "ctocpp.h"
 #include "backend.h"
 #include "Config.h"
+#include "PTTButton.h"
+#include "Log.h"
 extern "C"
 {
 #include <unistd.h>
@@ -35,6 +39,7 @@ class OIUC : public QDeclarativeItem {
 	Q_OBJECT
 public:
 	static OIUC* getOIUC();
+	static LogModel *logModel;
     void signalLoginStart();
 	void runCallingState(QString msg, int st_code);
     void signalPTTPressed();
@@ -71,7 +76,6 @@ signals:
 	void loggedInChange(QString reason);
     void pTTPressed();
     void pTTReleased();
-public slots:
 private:
 	OIUC();
 	static OIUC *singleton;

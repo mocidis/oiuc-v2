@@ -16,14 +16,14 @@ Log::Log() {
 	max_buffer_line = 3;
 	logModel = new LogModel();
 	logModel->roleNames();
+	connect(this, SIGNAL(wLog(QString)), logModel, SLOT(onWLog(QString)));
 }
 void Log::logs(QString msg) {
 	Config *config = Config::getConfig();
-	logModel->addLog(msg);
+	//logModel->addLog(msg);
+	emit wLog(msg);
 	int maxline = config->getLogMaxLineDisplay();
-	qDebug() << "--------------------" << maxline;
 	if (logModel->rowCount() >= maxline) {
-		qDebug() << "+++++++++++++++++++++++++++++" << maxline;
 		logModel->removeAt(logModel->rowCount() - 1);
 	}
 }
@@ -47,7 +47,10 @@ void Log::run() {
 	QString filenameS="";
 	while(1) {
 		if (!q_log.isEmpty()) {
-			out << q_log.dequeue() << "\n";
+			QString msg = q_log.dequeue();
+			//out << q_log.dequeue() << "\n";
+			out << msg << "\n";
+			logs(msg);
 			_max_buffer_line++;
 			_max_line++;
 		}
@@ -103,9 +106,8 @@ LogModel::LogModel () {
 }
 void LogModel::addLog(QString msg)
 {
-    beginInsertRows(QModelIndex(), rowCount()-1, rowCount()-1);
-	//list.insert(0, msg);
-	list.append(msg);
+    beginInsertRows(QModelIndex(), 0, 0);
+	list.insert(0, msg);
     endInsertRows();
 }
 
@@ -141,26 +143,17 @@ QHash<int, QByteArray> LogModel::roleNames() const {
 }
 #endif
 
+void LogModel::onWLog(QString msg) {
+	addLog(msg);
+}
+
 /**********************************/
-void writeLog(QString msg, int dev) {
-	Log *log = Log::getLog();
+void writeLog(QString msg) {
 	QDateTime currentDate = QDateTime::currentDateTime();
     QString time = currentDate.toString("dd/MM/yy -- hh:mm:ss");
 	QString line = "[";
-	switch (dev) {
-		case SCREENS:
-			line.append(time);
-			line =	line + "] " + msg;
-			log->logs(line);
-			q_log.enqueue(line);
-			break;
-		case FILES:
-			line.append(time);
-			line =	line + "] " + msg;
-			q_log.enqueue(line);
-			break;
-		default:
-			break;
-	}
+	line.append(time);
+	line =	line + "] " + msg;
+	q_log.enqueue(line);
 }
 
