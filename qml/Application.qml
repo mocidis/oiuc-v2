@@ -70,7 +70,7 @@ import PTTButton 1.0
         }
     }
 	Item {
-		id: thanhnt_item
+		id: _PTT_ITEM
 		height: 80
 		visible: appState.login && (hasControlledRadio() || hasControlledOIU())
 		anchors {
@@ -124,7 +124,7 @@ import PTTButton 1.0
 		}
 		PTT {
 			id: pttc
-			pos: Qt.point(_PTTBTN.x + thanhnt_item.x, _PTTBTN.y + thanhnt_item.y)
+			pos: Qt.point(_PTTBTN.x + _PTT_ITEM.x, _PTTBTN.y + _PTT_ITEM.y)
 		}
 	}
     TelephoneKeyboard {

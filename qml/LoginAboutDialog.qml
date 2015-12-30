@@ -61,6 +61,7 @@ DialogCommon {
                             topMargin: 5
                             leftMargin: 5
                         }
+						maximumLength: 15
                         text: ""
                         font.pixelSize: 20
                         MouseArea {
@@ -104,6 +105,7 @@ DialogCommon {
                             topMargin: 5
                             leftMargin: 5
                         }
+						maximumLength: 15
                         text: ""
                         font.pixelSize: 20
                         echoMode:TextInput.Password
