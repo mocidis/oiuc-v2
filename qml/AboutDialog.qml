@@ -4,6 +4,7 @@ DialogCommon {
     id: root
     height: homeForm.height + copyright.height + 100
     captionText: "About"
+	caption.font.pixelSize: 14
     Item {
         anchors {
             fill: parent

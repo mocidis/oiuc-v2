@@ -4,6 +4,7 @@ Rectangle {
     property color buttonColor: "transparent"
     property int fontSize: 9
     property bool masterVolume: false
+	property int flowWidth: 0
     border {
         width: 1
         color: "navy"

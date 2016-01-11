@@ -1,18 +1,38 @@
 @QtQuick
 ToggleButton {
     property variant oItem: null
-    property string sourcePrefix: "../static/Speaker"
+    property string muteText: "d"
+    property string unMuteText: "e"
     property alias iconOpacity: icon.opacity
+	property alias icon: icon
     id: root
     onColor: "navy"
     color: "transparent"
-    Image {
+	Text {
         id: icon
         anchors { centerIn: parent }
         smooth: true
-        width: 20
-        height: 20
-        fillMode: Image.PreserveAspectFit
-        source: parent.sourcePrefix + ((parent.oItem.volume > 0)?"-fill":"-mute-fill") + (parent.value?"-white-small.svg":"-black-small.svg")
+		font {
+			family: iconFont.name
+			pixelSize: 28
+		}
+		text: unMuteText
+	}
+    StateGroup {
+        states: [
+            State {
+                name: "UNMUTE"
+				when: root.oItem.volume > 0
+                PropertyChanges { target: icon; text:unMuteText}
+            },
+            State {
+                name: "MUTE"
+				when: root.oItem.volume <= 0
+                PropertyChanges { target: icon; text:muteText}
+            }
+        ]
+		transitions: Transition {
+			NumberAnimation { property: "opacity"; duration: 300}
+		}
     }
 }

@@ -1,7 +1,8 @@
 @QtQuick
+@QtWindow
 
 PanelCommon {
-    width: 660
+    width: Screen.width
     clip: true
     Flickable {
         id: flickable
@@ -11,7 +12,7 @@ PanelCommon {
                 fill: parent
                 margins: 20
             }
-            spacing: 10
+            spacing: 30
             Repeater {
                 id: repeater
                 model: _ROOT.radios

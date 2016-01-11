@@ -1,6 +1,7 @@
 @QtQuick
 PanelCommon {
 	id: root
+	color: "lightgrey"
     /*ListModel {
         id: logModel
         ListElement {
@@ -26,6 +27,7 @@ PanelCommon {
             width: parent.width
             height: 30
             //color: (index % 2 == 0) ? "white":"#F0F0F0"
+			color: "transparent"
 			Text {
                 anchors {
                     left: parent.left

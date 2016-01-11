@@ -4,10 +4,12 @@ import PTTButton 1.0
 @Window {
     visible: true
     id: _ROOT
-	width: 1280
-    height: 680
+	width: Screen.width
+    height: Screen.height
     property ListModel radios : ModelRadios{}
 	property ListModel oius : ModelOIUs{}
+	property ListModel user : ModelUser{}
+	property ListModel devices: ModelSoundDevice{}
 
     function hasControlledRadio() {
         var ret = false;
@@ -28,10 +30,12 @@ import PTTButton 1.0
     CppLinkage { }
     property QtObject appState: QtObject {
         property bool loginInProgress: false
-        property bool login: oiuc.isLoggedIn()
+        //property bool login: oiuc.isLoggedIn()
+        property bool login: true
     }
 	FontLoader {id: lcdFont; source: "../static/fonts/digital-7 (mono).ttf"}
 	FontLoader {id: appFont; source: "../static/fonts/monaco.ttf"}
+	FontLoader {id: iconFont; source: "../static/fonts/icons-font.ttf"}
     PanelTop {
         id: _TOP
         anchors {
@@ -61,13 +65,17 @@ import PTTButton 1.0
     }
     PanelRight {
         id: _RIGHT
+		width: Screen.width*0.4
+		border.width: 1
         anchors {
             top: _TOP.bottom
             right: parent.right
-            left: _MAIN.right
+            //left: _MAIN.right
             bottom: parent.bottom
             leftMargin: 1
+			bottomMargin: 80
         }
+		state: "dontViewLogPanel"
     }
 	Item {
 		id: _PTT_ITEM
@@ -167,6 +175,42 @@ import PTTButton 1.0
         onClose: visible=false
         visible: false
     }
+	ManageUserDialog {
+		id: _MANAGE_USER_DIALOG
+		width: Screen.width*0.8
+		height: Screen.height*0.8
+		anchors {
+			centerIn: parent
+		}
+		onClose: visible=false
+		visible: false
+	}
+	SoundDevice {
+		id: _SOUND_DEVICE	
+		width: Screen.width*0.2
+		height: Screen.height*0.4
+		visible: false
+		anchors {
+			centerIn: parent
+		}
+		onClose: visible=false
+	}
+	MenuSettings {
+		id: _MENU_SETTINGS
+		color: "grey"
+		width: 180
+		height: 70
+		visible: false
+		border.width: 2
+		border.color: "lightgrey"
+		anchors {
+			top: _TOP.bottom
+			left: _TOP.left
+			topMargin: -1
+			leftMargin: _MENU_SETTINGS.object==null?0:_MENU_SETTINGS.object.x
+		}
+
+	}
     VirtualKeyboard {
         id: _KEYBOARD
         anchors {
@@ -184,7 +228,7 @@ import PTTButton 1.0
         anchors {
             top: _TOP.bottom
             right: _TOP.right
-            rightMargin: (object == null) ? 0:object.anchors.rightMargin
+            rightMargin: (_SLIDER.object == null) ? 0:_SLIDER.flowWidth - _SLIDER.object.x - _SLIDER.width
         }
         visible: object != null
     }
@@ -200,9 +244,28 @@ import PTTButton 1.0
             State {
                 name: "login"
                 when: appState.login
-                PropertyChanges { target: _RIGHT; visible: true }
+                PropertyChanges { target: _RIGHT; visible: false }
                 PropertyChanges { target: _MAIN; visible: true }
             }
         ]
+    }
+    StateGroup {
+        states: [
+            State {
+                name: "viewLogPanel"
+				when: _RIGHT.state=="viewLogPanel"
+                PropertyChanges { target: _RIGHT; visible: true }
+                PropertyChanges { target: _RIGHT; opacity: 1.0}
+            },
+            State {
+                name: "dontViewLogPanel"
+				when: _RIGHT.state=="dontViewLogPanel"
+                PropertyChanges { target: _RIGHT; visible: false }
+                PropertyChanges { target: _RIGHT; opacity: 0.0}
+            }
+        ]
+		transitions: Transition {
+			NumberAnimation { property: "opacity"; duration: 300}
+		}
     }
 }

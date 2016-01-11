@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 	//prepare for oiuc
 	OIUC *oiuc = OIUC::getOIUC();
 	oiuc->prepare();
-	oiuc->start("ntt", "1234");
+	//oiuc->start("ntt", "1234");
 	//make sure log file will be flushed after handle the quit signal of application
 	QObject::connect(&app, SIGNAL(aboutToQuit()), log, SLOT(flushLog()));
 	RadioList *radio_list = RadioList::getRadioListSingleton();

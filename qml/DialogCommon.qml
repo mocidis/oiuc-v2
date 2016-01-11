@@ -26,7 +26,7 @@ Rectangle {
                 verticalCenter: parent.verticalCenter
                 leftMargin: 5
             }
-            font.pixelSize: 24
+            font.pixelSize: 14
             text: "Caption"
         }
         PushButton {

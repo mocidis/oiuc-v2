@@ -6,7 +6,9 @@ Rectangle {
     property variant oModelItem: null
 
     id: root
-    color: "#F0F0F0"
+	//color: "#fff0f0"
+    //color: "#cef8b9"
+	color: "#f0f0f0"
     width: btnArray.width + 2 * itemGap
     height: txtLabel.height + btnArray.height + 2 * itemGap
     border {
@@ -27,14 +29,15 @@ Rectangle {
     }
     Text {
         id: txtLabel
-        text: "ID: " + oModelItem.port + "\n" + oModelItem.description
+        //text: "ID: " + oModelItem.port + "\n" + oModelItem.description
+        text: oModelItem.location + "\n" + oModelItem.description
         anchors {
             left: parent.left
             top: parent.top
             margins: itemGap
         }
         font {
-            pixelSize: 16
+            pixelSize: 14
             bold: true
         }
         color: "lightgray"
@@ -51,7 +54,7 @@ Rectangle {
         }
         ToggleTextButton {
             id: txBtn
-            color: "lightgray"
+            color: "#990000"
             onColor: "darkgray"
             label: "Tx"
             labelColor: "white"
@@ -65,7 +68,7 @@ Rectangle {
         }
         PushTextButton {
             id: rxBtn
-            color: "lightgray"
+            color: "#990000"
             onColor: "darkgray"
             label: "Rx"
             labelColor: "white"
@@ -79,7 +82,7 @@ Rectangle {
         }
         ToggleTextButton {
             id: sqBtn
-            color: "lightgray"
+            color: "#990000"
             onColor: "darkgray"
             label: "SQ"
             labelColor: "white"
@@ -96,7 +99,10 @@ Rectangle {
         id: volume
         height: txtLabel.height
         width: height
-        iconOpacity: value?1:0.5
+        //iconOpacity: value ? 1 : 0.5
+		onColor: "grey"
+		icon.font.pixelSize: 24
+		icon.color: "#990000"
         anchors {
             right: parent.right
             top: parent.top
@@ -120,11 +126,11 @@ Rectangle {
             State {
                 name: "online"
                 when: oModelItem.isOnline
-                PropertyChanges { target: txBtn; labelColor: "black" }
-                PropertyChanges { target: rxBtn; labelColor: "black"; clickable: true }
-                PropertyChanges { target: sqBtn; labelColor: "black" }
+                PropertyChanges { target: txBtn; labelColor: "white" }
+                PropertyChanges { target: rxBtn; labelColor: "white"; clickable: true }
+                PropertyChanges { target: sqBtn; labelColor: "white" }
                 PropertyChanges { target: mouseArea; enabled: true }
-                PropertyChanges { target: txtLabel; color: "blue" }
+                PropertyChanges { target: txtLabel; color: "#990000" }
             },
             State {
                 name: "offline"
@@ -141,7 +147,7 @@ Rectangle {
             State {
                 name: "pttSelected"
                 when: oModelItem.isPTT
-                PropertyChanges { target: root; border.color:"blue" }
+                PropertyChanges { target: root; border.color:"#990000" }
             }
         ]
     }
@@ -150,7 +156,7 @@ Rectangle {
             State {
                 name: "tx"
                 when: oModelItem.isTx
-                PropertyChanges { target: txBtn; color:"green"; labelColor: "white" }
+                PropertyChanges { target: txBtn; color:"#00b300"; labelColor: "white" }
             }
         ]
     }
@@ -159,7 +165,7 @@ Rectangle {
             State {
                 name: "rx"
                 when: oModelItem.isRx
-                PropertyChanges { target: rxBtn; color:"green"; labelColor: "white" }
+                PropertyChanges { target: rxBtn; color:"#00b300"; labelColor: "white" }
             }
         ]
     }
@@ -168,7 +174,7 @@ Rectangle {
             State {
                 name: "sq"
                 when: oModelItem.isSQ
-                PropertyChanges { target: sqBtn; color:"green"; labelColor: "white" }
+                PropertyChanges { target: sqBtn; color:"#00b300"; labelColor: "white" }
             }
         ]
     }

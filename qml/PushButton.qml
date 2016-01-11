@@ -13,8 +13,10 @@ Rectangle {
 
     MouseArea {
         id: mouseArea
-        width: parent.width
+        /*width: parent.width
         height: parent.height
+		*/
+		anchors.fill: parent
         onPressed: {
             parent.pressed();
         }

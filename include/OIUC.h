@@ -70,6 +70,7 @@ public:
 	Q_INVOKABLE bool isLoggedIn();
 
 	Q_INVOKABLE QString getLastDialNumber();
+	Q_INVOKABLE QString getUserName();
 signals:
 	void callingState(QString msg, int st_code);
     void loginStart();

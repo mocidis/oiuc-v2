@@ -11,7 +11,8 @@ OIUC* OIUC:: getOIUC() {
 OIUC::OIUC() {
 	config = Config::getConfig();
 	current_dial_number="000"; 
-	username = "youhavenoname";
+	//username = "youhavenoname";
+	username = "Admin";
 	password = "youhavenopassword";
 	logged_in = false;
 	memset(&app_data, 0, sizeof(app_data_t));
@@ -216,3 +217,6 @@ void OIUC::adjust_master_volume(float incremental) {
     receiver_adjust_master_volume(&app_data.receiver, incremental);
 }
 
+QString OIUC::getUserName() {
+	return username;
+}
