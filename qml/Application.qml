@@ -10,6 +10,7 @@ import PTTButton 1.0
 	property ListModel oius : ModelOIUs{}
 	property ListModel user : ModelUser{}
 	property ListModel devices: ModelSoundDevice{}
+	property ListModel pstn: ModelPSTN{}
 
     function hasControlledRadio() {
         var ret = false;
@@ -44,6 +45,7 @@ import PTTButton 1.0
             right: parent.right
         }
     }
+	
 	PanelMain {
 		id: _MAIN
 		anchors {
@@ -52,9 +54,10 @@ import PTTButton 1.0
 			bottom: parent.bottom
             bottomMargin: 80
 		}
+		state: "halfOfMain"
 	}
     Rectangle {
-        color: "black"
+        color: "white"
         width: 1
         anchors {
             top: _TOP.bottom
@@ -63,6 +66,19 @@ import PTTButton 1.0
             bottom: parent.bottom
         }
     }
+	
+	PanelPSTN {
+		id: _PSTN
+		anchors {
+			top: _TOP.bottom
+			right: parent.right
+			bottom: parent.bottom
+            bottomMargin: 80
+		}
+		//state: "halfOfMain"
+		width: Screen.width/2
+		numCol: 2
+	}
     PanelRight {
         id: _RIGHT
 		width: Screen.width*0.4
@@ -77,8 +93,10 @@ import PTTButton 1.0
         }
 		state: "dontViewLogPanel"
     }
-	Item {
+	Rectangle {
 		id: _PTT_ITEM
+		color: "lightgrey"
+		radius: 8
 		height: 80
 		visible: appState.login && (hasControlledRadio() || hasControlledOIU())
 		anchors {
@@ -88,7 +106,7 @@ import PTTButton 1.0
 		}
 		Rectangle {
 			height: 1
-			color: "black"
+			color: "white"
 			anchors {
 				top: parent.top
 				left: parent.left
@@ -209,7 +227,13 @@ import PTTButton 1.0
 			topMargin: -1
 			leftMargin: _MENU_SETTINGS.object==null?0:_MENU_SETTINGS.object.x
 		}
-
+		Component.onCompleted: {
+			if (oiuc.isAdministrator() == true) {
+				_MENU_SETTINGS.height=70
+			} else {
+				_MENU_SETTINGS.height=35
+			}
+		}
 	}
     VirtualKeyboard {
         id: _KEYBOARD
@@ -268,4 +292,37 @@ import PTTButton 1.0
 			NumberAnimation { property: "opacity"; duration: 300}
 		}
     }
+	StateGroup {
+		states: [
+			State {
+				name: "halfOfMain"
+				when: _MAIN.state=="halfOfMain"
+				PropertyChanges {target: _MAIN; width: Screen.width/2}
+				PropertyChanges {target: _MAIN; numCol: 2}
+				PropertyChanges {target: _MAIN; visible: true}
+				PropertyChanges {target: _PSTN; width: Screen.width/2}
+				PropertyChanges {target: _PSTN; numCol: 2}
+				PropertyChanges {target: _PSTN; visible: true}
+			},
+			State {
+				name: "fullOfMain"	
+				when: _MAIN.state=="fullOfMain"
+				PropertyChanges {target: _MAIN; width: Screen.width}
+				PropertyChanges {target: _MAIN; numCol: 4}
+				PropertyChanges {target: _MAIN; visible: true}
+				PropertyChanges {target: _PSTN; visible: false}
+			},
+			State {
+				name: "fullOfPSTN"
+				when: _PSTN.state=="fullOfPSTN"
+				PropertyChanges {target: _PSTN; width: Screen.width}
+				PropertyChanges {target: _PSTN; numCol: 4}
+				PropertyChanges {target: _PSTN; visible: true}
+				PropertyChanges {target: _MAIN; visible: false}
+			}
+		]
+		transitions: Transition {
+			 NumberAnimation { property: "width"; duration: 100}
+		}
+	}
 }

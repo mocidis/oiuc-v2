@@ -20,17 +20,6 @@ Item {
         }
         onCallingState: {
             _CALLDIALOG.text = msg;
-
-            /*****
-            0 PJSIP_INV_STATE_NULL     Before INVITE is sent or received 
-            1 PJSIP_INV_STATE_CALLING     After INVITE is sent
-            2 PJSIP_INV_STATE_INCOMING     After INVITE is received.
-            3 PJSIP_INV_STATE_EARLY     After response with To tag.
-            4 PJSIP_INV_STATE_CONNECTING     After 2xx is sent/received.
-            5 PJSIP_INV_STATE_CONFIRMED     After ACK is sent/received.
-            6 PJSIP_INV_STATE_DISCONNECTED     Session is terminated. 
-            *****/
-
             if (st_code == 2) {
                 _CALLDIALOG.dialogState = 2; 
             } else if ( st_code == 0) {
@@ -57,8 +46,10 @@ Item {
         onUpdateRadioList: {
             if (mIndex == -1) {
                 radios.append({
+					"id": id,
                     "name": name, 
 					"description": desc,
+					"freq": freq,
 					"port": port,
                     "isOnline": bOnline,
                     "isPTT": false,
@@ -74,6 +65,7 @@ Item {
                 radios.setProperty(mIndex, "isTx", bTx);
                 radios.setProperty(mIndex, "isRx", bRx);
                 radios.setProperty(mIndex, "isSQ", bSQ);
+				//radios.setProperty(mIndex, "freq", freq);
                 //radios.setProperty(mIndex, "volume", rVolume);
             }
         }
@@ -83,9 +75,10 @@ Item {
         onUpdateOIUList: {
             if (mIndex == -1) {
                 oius.append({
+					"id": id,
 					"name": name,
 					"description": desc,
-					"port": name,
+					//"port": name,
                     "isOnline": bOnline,
                     "isPTT": false,
                     "isTx": bTx,
@@ -96,7 +89,7 @@ Item {
                 });
             } else {
                 oius.setProperty(mIndex, "name", name);
-                oius.setProperty(mIndex, "port", name);
+                //oius.setProperty(mIndex, "port", name);
                 oius.setProperty(mIndex, "isOnline", bOnline);
                 oius.setProperty(mIndex, "isTx", bTx);
                 oius.setProperty(mIndex, "isRx", bRx);

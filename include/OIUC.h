@@ -71,6 +71,7 @@ public:
 
 	Q_INVOKABLE QString getLastDialNumber();
 	Q_INVOKABLE QString getUserName();
+	Q_INVOKABLE bool isAdministrator();
 signals:
 	void callingState(QString msg, int st_code);
     void loginStart();

@@ -1,6 +1,6 @@
 @QtQuick
 import QtQuick.Controls 1.4
-import QtQuick.Window 2.2
+@QtWindow
 
 PanelCommon {
     property int itemWidth: 120
@@ -37,6 +37,25 @@ PanelCommon {
             onClicked: { 
                 _TELKB.visible = _ROOT.appState.login?(!_TELKB.visible):false;
             }
+        }
+        PushTextButton {
+            color: "transparent"
+            onColor: "navy"
+            width: labelWidth + 60
+            height: root.height
+            label: "Split"
+            labelColor: isPressed?"white":"black"
+            onClicked: { 
+				if (_MAIN.state=="halfOfMain") {
+					_MAIN.state="fullOfMain"
+				} else if (_MAIN.state=="fullOfMain") {
+					_MAIN.state="halfOfMain"
+				}
+            }
+			onDoubleClicked: {
+				_PSTN.state="fullOfPSTN"	
+				console.log("double clicked");
+			}
         }
 		PushTextButton {
 			property bool flag:	false 
@@ -102,10 +121,8 @@ PanelCommon {
 				console.log("Toggle Log Panel");
 				if (_RIGHT.state == "viewLogPanel") {
 					_RIGHT.state="dontViewLogPanel";
-					console.log("not");
 				} else {
 					_RIGHT.state="viewLogPanel";
-					console.log("yes");
 				}
 			}
 		}

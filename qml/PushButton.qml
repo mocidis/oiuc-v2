@@ -3,6 +3,7 @@
 Rectangle {
     signal pressed()
     signal clicked()
+    signal doubleClicked()
     signal longClicked()
 	signal released();
     property color onColor: "lightgray"
@@ -23,6 +24,9 @@ Rectangle {
         onClicked: {
             parent.clicked();
         }
+		onDoubleClicked: {
+			parent.doubleClicked();		
+	 	}
         onPressAndHold: {
             parent.longClicked();
         }

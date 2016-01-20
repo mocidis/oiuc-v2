@@ -30,7 +30,7 @@ Rectangle {
     Text {
         id: txtLabel
         //text: "ID: " + oModelItem.port + "\n" + oModelItem.description
-        text: oModelItem.location + "\n" + oModelItem.description
+        text: oModelItem.location + "\n" + oModelItem.name
         anchors {
             left: parent.left
             top: parent.top

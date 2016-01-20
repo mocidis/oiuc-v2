@@ -30,10 +30,12 @@
         <file>@QML_GEN_DIR/VolumeControl.qml</file>
         <file>@QML_GEN_DIR/ManageUserDialog.qml</file>
         <file>@QML_GEN_DIR/ModelUser.qml</file>
-        <file>@QML_GEN_DIR/RadioModel.qml</file>
         <file>@QML_GEN_DIR/SoundDevice.qml</file>
         <file>@QML_GEN_DIR/ModelSoundDevice.qml</file>
         <file>@QML_GEN_DIR/MenuSettings.qml</file>
+        <file>@QML_GEN_DIR/PanelPSTN.qml</file>
+        <file>@QML_GEN_DIR/ModelPSTN.qml</file>
+        <file>@QML_GEN_DIR/PSTNView.qml</file>
         <file>static/backspace-fill-black-small.svg</file>
         <file>static/backspace-fill-white-small.svg</file>
         <file>static/BottomShader.svg</file>

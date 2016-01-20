@@ -1,3 +1,4 @@
+
 @QtQuick
 @QtWindow
 
@@ -16,22 +17,14 @@ PanelCommon {
             spacing: 30
             Repeater {
                 id: repeater
-                model: _ROOT.radios
-                delegate: RadioView {
+                model: _ROOT.pstn
+                delegate: PSTNView {
                     btnSize: 80
-                    oModelItem: _ROOT.radios.get(index)
-                }
-            }
-            Repeater {
-                id: repeater_oiu
-                model: _ROOT.oius
-                delegate: OIUView {
-                    btnSize: 80
-                    oModelItem: _ROOT.oius.get(index)
+                    oModelItem: _ROOT.pstn.get(index)
                 }
             }
         }
-        contentHeight: 160 * (repeater.count + repeater_oiu.count + 1) / numCol
+        contentHeight: 160 * (repeater.count + 1) / numCol
     }
     ScrollBar {
         scrollArea: flickable

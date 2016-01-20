@@ -220,3 +220,15 @@ void OIUC::adjust_master_volume(float incremental) {
 QString OIUC::getUserName() {
 	return username;
 }
+bool OIUC::isAdministrator() {
+	//return isAdmin;
+	/*
+	if (username == "admin" && isLoggedIn()) {
+		return true;
+	} else {
+		return false;	
+	}
+	*/
+	//temporary return
+	return true;
+}

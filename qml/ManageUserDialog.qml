@@ -64,7 +64,10 @@ DialogCommon {
 			}
 			MouseArea {
 				anchors.fill: parent
-				onClicked: userView.currentIndex = index
+				onClicked: {
+					userView.currentIndex = index
+					console.log("User current index: " + index + "  " + _ROOT.user.get(index).name);
+				}
 			}
 		}
 	}
@@ -85,7 +88,7 @@ DialogCommon {
 		model: _ROOT.oius
 		delegate: userComponent
 		clip: true
-		focus: true
+		//focus: true
 		highlight: Rectangle { color: "lightsteelblue"; radius: 8}
 	}
 	ScrollBar {
@@ -96,11 +99,14 @@ DialogCommon {
             bottom: userView.bottom
         }
 	}
-
-	PanelCommon {
-		id: radioView
-		width: parent.width*0.3
-		clip: true
+	//thanhnt
+	Component.onCompleted: {
+		radioLoader.sourceComponent=radioComponent	
+		oiuLoader.sourceComponent=oiuComponent	
+	}
+	Loader {
+		id: radioLoader
+		//sourceComponent: radioComponent 
 		anchors {
 			top: parent.top
 			left: parent.left
@@ -109,56 +115,66 @@ DialogCommon {
 			topMargin: 95
 			bottomMargin: 70
 		}
-		Flickable {
-			id: radioFlick
-			anchors { fill: parent }
-			Flow {
-				anchors { 
-					fill: parent
-				}
-				spacing: 2
-				Repeater {
-					id: radioRepeater
-					model: _ROOT.radios
-					delegate: Rectangle {
-						width: radioView.width
-						height: 30
-						color: "transparent"
-						radius: 8
-						Text {
-							width: parent.width
-							anchors.centerIn: parent
-							elide: Text.ElideMiddle
-							text: "   " + _ROOT.radios.get(index).description + " #" + _ROOT.radios.get(index).port + " "
-							font.pixelSize: 14
-						}
-						MouseArea {
-							anchors.fill: parent
-							onClicked: {
-								parent.color="lightsteelblue"	
+	}
+	Component {
+		id: radioComponent
+		PanelCommon {
+			id: radioView
+			width: root.width*0.3
+			clip: true
+			Flickable {
+				id: radioFlick
+				anchors { fill: parent }
+				Flow {
+					anchors { 
+						fill: parent
+					}
+					spacing: 2
+					Repeater {
+						id: radioRepeater
+						model: _ROOT.radios
+						delegate: Rectangle {
+							width: radioView.width
+							height: 30
+							color: "transparent"
+							radius: 8
+							Text {
+								width: parent.width
+								anchors.centerIn: parent
+								elide: Text.ElideMiddle
+								text: "   " + _ROOT.radios.get(index).description + " #" + _ROOT.radios.get(index).port + " "
+								font.pixelSize: 14
 							}
-							onDoubleClicked: {
-								parent.color="transparent"		
-						    }
+							MouseArea {
+								anchors.fill: parent
+								onClicked: {
+									parent.color="lightsteelblue";
+									//list_of_radio= _ROOT.radios.get(index).description + "#" + _ROOT.radios.get(index).port;
+									//manageUser.appendRadio(radio_id);
+								}
+								onDoubleClicked: {
+									parent.color="transparent"
+									//manageUser.removeRadio(radio_id);
+								}
+							}
 						}
 					}
 				}
+				contentHeight: 35 * (radioRepeater.count + 1) 
 			}
-			contentHeight: 35 * (radioRepeater.count + 1) 
-		}
-		ScrollBar {
-			scrollArea: radioFlick
-			anchors { 
-				right: radioFlick.right
-				bottom: radioFlick.bottom
-				top: radioFlick.top
+			ScrollBar {
+				scrollArea: radioFlick
+				anchors { 
+					right: radioFlick.right
+					bottom: radioFlick.bottom
+					top: radioFlick.top
+				}
 			}
 		}
 	}
-	PanelCommon {
-		id: oiuView
-		width: parent.width*0.3
-		clip: true
+	Loader {
+		id: oiuLoader
+		//sourceComponent: oiuComponent	
 		anchors {
 			top: parent.top
 			left: parent.left
@@ -167,49 +183,59 @@ DialogCommon {
 			topMargin: 95
 			bottomMargin: 70
 		}
-		Flickable {
-			id: oiuFlick
-			anchors { fill: parent }
-			Flow {
-				anchors { 
-					fill: parent
-				}
-				spacing: 2
-				Repeater {
-					id: oiuRepeater
-					model: _ROOT.oius
-					delegate: Rectangle {
-						width: oiuView.width
-						height: 30
-						color: "transparent"
-						radius: 8
-						Text {
-							width: parent.width
-							anchors.centerIn: parent
-							elide: Text.ElideMiddle
-							text: "   " + _ROOT.oius.get(index).description + " "
-							font.pixelSize: 14
-						}
-						MouseArea {
-							anchors.fill: parent
-							onClicked: {
-								parent.color="lightsteelblue"	
+	}
+	Component {
+		id: oiuComponent
+		PanelCommon {
+			id: oiuView
+			width: root.width*0.3
+			clip: true
+			Flickable {
+				id: oiuFlick
+				anchors { fill: parent }
+				Flow {
+					anchors { 
+						fill: parent
+					}
+					spacing: 2
+					Repeater {
+						id: oiuRepeater
+						model: _ROOT.oius
+						delegate: Rectangle {
+							width: oiuView.width
+							height: 30
+							color: "transparent"
+							radius: 8
+							Text {
+								width: parent.width
+								anchors.centerIn: parent
+								elide: Text.ElideMiddle
+								text: "   " + _ROOT.oius.get(index).description + " "
+								font.pixelSize: 14
 							}
-							onDoubleClicked: {
-								parent.color="transparent"		
-						    }
+							MouseArea {
+								anchors.fill: parent
+								onClicked: {
+									parent.color="lightsteelblue"	
+									//manageUser.addOIU(oiu_username);
+								}
+								onDoubleClicked: {
+									parent.color="transparent"		
+									//manageUser.removeOIU(oiu_username);
+								}
+							}
 						}
 					}
 				}
+				contentHeight: 35 * (oiuRepeater.count + 1) 
 			}
-			contentHeight: 35 * (oiuRepeater.count + 1) 
-		}
-		ScrollBar {
-			scrollArea: oiuFlick
-			anchors { 
-				right: oiuFlick.right
-				bottom: oiuFlick.bottom
-				top: oiuFlick.top
+			ScrollBar {
+				scrollArea: oiuFlick
+				anchors { 
+					right: oiuFlick.right
+					bottom: oiuFlick.bottom
+					top: oiuFlick.top
+				}
 			}
 		}
 	}
