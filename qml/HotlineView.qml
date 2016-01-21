@@ -6,7 +6,7 @@ Rectangle {
     property int itemGap: btnSize * 0.2
     property variant oModelItem: null
 	property int callState: 0
-
+	property bool isInCommingCall: false
 	color: "#f0f0f0"
     //width: btnArrayLoader.width + 2 * itemGap
     width: 304
@@ -58,10 +58,7 @@ Rectangle {
 				width: parent.width
 				height: parent.height
 				onClicked: {
-					btnArrayLoader.sourceComponent=btnArrayComponent3;
 					oiuc.call(oModelItem.phone);
-					//callState=2
-					sequential.start();
 				}
 			}
 		}
@@ -83,7 +80,6 @@ Rectangle {
 				width: parent.width*0.4
 				height: parent.height
 				onClicked: {
-					btnArrayLoader.sourceComponent=btnArrayComponent3;
 					oiuc.answerCall();
 				}
 			}
@@ -99,7 +95,6 @@ Rectangle {
 				width: parent.width * 0.4
 				height: parent.height
 				onClicked: {
-					btnArrayLoader.sourceComponent=btnArrayComponent1;
 					oiuc.hangupCall();
 				}
 			}
@@ -123,7 +118,6 @@ Rectangle {
 				width: parent.width
 				height: parent.height
 				onClicked: {
-					btnArrayLoader.sourceComponent=btnArrayComponent1;
 					oiuc.hangupCall();
 				}
 			}
@@ -145,11 +139,11 @@ Rectangle {
 		text: "j"
 	}
 	SequentialAnimation on color {
-		id: sequential
+		id: establishConnection
 		running: false
 		loops: Animation.Infinite	
-	    ColorAnimation {target: iconStatus; property: "color"; from: "gray"; to: "green"; duration: 200}
-	    ColorAnimation {target: iconStatus; property: "color"; from: "green"; to: "gray"; duration: 200}
+	    ColorAnimation {target: iconStatus; property: "color"; from: "gray"; to: "yellow"; duration: 200}
+	    ColorAnimation {target: iconStatus; property: "color"; from: "yellow"; to: "gray"; duration: 200}
 	}	
     StateGroup {
         states: [
@@ -167,12 +161,44 @@ Rectangle {
                 name: "connected"
                 when: callState == 2
                 PropertyChanges { target: iconStatus; color: "green" }
-            }
+            }, 
+            State {
+                name: "nothing"
+                when: callState == 3
+            } 
         ]
-		transitions: Transition {
-			from: "normal"	
-			to: "connected"
-			ColorAnimation {duration: 300}
+    }
+    Connections {
+        target: oiuc
+        onCallingState: {
+			console.log(remoteUser + "---------" + oModelItem.phone);
+			if (remoteUser == oModelItem.phone) {
+				if (st_code == 0 || st_code == 6) {
+					establishConnection.stop();
+					callState=0	
+					_CALLDIALOG.dialogState = 0; 
+					_CALLDIALOG.text = msg;
+					btnArrayLoader.sourceComponent=btnArrayComponent1;
+					isInCommingCall=false;
+				} else if (st_code == 1 || st_code == 3 || st_code == 4) {
+					btnArrayLoader.sourceComponent=btnArrayComponent3;
+					establishConnection.start();
+					callState=3
+				} else if (st_code == 5) {
+					establishConnection.stop();	
+					if (isInCommingCall == true) {
+						_CALLDIALOG.dialogState = 3; 
+						_CALLDIALOG.text = msg;
+					}
+					callState=2
+				} else if (st_code == 2) {
+					isInCommingCall=true;
+					establishConnection.start();	
+					_CALLDIALOG.dialogState = 2; 
+					_CALLDIALOG.text = msg;
+					callState=3;
+				}
+			}
 		}
     }
 }

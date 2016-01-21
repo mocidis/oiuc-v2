@@ -84,3 +84,41 @@ void loadGeneralConfig(Config *config, QString backend_location) {
 	}
 	QSqlDatabase::removeDatabase(backend_location);
 }
+void loadHotlineModel(HotlineList *hotlineList, QString backend_location) {
+	{
+		QSqlDatabase db;
+		if (QSqlDatabase::contains("ics-database")) {
+			db = QSqlDatabase::database("ics-database");
+		} else {
+            qDebug() << "------- try to open databases";
+            db = QSqlDatabase::addDatabase("QSQLITE", "ics-database");
+			db.setDatabaseName(backend_location);
+			db.open();
+        }
+		if (!db.isOpen()) {
+            qDebug() << "------- cannot open databases";
+			exit (EXIT_FAILURE);
+		}
+		QString command = "select * from ics_hotline";
+		QSqlQuery query = db.exec(command);
+		QString name = "default hotline name";
+		QString desc = "default hotline desc";
+		QString location = "unknown";
+		QString phone = "111";
+		QString freq = "100 Mhz";
+		double volume = 0.5;
+        while (query.next()) {
+			name = query.value(0).toString();
+			desc = query.value(1).toString();
+			location = query.value(2).toString();
+			phone = query.value(3).toString();
+			freq = query.value(4).toString();
+			volume = query.value(5).toDouble();
+			Hotline *hotline = new Hotline(name, desc, location, phone, freq, volume);
+			hotlineList->addHotline(hotline);
+			qDebug() << "name:" << name;
+		}
+        query.finish();
+        db.close();
+	}
+}

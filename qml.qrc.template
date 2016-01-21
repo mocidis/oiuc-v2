@@ -33,9 +33,9 @@
         <file>@QML_GEN_DIR/SoundDevice.qml</file>
         <file>@QML_GEN_DIR/ModelSoundDevice.qml</file>
         <file>@QML_GEN_DIR/MenuSettings.qml</file>
-        <file>@QML_GEN_DIR/PanelPSTN.qml</file>
-        <file>@QML_GEN_DIR/ModelPSTN.qml</file>
-        <file>@QML_GEN_DIR/PSTNView.qml</file>
+        <file>@QML_GEN_DIR/PanelHotline.qml</file>
+        <file>@QML_GEN_DIR/ModelHotline.qml</file>
+        <file>@QML_GEN_DIR/HotlineView.qml</file>
         <file>static/backspace-fill-black-small.svg</file>
         <file>static/backspace-fill-white-small.svg</file>
         <file>static/BottomShader.svg</file>

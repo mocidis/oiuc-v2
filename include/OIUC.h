@@ -20,6 +20,7 @@
 #include "Config.h"
 #include "PTTButton.h"
 #include "Log.h"
+#include "Hotline.h"
 extern "C"
 {
 #include <unistd.h>
@@ -41,7 +42,7 @@ public:
 	static OIUC* getOIUC();
 	static LogModel *logModel;
     void signalLoginStart();
-	void runCallingState(QString msg, int st_code);
+	void runCallingState(QString remoteUser, QString msg, int st_code);
     void signalPTTPressed();
     void signalPTTReleased();
 	app_data_t *getAppData();
@@ -72,8 +73,9 @@ public:
 	Q_INVOKABLE QString getLastDialNumber();
 	Q_INVOKABLE QString getUserName();
 	Q_INVOKABLE bool isAdministrator();
+	Q_INVOKABLE void loadHotline();
 signals:
-	void callingState(QString msg, int st_code);
+	void callingState(QString remoteUser, QString msg, int st_code);
     void loginStart();
 	void loggedInChange(QString reason);
     void pTTPressed();

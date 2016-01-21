@@ -168,8 +168,8 @@ void OIUC::signalPTTReleased() {
     emit pTTReleased();
 }
 
-void OIUC::runCallingState(QString msg, int st_code) {
-	emit callingState(msg, st_code);
+void OIUC::runCallingState(QString remoteUser, QString msg, int st_code) {
+	emit callingState(remoteUser, msg, st_code);
 }
 app_data_t *OIUC::getAppData() {
 	return &app_data;
@@ -231,4 +231,8 @@ bool OIUC::isAdministrator() {
 	*/
 	//temporary return
 	return true;
+}
+void OIUC::loadHotline() {
+	HotlineList *hotlineList = HotlineList::getHotlineListSingleton();
+	loadHotlineModel(hotlineList, "databases/oiuc.db");
 }

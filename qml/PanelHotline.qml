@@ -17,14 +17,14 @@ PanelCommon {
             spacing: 30
             Repeater {
                 id: repeater
-                model: _ROOT.pstn
-                delegate: PSTNView {
+                model: _ROOT.hotline
+                delegate: HotlineView {
                     btnSize: 80
-                    oModelItem: _ROOT.pstn.get(index)
+                    oModelItem: _ROOT.hotline.get(index)
                 }
             }
         }
-        contentHeight: 160 * (repeater.count + 1) / numCol
+        contentHeight: 174 * Math.floor((repeater.count + 1) / numCol)
     }
     ScrollBar {
         scrollArea: flickable

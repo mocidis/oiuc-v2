@@ -37,6 +37,9 @@ int main(int argc, char *argv[])
 #else
     loadGeneralConfig(config, "databases/oiuc.db");
 #endif
+	HotlineList *hotlineList = HotlineList::getHotlineListSingleton();	
+	//loadHotlineModel(hotlineList, "databases/oiuc.db");
+
 	Log *log = Log::getLog();
 	log->setFilename(config->getLogDir() + "oiuc.log");
 	log->start();
@@ -52,6 +55,7 @@ int main(int argc, char *argv[])
 	engine.rootContext()->setContextProperty("radioList", radio_list);
 	engine.rootContext()->setContextProperty("oiuList", oiu_list);
 	engine.rootContext()->setContextProperty("logModel", log->getLogModel());
+	engine.rootContext()->setContextProperty("hotlineList", hotlineList);
 	writeLog("Start OIUC");
 #if QT_VERSION >= 0x050000
 	QString qml_url = "qrc:/";

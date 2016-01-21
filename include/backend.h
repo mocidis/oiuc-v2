@@ -4,5 +4,7 @@
 #include <QtCore>
 #include "Log.h"
 #include "Config.h"
+#include "Hotline.h"
 void loadGeneralConfig(Config *config, QString backend_location);
+void loadHotlineModel(HotlineList *hotlineList, QString backend_location);
 #endif

@@ -27,6 +27,7 @@ PanelCommon {
 				_ABOUTDIALOG.visible = true;
 			}
 		}
+		/*
         PushTextButton {
             color: "transparent"
             onColor: "navy"
@@ -38,6 +39,7 @@ PanelCommon {
                 _TELKB.visible = _ROOT.appState.login?(!_TELKB.visible):false;
             }
         }
+		*/
         PushTextButton {
             color: "transparent"
             onColor: "navy"
@@ -52,10 +54,6 @@ PanelCommon {
 					_MAIN.state="halfOfMain"
 				}
             }
-			onDoubleClicked: {
-				_PSTN.state="fullOfPSTN"	
-				console.log("double clicked");
-			}
         }
 		PushTextButton {
 			property bool flag:	false 
@@ -93,16 +91,11 @@ PanelCommon {
 			top: parent.top
 	   	}
 		PushIconTextButton {
-			color: "transparent"
+			//color: "transparent"
 			onColor: "navy"
 			width: labelWidth + 60
 			height: root.height
-			//label: oiuc.getUserName() 
-			//label: "Sỹ quan Liên lạc 3"
-			//label: "Sỹ quan Dẫn đường 5"
-			//label: "Sỹ quan Thông tin 1"
-			label: "Administrator"
-			//textBold: false
+			label: oiuc.getUserName() 
 			labelColor: isPressed?"white":"black"
 			onClicked: {
 				console.log("User Information");

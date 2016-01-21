@@ -16,7 +16,8 @@ CPP_SRC:= ./src/ctocpp.cpp \
 		  ./src/RadioList.cpp \
 		  ./src/OIU.cpp \
 		  ./src/OIUList.cpp \
-		  ./src/PTTButton.cpp
+		  ./src/PTTButton.cpp \
+		  ./src/Hotline.cpp
 
 GEN_SRC:= gen/gm-client.c \
 		  gen/gmc-server.c \

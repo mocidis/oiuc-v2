@@ -18,7 +18,17 @@ Item {
             }
             _LOGINDIALOG.reasonMsg = reason;
         }
-        onCallingState: {
+
+	  /*****
+		0 PJSIP_INV_STATE_NULL     Before INVITE is sent or received 
+		1 PJSIP_INV_STATE_CALLING     After INVITE is sent
+		2 PJSIP_INV_STATE_INCOMING     After INVITE is received.
+		3 PJSIP_INV_STATE_EARLY     After response with To tag.
+		4 PJSIP_INV_STATE_CONNECTING     After 2xx is sent/received.
+		5 PJSIP_INV_STATE_CONFIRMED     After ACK is sent/received.
+		6 PJSIP_INV_STATE_DISCONNECTED     Session is terminated. 
+	   *****/
+        /*onCallingState: {
             _CALLDIALOG.text = msg;
             if (st_code == 2) {
                 _CALLDIALOG.dialogState = 2; 
@@ -31,7 +41,7 @@ Item {
             } else if (st_code == 6) {
                 _CALLDIALOG.dialogState = 0;    
             }
-        }
+        }*/
         onPTTPressed: {
             console.log(" ---- PTT pressed\n");
             _PTTBTN.clicked(null);
@@ -98,4 +108,10 @@ Item {
             }
         }
     }
+	Connections {
+		target: hotlineList			
+		onUpdateHotline: {
+			hotline.append({"name": name, "description": desc, "location":location, "phone":phone, "freq":freq, "volume":volume});		
+		}
+	}
 }

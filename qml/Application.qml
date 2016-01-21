@@ -10,7 +10,7 @@ import PTTButton 1.0
 	property ListModel oius : ModelOIUs{}
 	property ListModel user : ModelUser{}
 	property ListModel devices: ModelSoundDevice{}
-	property ListModel pstn: ModelPSTN{}
+	property ListModel hotline: ModelHotline{}
 
     function hasControlledRadio() {
         var ret = false;
@@ -67,15 +67,14 @@ import PTTButton 1.0
         }
     }
 	
-	PanelPSTN {
-		id: _PSTN
+	PanelHotline {
+		id: _HOTLINE
 		anchors {
 			top: _TOP.bottom
 			right: parent.right
 			bottom: parent.bottom
             bottomMargin: 80
 		}
-		//state: "halfOfMain"
 		width: Screen.width/2
 		numCol: 2
 	}
@@ -263,6 +262,7 @@ import PTTButton 1.0
                 when: !appState.login
                 PropertyChanges { target: _RIGHT; visible: false }
                 PropertyChanges { target: _MAIN; visible: false }
+                PropertyChanges { target: _HOTLINE; visible: false }
                 PropertyChanges { target: _LOGINDIALOG; visible: true }
             },
             State {
@@ -270,6 +270,7 @@ import PTTButton 1.0
                 when: appState.login
                 PropertyChanges { target: _RIGHT; visible: false }
                 PropertyChanges { target: _MAIN; visible: true }
+                PropertyChanges { target: _HOTLINE; visible: true }
             }
         ]
     }
@@ -300,9 +301,9 @@ import PTTButton 1.0
 				PropertyChanges {target: _MAIN; width: Screen.width/2}
 				PropertyChanges {target: _MAIN; numCol: 2}
 				PropertyChanges {target: _MAIN; visible: true}
-				PropertyChanges {target: _PSTN; width: Screen.width/2}
-				PropertyChanges {target: _PSTN; numCol: 2}
-				PropertyChanges {target: _PSTN; visible: true}
+				PropertyChanges {target: _HOTLINE; width: Screen.width/2}
+				PropertyChanges {target: _HOTLINE; numCol: 2}
+				PropertyChanges {target: _HOTLINE; visible: true}
 			},
 			State {
 				name: "fullOfMain"	
@@ -310,19 +311,14 @@ import PTTButton 1.0
 				PropertyChanges {target: _MAIN; width: Screen.width}
 				PropertyChanges {target: _MAIN; numCol: 4}
 				PropertyChanges {target: _MAIN; visible: true}
-				PropertyChanges {target: _PSTN; visible: false}
-			},
-			State {
-				name: "fullOfPSTN"
-				when: _PSTN.state=="fullOfPSTN"
-				PropertyChanges {target: _PSTN; width: Screen.width}
-				PropertyChanges {target: _PSTN; numCol: 4}
-				PropertyChanges {target: _PSTN; visible: true}
-				PropertyChanges {target: _MAIN; visible: false}
+				PropertyChanges {target: _HOTLINE; visible: false}
 			}
 		]
 		transitions: Transition {
 			 NumberAnimation { property: "width"; duration: 100}
 		}
+	}
+	Component.onCompleted: {
+		oiuc.loadHotline();
 	}
 }

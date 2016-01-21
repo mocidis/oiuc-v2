@@ -118,25 +118,47 @@ void on_incoming_call_impl(int account_id, int call_id, int st_code, char *remot
     Q_UNUSED(call_id);
     Q_UNUSED(local_contact);
 	QString msg = QString::fromUtf8(remote_contact);
+	QString remoteUser = QString::fromUtf8(remote_contact);
+	remoteUser = QString::fromUtf8(remote_contact);
+	QStringList list = remoteUser.split(":");
+	remoteUser=list[1];
+	list = remoteUser.split("@");
+	remoteUser=list[0];
+
 	OIUC *dial = OIUC::getOIUC();
-	dial->runCallingState(msg, st_code);
+	dial->runCallingState(remoteUser, msg, st_code);
 }
 
-void on_call_state_impl(int call_id, int st_code, char *st_text) {
+void on_call_state_impl(int call_id, int st_code, char *st_text, char *remote_contact) {
     Q_UNUSED(call_id);
 	QString msg = QString::fromUtf8(st_text);
+	QString remoteUser = QString::fromUtf8(remote_contact);
+	remoteUser = QString::fromUtf8(remote_contact);
+	QStringList list = remoteUser.split(":");
+	remoteUser=list[1];
+	list = remoteUser.split("@");
+	remoteUser=list[0];
+
 	OIUC *dial = OIUC::getOIUC();
-	dial->runCallingState(msg, st_code);
+	dial->runCallingState(remoteUser, msg, st_code);
+
 }
 
-void on_call_transfer_impl(int call_id, int st_code, char *st_text) {
+void on_call_transfer_impl(int call_id, int st_code, char *st_text, char *remote_contact) {
     Q_UNUSED(call_id);  
 	QString msg = QString::fromUtf8(st_text);
+	QString remoteUser = QString::fromUtf8(remote_contact);
+	remoteUser = QString::fromUtf8(remote_contact);
+	QStringList list = remoteUser.split(":");
+	remoteUser=list[1];
+	list = remoteUser.split("@");
+	remoteUser=list[0];
+
 	OIUC *dial = OIUC::getOIUC();
-	dial->runCallingState(msg, st_code);
+	dial->runCallingState(remoteUser, msg, st_code);
 }
 
-void on_call_media_state_impl(int call_id, int st_code) {
+void on_call_media_state_impl(int call_id, int st_code, char *remote_contact) {
 	printf("Call id: %d\n", call_id);
 	printf("Status: %d\n", st_code);
 }
