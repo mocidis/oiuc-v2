@@ -74,6 +74,7 @@ public:
 	Q_INVOKABLE QString getUserName();
 	Q_INVOKABLE bool isAdministrator();
 	Q_INVOKABLE void loadHotline();
+	void updateEndpoint(int deviceIdx);
 signals:
 	void callingState(QString remoteUser, QString msg, int st_code);
     void loginStart();
@@ -95,6 +96,5 @@ private:
 	QString gmc_cs; //connection string
 	QString adv_cs; //connection string
 };
-
 
 #endif  //end of __OIUC_H__

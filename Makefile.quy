@@ -31,7 +31,7 @@ EP_SRCS:=endpoint.c
 GEN_DIR:=gen
 GEN_SRCS:=gm-client.c gmc-server.c adv-server.c gb-server.c
 
-JSONC_DIR:=../json-c/output
+JSONC_DIR:=../libs/linux-i686/
 
 HT_DIR:=../hash-table
 HT_SRCS:=hash-table.c
@@ -39,7 +39,7 @@ HT_SRCS:=hash-table.c
 CFLAGS:=-std=c99 $(shell pkg-config --cflags libpjproject) -fms-extensions
 CFLAGS+=-I$(ICS_DIR)/include -I$(Q_DIR)/include -I$(O_DIR)/include
 CFLAGS+=-I$(C_DIR)/include
-CFLAGS+=-I../json-c/output/include/json-c
+CFLAGS+=-I$(JSONC_DIR)/include/json-c
 CFLAGS+=-I$(PROTOCOLS_DIR)/include
 CFLAGS+=-I$(GEN_DIR)
 CFLAGS+=-I$(NODE_DIR)/include

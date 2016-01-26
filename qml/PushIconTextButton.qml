@@ -1,28 +1,63 @@
 @QtQuick
 PushButton {
-    property alias label: txtLabel.text
-    property alias labelColor: txtLabel.color
-    property alias font: txtLabel.font
-    property alias labelWidth: txtLabel.width
-	property alias textBold: txtLabel.font.bold
-	property alias txtLabel: txtLabel
-	Flow {
-		spacing: 0
-	   	anchors {
-			centerIn: parent
-	   	}
-		Text {
-			id: icon;
-			text: "b"
-			font {
-				family: iconFont.name
-				pixelSize: 28
+	property string label: "Ok"
+	property string labelColor: "black"
+	property string iconSide: "left"
+	property alias labelWidth: loader.width
+	clip: true
+	Loader {
+		id: loader
+		onLoaded: {
+			item.label=label
+			item.labelColor=label
+		}
+		anchors.centerIn: parent
+	}
+	Component.onCompleted: {
+		if (iconSide == "left") {
+			loader.sourceComponent=iconOnLeft	
+		} else {
+			loader.sourceComponent=iconOnRight
+		}
+	}
+	Component {
+		id: iconOnLeft
+		Flow {
+			property alias label: txtLabel.text
+			property alias labelColor: txtLabel.color
+			Text {
+				id: icon;
+				text: "b"
+				font {
+					family: iconFont.name
+					pixelSize: 26
+				}
+			}
+			Text {
+				id: txtLabel
+				elide: Text.ElideMiddle
+				text: label
 			}
 		}
-    	Text {
-        	id: txtLabel
-			elide: Text.ElideRight
-        	text: "Ok"
-    	}
+	}
+	Component {
+		id: iconOnRight
+		Flow {
+			property alias label: txtLabel.text
+			property alias labelColor: txtLabel.color
+			Text {
+				id: txtLabel
+				elide: Text.ElideMiddle
+				text: label
+			}
+			Text {
+				id: icon;
+				text: "b"
+				font {
+					family: iconFont.name
+					pixelSize: 26
+				}
+			}
+		}
 	}
 }

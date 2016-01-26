@@ -11,7 +11,6 @@ Rectangle {
     property alias clickable: mouseArea.enabled
     
     id: root
-
     MouseArea {
         id: mouseArea
         /*width: parent.width
@@ -47,7 +46,6 @@ Rectangle {
             PropertyChanges {target: root; color: onColor}
         }
     ]
-
 /*    transitions: [
         Transition {
             from: "PRESSED"

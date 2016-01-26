@@ -74,6 +74,8 @@ Rectangle {
 		labelColor: isPressed?"white":"black"
 		onClicked: {
 			console.log("Sound Devices");
+			_ROOT.devices.clear();
+			soundDeviceList.getSoundDeviceInfo();
 			_MENU_SETTINGS.visible=false
 			object.flag=!object.flag
 			object.color="transparent";

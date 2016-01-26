@@ -21,6 +21,7 @@
 #include "OIU.h"
 #include "OIUList.h"
 #include "PTTButton.h"
+#include "SoundDevice.h"
 int main(int argc, char *argv[])
 {
 	qmlRegisterType<PTTButton>("PTTButton", 1, 0, "PTT");
@@ -37,8 +38,8 @@ int main(int argc, char *argv[])
 #else
     loadGeneralConfig(config, "databases/oiuc.db");
 #endif
-	HotlineList *hotlineList = HotlineList::getHotlineListSingleton();	
-	//loadHotlineModel(hotlineList, "databases/oiuc.db");
+	HotlineList *hotlineList = HotlineList::getHotlineListSingleton();
+	SoundDeviceList *soundDeviceList = SoundDeviceList::getSoundDeviceListSingleton();
 
 	Log *log = Log::getLog();
 	log->setFilename(config->getLogDir() + "oiuc.log");
@@ -56,6 +57,9 @@ int main(int argc, char *argv[])
 	engine.rootContext()->setContextProperty("oiuList", oiu_list);
 	engine.rootContext()->setContextProperty("logModel", log->getLogModel());
 	engine.rootContext()->setContextProperty("hotlineList", hotlineList);
+	engine.rootContext()->setContextProperty("soundDeviceList", soundDeviceList);
+
+
 	writeLog("Start OIUC");
 #if QT_VERSION >= 0x050000
 	QString qml_url = "qrc:/";

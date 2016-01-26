@@ -116,7 +116,6 @@ void loadHotlineModel(HotlineList *hotlineList, QString backend_location) {
 			volume = query.value(5).toDouble();
 			Hotline *hotline = new Hotline(name, desc, location, phone, freq, volume);
 			hotlineList->addHotline(hotline);
-			qDebug() << "name:" << name;
 		}
         query.finish();
         db.close();

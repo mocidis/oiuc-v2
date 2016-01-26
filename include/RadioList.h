@@ -38,7 +38,6 @@ public:
 
 signals: 
 	void updateRadioList(QString name, QString desc, int port, bool bOnline, bool bTx, bool bRx, bool bSQ, double rVolume, int mIndex);
-
 private:
 	/*****************Constructor*******************/
 	RadioList ();

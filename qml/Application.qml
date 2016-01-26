@@ -31,8 +31,8 @@ import PTTButton 1.0
     CppLinkage { }
     property QtObject appState: QtObject {
         property bool loginInProgress: false
-        //property bool login: oiuc.isLoggedIn()
-        property bool login: true
+        property bool login: oiuc.isLoggedIn()
+        //property bool login: true
     }
 	FontLoader {id: lcdFont; source: "../static/fonts/digital-7 (mono).ttf"}
 	FontLoader {id: appFont; source: "../static/fonts/monaco.ttf"}

@@ -114,4 +114,10 @@ Item {
 			hotline.append({"name": name, "description": desc, "location":location, "phone":phone, "freq":freq, "volume":volume});		
 		}
 	}
+	Connections {
+		target: soundDeviceList	
+		onUpdateSoundDevice: {
+			devices.append({"idx": index, "name": name, "select":select});
+		}
+	}
 }

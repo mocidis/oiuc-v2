@@ -11,8 +11,7 @@ OIUC* OIUC:: getOIUC() {
 OIUC::OIUC() {
 	config = Config::getConfig();
 	current_dial_number="000"; 
-	//username = "youhavenoname";
-	username = "Admin";
+	username = "youhavenoname";
 	password = "youhavenopassword";
 	logged_in = false;
 	memset(&app_data, 0, sizeof(app_data_t));
@@ -221,12 +220,10 @@ QString OIUC::getUserName() {
 	return username;
 }
 bool OIUC::isAdministrator() {
-	//return isAdmin;
+	//fix: remove comment symbol 
 	/*
 	if (username == "admin" && isLoggedIn()) {
 		return true;
-	} else {
-		return false;	
 	}
 	*/
 	//temporary return
@@ -235,4 +232,25 @@ bool OIUC::isAdministrator() {
 void OIUC::loadHotline() {
 	HotlineList *hotlineList = HotlineList::getHotlineListSingleton();
 	loadHotlineModel(hotlineList, "databases/oiuc.db");
+}
+void OIUC::updateEndpoint(int deviceIdx) {
+	//fix: update sound devices does not work
+	/*
+	app_data.node.streamer->ep = NULL;
+	app_data.node.receiver->ep = NULL;
+	//pjmedia_endpt_destroy(app_data.node.streamer->ep);
+	app_data.node.streamer->ep = app_data.node.receiver->ep = pjsua_get_pjmedia_endpt();
+	*/
+	qDebug() << "---------------------------------" << deviceIdx;
+	//receiver_stop(app_data.node.receiver, 0);
+    //receiver_config_stream(app_data.node.receiver, "239.0.0.1", 1234, 0);
+    //receiver_start(app_data.node.receiver);
+	
+	//update sound device index for sip phone
+	
+	pjmedia_snd_port_destroy(app_data.receiver.aout.snd_port);
+	receiver_stop(&app_data.receiver, 0);
+	receiver_config_dev_sink(app_data.node.receiver, deviceIdx);
+    receiver_start(app_data.node.receiver);
+	//pjsua_set_snd_dev(0, deviceIdx);
 }

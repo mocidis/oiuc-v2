@@ -17,6 +17,7 @@ PanelCommon {
         }
         spacing: 5
 		PushTextButton {
+			id: aboutbtn
 			color: "transparent"
 			onColor: "navy"
 			width: labelWidth + 60
@@ -29,6 +30,7 @@ PanelCommon {
 		}
 		/*
         PushTextButton {
+			id: telephonebtn
             color: "transparent"
             onColor: "navy"
             width: labelWidth + 60
@@ -41,6 +43,7 @@ PanelCommon {
         }
 		*/
         PushTextButton {
+			id: splitbtn
             color: "transparent"
             onColor: "navy"
             width: labelWidth + 60
@@ -57,7 +60,7 @@ PanelCommon {
         }
 		PushTextButton {
 			property bool flag:	false 
-			id: settings
+			id: settingbtn
 			color: "transparent"
 			onColor: "navy"
 			width: labelWidth + 60
@@ -67,19 +70,19 @@ PanelCommon {
 			onClicked: {
 				console.log("Settings");
 				if (flag == false) {
-					_MENU_SETTINGS.object=settings;
+					_MENU_SETTINGS.object=settingbtn;
 					_MENU_SETTINGS.visible=true;
-					settings.color="grey";
-					settings.border.width = 2
-					settings.border.color = "lightgrey"
-					settings.flag = true
+					settingbtn.color="grey";
+					settingbtn.border.width = 2
+					settingbtn.border.color = "lightgrey"
+					settingbtn.flag = true
 				} else {
-					_MENU_SETTINGS.object=settings;
+					_MENU_SETTINGS.object=settingbtn;
 					_MENU_SETTINGS.visible=false;
-					settings.color="transparent";
-					settings.border.width = 0
-					settings.border.color = "transparent"
-					settings.flag = false
+					settingbtn.color="transparent";
+					settingbtn.border.width = 0
+					settingbtn.border.color = "transparent"
+					settingbtn.flag = false
 				}
 			}
 		}
@@ -91,17 +94,20 @@ PanelCommon {
 			top: parent.top
 	   	}
 		PushIconTextButton {
-			//color: "transparent"
+			color: "transparent"
 			onColor: "navy"
-			width: labelWidth + 60
+			width: labelWidth>250?250:labelWidth+30
 			height: root.height
 			label: oiuc.getUserName() 
+			iconSide: "right"
 			labelColor: isPressed?"white":"black"
 			onClicked: {
 				console.log("User Information");
 			}
+			clickable: false
 		}
 		ToggleTextButton {
+			id: logbtn
 			color: "transparent"
 			onColor: "gray"
 			width: root.height + 30
@@ -179,8 +185,8 @@ PanelCommon {
 			height: root.height
 			txtLabel.font.family: iconFont.name
 			txtLabel.font.pixelSize: 32
-			label: _ROOT.appState.login?"i":"Login"
-			labelColor: isPressed?"white":"#CC0000"
+			label: "i"
+			labelColor: _ROOT.appState.login?"#CC0000":"green"
 			onClicked: {
 				if(_ROOT.appState.login) {
 					oiuc.stop();
@@ -204,13 +210,27 @@ PanelCommon {
         states: [
             State {
                 name: "logout"
-                when: _TELKB.visible || _LOGINDIALOG.visible
-                PropertyChanges { target: menu; enabled: false }
+                //when: _TELKB.visible || _LOGINDIALOG.visible
+				when: _ROOT.appState.login==false
+                //PropertyChanges { target: menu; enabled: false }
+				PropertyChanges {target: aboutbtn; clickable: false}
+				PropertyChanges {target: splitbtn; clickable: false}
+				PropertyChanges {target: settingbtn; clickable: false}
+				PropertyChanges {target: logbtn; clickable: false}
+				PropertyChanges {target: speaker; clickable: false}
+				PropertyChanges {target: microphone; clickable: false}
             },
             State {
                 name: "login"
-                when: !_TELKB.visible && !_LOGINDIALOG.visible
-                PropertyChanges { target: menu; enabled: true }
+                //when: !_TELKB.visible && !_LOGINDIALOG.visible
+				when: _ROOT.appState.login==true
+                //PropertyChanges { target: menu; enabled: true }
+				PropertyChanges {target: aboutbtn; clickable: true}
+				PropertyChanges {target: splitbtn; clickable: true}
+				PropertyChanges {target: settingbtn; clickable: true}
+				PropertyChanges {target: logbtn; clickable: true}
+				PropertyChanges {target: speaker; clickable: true}
+				PropertyChanges {target: microphone; clickable: true}
             }
         ]
     }
