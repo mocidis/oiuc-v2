@@ -44,11 +44,8 @@ void SoundDeviceList::getSoundDeviceInfo() {
 		SoundDevice *soundDevice = new SoundDevice(dev_idx, QString::fromLocal8Bit(info.name), false);	
 		qDebug() << soundDevice->getName();
 		
-		if (soundDevice->getName().contains("externalUSBSoundDevice", Qt::CaseInsensitive)) {
+		if (soundDevice->getName().contains("sysdefault", Qt::CaseInsensitive)) {
 			//QStringList liststr = soundDevice->getName().split(": ");
-			emit updateSoundDevice(soundDevice->getIndex(), soundDevice->getName(), soundDevice->isSelected());
-			listDevice.append(soundDevice);
-		} else if (soundDevice->getName().contains("default", Qt::CaseInsensitive)) {
 			emit updateSoundDevice(soundDevice->getIndex(), soundDevice->getName(), soundDevice->isSelected());
 			listDevice.append(soundDevice);
 		}

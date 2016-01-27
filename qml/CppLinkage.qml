@@ -85,7 +85,7 @@ Item {
         onUpdateOIUList: {
             if (mIndex == -1) {
                 oius.append({
-					"id": id,
+					//"id": id,
 					"name": name,
 					"description": desc,
 					//"port": name,

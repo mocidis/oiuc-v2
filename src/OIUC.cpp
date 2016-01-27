@@ -252,5 +252,5 @@ void OIUC::updateEndpoint(int deviceIdx) {
 	receiver_stop(&app_data.receiver, 0);
 	receiver_config_dev_sink(app_data.node.receiver, deviceIdx);
     receiver_start(app_data.node.receiver);
-	//pjsua_set_snd_dev(0, deviceIdx);
+	pjsua_set_snd_dev(0, deviceIdx);
 }
