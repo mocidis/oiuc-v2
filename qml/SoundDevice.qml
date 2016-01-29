@@ -49,7 +49,7 @@ DialogCommon {
 					}
 				}
 				//todo: call to cpp from target object: soundDeviceList
-				soundDeviceList.applySoundDevice(deviceIdx);
+				soundDeviceList.applySoundDevice2(deviceIdx);
 				deviceIdx="";
 				_SOUND_DEVICE.visible = false;
 			}

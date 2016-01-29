@@ -42,8 +42,6 @@ void SoundDeviceList::getSoundDeviceInfo() {
         CHECK(__FILE__, pjmedia_aud_dev_get_info(dev_idx, &info));
 		
 		SoundDevice *soundDevice = new SoundDevice(dev_idx, QString::fromLocal8Bit(info.name), false);	
-		qDebug() << soundDevice->getName();
-		
 		if (soundDevice->getName().contains("sysdefault", Qt::CaseInsensitive)) {
 			//QStringList liststr = soundDevice->getName().split(": ");
 			emit updateSoundDevice(soundDevice->getIndex(), soundDevice->getName(), soundDevice->isSelected());
@@ -63,4 +61,19 @@ void SoundDeviceList::applySoundDevice(QString soundList) {
 			}
 		}
 	}
+}
+void SoundDeviceList::applySoundDevice2(QString soundList) {
+	QStringList list;
+	QList<int> deviceIdxList;
+	list = soundList.split(";", QString::SkipEmptyParts);
+	OIUC *oiuc = OIUC::getOIUC();
+	foreach (QString idx, list) {
+		foreach(SoundDevice *soundDevice, listDevice) {
+			if (soundDevice->getIndex() == idx.toInt()) {
+				soundDevice->setSelected(true);
+				deviceIdxList.append(soundDevice->getIndex());
+			}
+		}
+	}
+	oiuc->updateEndpoint2(deviceIdxList);
 }

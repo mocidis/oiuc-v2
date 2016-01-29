@@ -75,6 +75,7 @@ public:
 	Q_INVOKABLE bool isAdministrator();
 	Q_INVOKABLE void loadHotline();
 	void updateEndpoint(int deviceIdx);
+	void updateEndpoint2(QList<int> deviceIdxList);
 signals:
 	void callingState(QString remoteUser, QString msg, int st_code);
     void loginStart();

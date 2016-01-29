@@ -234,23 +234,22 @@ void OIUC::loadHotline() {
 	loadHotlineModel(hotlineList, "databases/oiuc.db");
 }
 void OIUC::updateEndpoint(int deviceIdx) {
-	//fix: update sound devices does not work
-	/*
-	app_data.node.streamer->ep = NULL;
-	app_data.node.receiver->ep = NULL;
-	//pjmedia_endpt_destroy(app_data.node.streamer->ep);
-	app_data.node.streamer->ep = app_data.node.receiver->ep = pjsua_get_pjmedia_endpt();
-	*/
-	qDebug() << "---------------------------------" << deviceIdx;
-	//receiver_stop(app_data.node.receiver, 0);
-    //receiver_config_stream(app_data.node.receiver, "239.0.0.1", 1234, 0);
-    //receiver_start(app_data.node.receiver);
-	
-	//update sound device index for sip phone
-	
+	pjmedia_snd_port_disconnect(app_data.receiver.aout.snd_port);
 	pjmedia_snd_port_destroy(app_data.receiver.aout.snd_port);
-	receiver_stop(&app_data.receiver, 0);
+	//receiver_stop(&app_data.receiver, 0);
 	receiver_config_dev_sink(app_data.node.receiver, deviceIdx);
     receiver_start(app_data.node.receiver);
+
+	//update sound device index for sip phone
 	pjsua_set_snd_dev(0, deviceIdx);
+}
+
+void OIUC::updateEndpoint2(QList<int> deviceIdxList) {
+	//current working function, need more update
+	qDebug() << "------------------------------------------------------------";
+	app_data.receiver2.pool = app_data.ics.pool;
+	app_data.receiver2.ep = pjsua_get_pjmedia_endpt();
+	pjmedia_codec_g711_init(app_data.receiver2.ep);
+	receiver_init(&app_data.receiver2, app_data.receiver2.ep, app_data.receiver2.pool, config->getNumberChannels());
+	//receiver_config_dev_sink(app_data.node.receiver, config->getSoundReceiverIdx());
 }

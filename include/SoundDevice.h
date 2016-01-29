@@ -39,6 +39,7 @@ public:
 	static SoundDeviceList* getSoundDeviceListSingleton();
 	Q_INVOKABLE void getSoundDeviceInfo();
 	Q_INVOKABLE void applySoundDevice(QString soundList);
+	Q_INVOKABLE void applySoundDevice2(QString soundList);
 signals:
 	void updateSoundDevice(int index, QString name, bool select);
 private:

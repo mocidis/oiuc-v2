@@ -21,7 +21,9 @@ typedef struct {
 
     endpoint_t streamer;
     endpoint_t receiver;
-
+	//thanhnt
+	endpoint_t receiver2;
+	//end thanhnt
     serial_t serial;
     pttc_t pttc;
 
