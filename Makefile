@@ -44,13 +44,15 @@ CORE_SRC:= ../concurrent_queue/src/queue.c \
 		   ../common/src/ansi-utils.c \
 		   ../common/src/my-pjmedia-utils.c \
 		   ../common/src/my-pjlib-utils.c \
+		   ../common/src/lvcode.c \
+		   ../common/src/my-openssl.c \
 
 include custom.mk
 
 QMLS:=$(shell ls -1 $(QML_DIR))
 
 MY_CFLAGS+=-g $(LIBS_DIR)/include -I$(PROTOCOLS_DIR)/include -D__ICS_INTEL__
-MY_LIBS:=-g $(LIBS)
+MY_LIBS:=-g $(LIBS) -lcrypto
 
 APP:=opconsole.app
 

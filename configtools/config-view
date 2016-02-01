@@ -1,6 +1,20 @@
 #!/bin/bash
+if [ $# -lt 1 ]; then
+    echo "config-view <dbfile> <table_name>"
+    echo "config-view <dbfile>"
+    exit -1
+fi
+dbfile=$1
+if [ $# -eq 1 ] ; then
+
+sqlite3 $dbfile << HERE1
+.tables
+HERE1
+
+else
+
 echo "================================================"
-sqlite3 ../databases/oiuc.db << HERE | awk '
+sqlite3 $dbfile << HERE | awk '
 { 
     for (i=1; i<=NF; i++)  {
         a[NR,i] = $i
@@ -22,3 +36,4 @@ END {
 select * from ics_config;
 HERE
 echo "================================================"
+fi

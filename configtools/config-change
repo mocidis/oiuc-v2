@@ -1,4 +1,10 @@
 #!/bin/bash
-param=$1
-value=$2
-sqlite3 ../databases/oiuc.db "update ics_config set $param='$value'";
+if [ $# -lt 3 ]; then
+    echo "./config-change <dbfile> <tablename> <field> <value>"
+    exit -1
+fi
+dbfile=$1
+table=$2
+param=$3
+value=$4
+sqlite3 $dbfile "update $table set $param='$value'";
