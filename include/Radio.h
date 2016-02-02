@@ -18,7 +18,7 @@ class Radio : public QObject {
 	Q_OBJECT
 public:
 	/****************Constructor*******************/
-	Radio(QString name, QString desc, int port, bool isOnline, bool isTx, bool isSQ);
+	Radio(QString name, QString desc, int port, bool isOnline, bool isTx, bool isSQ, double freq);
 
 	/*************Add and Set functions************/
 	void setDowntime(double downtime);
@@ -32,6 +32,7 @@ public:
     double getVolume();
 	QString getDesc();
 	int getPort();
+    double getFreq();
     
     void setOnline(bool val);
     void setTx(bool val);
@@ -48,5 +49,6 @@ private:
     bool _isRx;
     bool _isSQ;
     double _volume;
+    double _freq;
 };
 #endif

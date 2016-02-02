@@ -170,6 +170,7 @@ void on_adv_info(adv_server_t *adv_server, adv_request_t *request) {
 }
 
 void on_online_report(char *id, char* des, int radio_port, int is_online) {
+    qDebug() << "--------------------------------------------";
 	if (radio_port >=0 ) {
 		//For Radio
 		RadioList *radio_list = RadioList::getRadioListSingleton();
@@ -185,7 +186,7 @@ void on_online_report(char *id, char* des, int radio_port, int is_online) {
 		int index = -1;
 		index = radio_list->searchRadioByName(name);
 		if (index == -1) {
-			Radio *radio = new Radio(name, desc, radio_port, online, false, false);
+			Radio *radio = new Radio(name, desc, radio_port, online, false, false, 102.7);
 			radio_list->addRadio(radio);
 		} else {
 			Radio *radio = radio_list->getRadioByIndex(index);

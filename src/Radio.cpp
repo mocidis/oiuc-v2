@@ -1,6 +1,6 @@
 #include "Radio.h"
 /*Constructor*/
-Radio::Radio(QString name, QString desc, int port, bool isOnline, bool isTx, bool isSQ) {
+Radio::Radio(QString name, QString desc, int port, bool isOnline, bool isTx, bool isSQ, double freq) {
 	_name = name;
 	_desc = desc;
 	_port = port;
@@ -9,6 +9,7 @@ Radio::Radio(QString name, QString desc, int port, bool isOnline, bool isTx, boo
     _isRx = false;
     _isSQ = isSQ;
     _volume = 0.5;
+    _freq = freq;
 }
 
 /*Add and set function*/
@@ -30,3 +31,4 @@ double Radio::getVolume() { return _volume;}
 QString Radio::getDesc() { return _desc;}
 int Radio::getPort() { return _port;}
 
+double Radio::getFreq() {return _freq;}

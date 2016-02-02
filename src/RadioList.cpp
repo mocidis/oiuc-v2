@@ -11,6 +11,7 @@ RadioList* RadioList::getRadioListSingleton() {
 RadioList::RadioList() {}
 /*****************Add and Set functions******************/
 void RadioList::addRadio(Radio *radio) {
+    qDebug() << "++++++++++++++++++++++++++++++++ADD";
 	_radio_list.append(radio);
 	updateRadioListSignal(radio, -1);
 	writeLog("detected " + radio->getName());
@@ -63,6 +64,7 @@ void RadioList::updateRadioListSignal(Radio* radio, int mIndex) {
             radio->isRx(),
             radio->isSQ(),
             radio->getVolume(),
+            radio->getFreq(),
             mIndex
     );
 }
