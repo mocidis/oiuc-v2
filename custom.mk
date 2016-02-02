@@ -3,7 +3,7 @@
 #MY_CFLAGS:=-D__ICS_ARM__
 
 #### for PC (x86, x86_64)
-CROSS_COMPILE:=5
+CROSS_COMPILE:=2
 QT_QUICK_VER:=5
 
 #constant values for specific platforms

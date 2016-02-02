@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
 {
     if (argc < 2) {
         usage(argv[0]);
+		//argv[0] = "../ics-config-data/oiuc.db";
     }
 
 	qmlRegisterType<PTTButton>("PTTButton", 1, 0, "PTT");
@@ -58,7 +59,7 @@ int main(int argc, char *argv[])
 	//prepare for oiuc
 	OIUC *oiuc = OIUC::getOIUC();
 	oiuc->prepare();
-	oiuc->start("ntt", "1234");
+	oiuc->start("113", "1234");
 	//make sure log file will be flushed after handle the quit signal of application
 	QObject::connect(&app, SIGNAL(aboutToQuit()), log, SLOT(flushLog()));
 	RadioList *radio_list = RadioList::getRadioListSingleton();
