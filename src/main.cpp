@@ -79,15 +79,15 @@ int main(int argc, char *argv[])
 	qml_url.append("/Application.qml");
 	engine.load(QUrl(qml_url));
 	QQuickWindow *window = qobject_cast<QQuickWindow*>(engine.rootObjects().at(0));
-	window->showFullScreen();
-	//window->show();
+	//window->showFullScreen();
+	window->show();
 #else
 	QString qml_url = "qrc:///";
 	qml_url.append(QString::fromLocal8Bit(QML_GEN_DIR));
 	qml_url.append("/Application.qml");
 	engine.setSource(QUrl(qml_url));
-	engine.showFullScreen();
-	//engine.show();
+	//engine.showFullScreen();
+	engine.show();
 #endif
 	return app.exec();
 }

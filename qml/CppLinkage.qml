@@ -54,9 +54,10 @@ Item {
     Connections {
         target: radioList
         onUpdateRadioList: {
+                console.log("---------------UPDATE RADIO -----------------");
             if (mIndex == -1) {
                 radios.append({
-					"id": id,
+					"id": name,
                     "name": name, 
 					"description": desc,
 					"freq": freq,
