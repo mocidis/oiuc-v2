@@ -124,6 +124,8 @@ void OIUC::prepare() {
 	receiver_config_dev_sink(app_data.node.receiver, config->getSoundReceiverIdx());
 	//streamer_config_dev_source(app_data.node.streamer, 2);
 	//receiver_config_dev_sink(app_data.node.receiver, 2);
+	receiver_config_stream(app_data.node.receiver, "239.0.0.3", 1234, 1);
+	receiver_start(app_data.node.receiver);
     qDebug() << "STREAM INIT...DONE\n";
 #endif
 }
