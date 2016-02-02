@@ -68,7 +68,7 @@ $(QML_GEN_DIR):
 	mkdir -p $(QML_GEN_DIR)
 
 $(QML_GEN_DIR)/%.qml: $(QML_DIR)/%.qml
-	sed -e 's/@QtQuick/$(QtQuick)/g' -e 's/@QtWindow/$(QtWindow)/g' -e 's/@Window/$(Window)/g' < $< > $@
+	sed -e 's/@QtQuick/$(QtQuick)/g' -e 's/@QtWindow/$(QtWindow)/g' -e 's/@QtControls/$(QtControls)/g' -e 's/@Window/$(Window)/g' < $< > $@
 
 qml.qrc: qml.qrc.template
 	sed 's/@QML_GEN_DIR/'$(QML_GEN_DIR)'/g' < $< > $@

@@ -1,5 +1,5 @@
 @QtQuick
-import QtQuick.Controls 1.4
+@QtControls
 @QtWindow
 
 PanelCommon {

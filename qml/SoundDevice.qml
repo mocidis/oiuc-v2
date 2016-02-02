@@ -1,5 +1,5 @@
 @QtQuick
-import QtQuick.Controls 1.4
+@QtControls
 DialogCommon {
     id: root
 	captionText: "Select sound device"
