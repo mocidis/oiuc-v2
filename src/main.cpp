@@ -22,8 +22,19 @@
 #include "OIUList.h"
 #include "PTTButton.h"
 #include "SoundDevice.h"
+
+void usage(char *app) {
+    printf("usage: %s <database_file>\n", app);
+    exit(-1);
+}
+
+
 int main(int argc, char *argv[])
 {
+    if (argc < 2) {
+        usage(argv[0]);
+    }
+
 	qmlRegisterType<PTTButton>("PTTButton", 1, 0, "PTT");
 #if QT_VERSION >= 0x050000
     QGuiApplication app(argc, argv);
@@ -36,7 +47,7 @@ int main(int argc, char *argv[])
 #ifdef ICS_ANDROID
     loadGeneralConfig(config, "assets:/databases/oiuc.db");
 #else
-    loadGeneralConfig(config, "databases/oiuc.db");
+    loadGeneralConfig(config, argv[1]);
 #endif
 	HotlineList *hotlineList = HotlineList::getHotlineListSingleton();
 	SoundDeviceList *soundDeviceList = SoundDeviceList::getSoundDeviceListSingleton();
@@ -68,12 +79,14 @@ int main(int argc, char *argv[])
 	engine.load(QUrl(qml_url));
 	QQuickWindow *window = qobject_cast<QQuickWindow*>(engine.rootObjects().at(0));
 	window->showFullScreen();
+	//window->show();
 #else
 	QString qml_url = "qrc:///";
 	qml_url.append(QString::fromLocal8Bit(QML_GEN_DIR));
 	qml_url.append("/Application.qml");
 	engine.setSource(QUrl(qml_url));
 	engine.showFullScreen();
+	//engine.show();
 #endif
 	return app.exec();
 }

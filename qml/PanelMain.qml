@@ -3,7 +3,7 @@
 
 PanelCommon {
 	property int numCol: 4 //number of column is displayed on the screen
-    width: Screen.width
+    width: _ROOT.sWIDTH
     clip: true
     Flickable {
         id: flickable
@@ -13,12 +13,12 @@ PanelCommon {
                 fill: parent
                 margins: 20
             }
-            spacing: 30
+            spacing: 25
             Repeater {
                 id: repeater
                 model: _ROOT.radios
                 delegate: RadioView {
-                    btnSize: 80
+                    btnSize: 70
                     oModelItem: _ROOT.radios.get(index)
                 }
             }
@@ -26,7 +26,7 @@ PanelCommon {
                 id: repeater_oiu
                 model: _ROOT.oius
                 delegate: OIUView {
-                    btnSize: 80
+                    btnSize: 70
                     oModelItem: _ROOT.oius.get(index)
                 }
             }

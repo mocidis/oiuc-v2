@@ -2,10 +2,14 @@
 @QtWindow
 import PTTButton 1.0
 @Window {
+    //property int sWIDTH: 1366
+    //property int sHEIGHT: 768
+    property int sWIDTH: Screen.width
+    property int sHEIGHT: Screen.height
     visible: true
     id: _ROOT
-	width: Screen.width
-    height: Screen.height
+	width: sWIDTH
+    height: sHEIGHT
     property ListModel radios : ModelRadios{}
 	property ListModel oius : ModelOIUs{}
 	property ListModel user : ModelUser{}
@@ -56,16 +60,6 @@ import PTTButton 1.0
 		}
 		state: "halfOfMain"
 	}
-    Rectangle {
-        color: "white"
-        width: 1
-        anchors {
-            top: _TOP.bottom
-            left: _MAIN.right
-            right: _RIGHT.left
-            bottom: parent.bottom
-        }
-    }
 	
 	PanelHotline {
 		id: _HOTLINE
@@ -75,12 +69,12 @@ import PTTButton 1.0
 			bottom: parent.bottom
             bottomMargin: 80
 		}
-		width: Screen.width/2
+		width: sWIDTH/2
 		numCol: 2
 	}
     PanelRight {
         id: _RIGHT
-		width: Screen.width*0.4
+		width: sWIDTH*0.4
 		border.width: 1
         anchors {
             top: _TOP.bottom
@@ -194,8 +188,8 @@ import PTTButton 1.0
     }
 	ManageUserDialog {
 		id: _MANAGE_USER_DIALOG
-		width: Screen.width*0.8
-		height: Screen.height*0.8
+		width: sWIDTH*0.8
+		height: sHEIGHT*0.8
 		anchors {
 			centerIn: parent
 		}
@@ -204,8 +198,8 @@ import PTTButton 1.0
 	}
 	SoundDevice {
 		id: _SOUND_DEVICE	
-		width: Screen.width*0.2
-		height: Screen.height*0.4
+		width: sWIDTH*0.2
+		height: sHEIGHT*0.4
 		visible: false
 		anchors {
 			centerIn: parent
@@ -298,17 +292,17 @@ import PTTButton 1.0
 			State {
 				name: "halfOfMain"
 				when: _MAIN.state=="halfOfMain"
-				PropertyChanges {target: _MAIN; width: Screen.width/2}
+				PropertyChanges {target: _MAIN; width: sWIDTH/2}
 				PropertyChanges {target: _MAIN; numCol: 2}
 				PropertyChanges {target: _MAIN; visible: true}
-				PropertyChanges {target: _HOTLINE; width: Screen.width/2}
+				PropertyChanges {target: _HOTLINE; width: sWIDTH/2}
 				PropertyChanges {target: _HOTLINE; numCol: 2}
 				PropertyChanges {target: _HOTLINE; visible: true}
 			},
 			State {
 				name: "fullOfMain"	
 				when: _MAIN.state=="fullOfMain"
-				PropertyChanges {target: _MAIN; width: Screen.width}
+				PropertyChanges {target: _MAIN; width: sWIDTH}
 				PropertyChanges {target: _MAIN; numCol: 4}
 				PropertyChanges {target: _MAIN; visible: true}
 				PropertyChanges {target: _HOTLINE; visible: false}

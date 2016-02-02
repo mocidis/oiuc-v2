@@ -8,9 +8,8 @@ Rectangle {
 	property int callState: 0
 	property bool isInCommingCall: false
 	color: "#f0f0f0"
-    //width: btnArrayLoader.width + 2 * itemGap
-    width: 304
-    height: txtLabel.height + btnArrayLoader.height + 2 * itemGap
+    width: btnCall.width + 2 * itemGap
+    height: txtLabel.height + btnCall.height + 2 * itemGap
     border {
         width: 2; 
         color: "transparent"
@@ -29,98 +28,26 @@ Rectangle {
         }
         color: "black"
     }
-	Loader {
-		id: btnArrayLoader
+	PushTextButton {
+		id: btnCall
 		anchors {
 			left: parent.left
 			top: txtLabel.bottom
-			right: parent.right
 			margins: itemGap
 			topMargin: 2
 		}
-		sourceComponent: btnArrayComponent1
-	}
-	Component {
-		id: btnArrayComponent1
-		Row { 
-			height: btnSize
-			spacing: itemGap
-			PushTextButton {
-				id: btnCall
-				color: "#000099"
-				onColor: "darkgray"
-				label: "Call"
-				labelColor: "white"
-				font {
-					pixelSize: 16
-					bold: true
-				}
-				width: parent.width
-				height: parent.height
-				onClicked: {
-					oiuc.call(oModelItem.phone);
-				}
-			}
+		color: "#000099"
+		onColor: "darkgray"
+		label: "Call"
+		labelColor: "white"
+		font {
+			pixelSize: 16
+			bold: true
 		}
-	}
-	Component {
-		id: btnArrayComponent2
-		Row { 
-			height: btnSize
-			spacing: itemGap * 2
-			PushTextButton {
-				color: "#000099"
-				onColor: "darkgray"
-				label: "Answer"
-				labelColor: "white"
-				font {
-					pixelSize: 16
-					bold: true
-				}
-				width: parent.width*0.4
-				height: parent.height
-				onClicked: {
-					oiuc.answerCall();
-				}
-			}
-			PushTextButton {
-				color: "#000099"
-				onColor: "darkgray"
-				label: "Hangup"
-				labelColor: "white"
-				font {
-					pixelSize: 16
-					bold: true
-				}
-				width: parent.width * 0.4
-				height: parent.height
-				onClicked: {
-					oiuc.hangupCall();
-				}
-			}
-		}
-	}
-	Component {
-		id: btnArrayComponent3
-		Row { 
-			height: btnSize
-			spacing: itemGap
-			PushTextButton {
-				id: btnCall
-				color: "#000099"
-				onColor: "darkgray"
-				label: "Hangup"
-				labelColor: "white"
-				font {
-					pixelSize: 16
-					bold: true
-				}
-				width: parent.width
-				height: parent.height
-				onClicked: {
-					oiuc.hangupCall();
-				}
-			}
+		width: 3 * btnSize + 2 * itemGap
+		height: btnSize
+		onClicked: {
+			oiuc.call(oModelItem.phone);
 		}
 	}
 

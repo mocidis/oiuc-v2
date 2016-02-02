@@ -4,7 +4,7 @@
 
 PanelCommon {
 	property int numCol: 4 //number of column is displayed on the screen
-    width: Screen.width
+    width: _ROOT.sWIDTH
     clip: true
     Flickable {
         id: flickable
@@ -14,12 +14,12 @@ PanelCommon {
                 fill: parent
                 margins: 20
             }
-            spacing: 30
+            spacing: 25
             Repeater {
                 id: repeater
                 model: _ROOT.hotline
                 delegate: HotlineView {
-                    btnSize: 80
+                    btnSize: 70
                     oModelItem: _ROOT.hotline.get(index)
                 }
             }
