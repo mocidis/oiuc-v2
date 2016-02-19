@@ -1,10 +1,11 @@
 @QtQuick
+import "QmlConfig.js" as Global
 
 DialogCommon {
     id: root
     height: homeForm.height + copyright.height + 100
     captionText: "About"
-	caption.font.pixelSize: 14
+	caption.font.pixelSize: Global.nText
     Item {
         anchors {
             fill: parent
@@ -21,7 +22,7 @@ DialogCommon {
             }
             spacing: 10
             Text {
-                font.pixelSize: 20
+                font.pixelSize: Global.llText
                 font.bold: true
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
@@ -31,7 +32,7 @@ DialogCommon {
                 font.italic: true
                 align: Text.AlignHCenter
                 text: "Intergrated Communication System"
-                font.pixelSize: 20
+                font.pixelSize: Global.llText
             }
             Item {
                 width: parent.width
@@ -48,7 +49,7 @@ DialogCommon {
                         topMargin: 10
                     }
                     font {
-                        pixelSize: 12
+                        pixelSize: Global.tText
                         italic: true
                     }
                     color: "navy"
@@ -67,7 +68,7 @@ DialogCommon {
                 topMargin: 20
             }
             font.italic: true
-            font.pixelSize: 12
+            font.pixelSize: Global.tText
             align: Text.AlignHCenter
             text: "Copyright © 2015–2020 Dicom Technology Co., Ltd.\nAll rights reserved."
             textColor: "darkgray"

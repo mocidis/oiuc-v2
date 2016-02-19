@@ -137,6 +137,7 @@ void OIUC::call (QString number) {
 	current_dial_number = number;
 	number="sip:" + number + "@" + config->getAsteriskIP();
 	char *c_uri = number.toLatin1().data();
+	qDebug() << "--------------------------";
 	ics_make_call(&app_data.ics, c_uri);
 }
 void OIUC::hangupCall () {
@@ -216,6 +217,7 @@ void OIUC::adjust_volume(int stream_idx, float incremental) {
 }
 
 void OIUC::adjust_master_volume(float incremental) {
+	qDebug() << "---------------------------MASTER VOLUME --------------------";
     incremental = incremental * 256 - 128;
     qDebug() << "icremental = " << incremental;
     receiver_adjust_master_volume(&app_data.receiver, incremental);

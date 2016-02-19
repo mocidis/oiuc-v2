@@ -1,6 +1,6 @@
 @QtQuick
 ListModel {
-	/*
+/*
     ListElement {
         name: "Sư 0"
         description: "Sư đoàn 0"
@@ -345,5 +345,5 @@ ListModel {
 		freq: "102.7 Mhz"
         volume: 0.5
     }
-	*/
+*/
 }

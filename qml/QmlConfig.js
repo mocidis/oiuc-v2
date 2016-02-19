@@ -4,3 +4,6 @@ var lText = 16
 var nText = 14
 var tText = 12  //text size
 var soundDeviceWidth = 300 //size of sound device dialog
+var entryHeight = 105 //height of radios, oius and hotline btn
+var topPanelEntrySpacing = 20 //spacing between 2 button on the top panel
+var usernameDisplayWidth = 120 // maximum user name (in pixel) will be display on the screen

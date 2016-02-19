@@ -1,4 +1,6 @@
 @QtQuick
+import "QmlConfig.js" as Global
+import QtQuick.Controls 1.4
 PushButton {
 	property string label: "Ok"
 	property string labelColor: "black"
@@ -34,6 +36,7 @@ PushButton {
 				}
 			}
 			Text {
+				width: Global.usernameDisplayWidth
 				id: txtLabel
 				elide: Text.ElideMiddle
 				text: label
@@ -46,6 +49,7 @@ PushButton {
 			property alias label: txtLabel.text
 			property alias labelColor: txtLabel.color
 			Text {
+				width: Global.usernameDisplayWidth
 				id: txtLabel
 				elide: Text.ElideMiddle
 				text: label

@@ -1,12 +1,15 @@
 @QtQuick
 @QtControls
 @QtWindow
-
+import "QmlConfig.js" as Global
 PanelCommon {
     property int itemWidth: 120
     id: root
     height: 50
     color: "#F0F0F0"
+	Component.onCompleted: {
+		_SLIDER.masterVolume = true
+	}
     Flow {
         id: menu
         anchors {
@@ -20,7 +23,7 @@ PanelCommon {
 			id: aboutbtn
 			color: "transparent"
 			onColor: "navy"
-			width: labelWidth + 60
+			width: labelWidth + Global.topPanelEntrySpacing
 			height: root.height
 			label: "About"
 			labelColor: isPressed?"white":"black"
@@ -33,7 +36,7 @@ PanelCommon {
 			id: telephonebtn
             color: "transparent"
             onColor: "navy"
-            width: labelWidth + 60
+            width: labelWidth + Global.topPanelEntrySpacing
             height: root.height
             label: "Telephone"
             labelColor: isPressed?"white":"black"
@@ -46,7 +49,7 @@ PanelCommon {
 			id: splitbtn
             color: "transparent"
             onColor: "navy"
-            width: labelWidth + 60
+            width: labelWidth + Global.topPanelEntrySpacing
             height: root.height
             label: "Split"
             labelColor: isPressed?"white":"black"
@@ -63,7 +66,7 @@ PanelCommon {
 			id: settingbtn
 			color: "transparent"
 			onColor: "navy"
-			width: labelWidth + 60
+			width: labelWidth + Global.topPanelEntrySpacing
 			height: root.height
 			label: "Settings"
 			labelColor: isPressed?"white":"black"
@@ -96,7 +99,7 @@ PanelCommon {
 		PushIconTextButton {
 			color: "transparent"
 			onColor: "navy"
-			width: labelWidth>250?250:labelWidth+30
+			width: labelWidth>250?250:labelWidth+Global.topPanelEntrySpacing
 			height: root.height
 			label: oiuc.getUserName() 
 			iconSide: "right"
@@ -110,7 +113,7 @@ PanelCommon {
 			id: logbtn
 			color: "transparent"
 			onColor: "gray"
-			width: root.height + 30
+			width: root.height + Global.topPanelEntrySpacing
 			height: root.height
 			label: "f"
 			txtLabel.font.family: iconFont.name
@@ -128,7 +131,7 @@ PanelCommon {
 		VolumeControl {
 			id: speaker
 			onColor: "gray"
-			width: root.height + 30
+			width: root.height + Global.topPanelEntrySpacing
 			height: root.height
 			muteText: "d"
 			unMuteText: "e"
@@ -144,7 +147,7 @@ PanelCommon {
 		VolumeControl {
 			id: microphone
 			onColor: "gray"
-			width: root.height + 30
+			width: root.height + Global.topPanelEntrySpacing
 			height: root.height
 			muteText: "h"
 			unMuteText: "g"
@@ -159,7 +162,7 @@ PanelCommon {
 		}
 		PushTextButton {
 			id: time
-			width: labelWidth + 60
+			width: labelWidth + Global.topPanelEntrySpacing
 			height: root.height
 			color: "transparent"
 			onColor: "transparent"
@@ -181,7 +184,7 @@ PanelCommon {
 			id: logoutBtn
 			color: "transparent"
 			onColor: "navy"
-			width: labelWidth + 60
+			width: labelWidth + Global.topPanelEntrySpacing
 			height: root.height
 			txtLabel.font.family: iconFont.name
 			txtLabel.font.pixelSize: 32

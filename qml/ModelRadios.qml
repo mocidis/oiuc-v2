@@ -1,7 +1,7 @@
 @QtQuick
 
 ListModel {
-
+/*
     ListElement {
         name: "RIUC1"
         description: "Cát Bi"
@@ -41,7 +41,6 @@ ListModel {
         volume: 0.5
 		freq: "125 MHz"
     }
-	/*
     ListElement {
         name: "RIUC1"
         description: "Cát Bi"
@@ -112,6 +111,228 @@ ListModel {
         name: "RIUC1"
         description: "Nội Bài"
         port: 1
+        isOnline: true
+        isPTT: false
+        isTx: false
+        isRx: false
+        isRxBlocked: false
+        isSQ: false
+        volume: 0.5
+		freq: "128 MHz"
+    }
+    ListElement {
+        name: "RIUC1"
+        description: "Nội Bài"
+        port: 2
+        isOnline: true
+        isPTT: false
+        isTx: false
+        isRx: false
+        isRxBlocked: false
+        isSQ: false
+        volume: 0.5
+		freq: "128 MHz"
+    }
+	
+    ListElement {
+        name: "RIUC1"
+        description: "Nội Bài"
+        port: 2
+        isOnline: true
+        isPTT: false
+        isTx: false
+        isRx: false
+        isRxBlocked: false
+        isSQ: false
+        volume: 0.5
+		freq: "128 MHz"
+    }
+    ListElement {
+        name: "RIUC1"
+        description: "Nội Bài"
+        port: 2
+        isOnline: true
+        isPTT: false
+        isTx: false
+        isRx: false
+        isRxBlocked: false
+        isSQ: false
+        volume: 0.5
+		freq: "128 MHz"
+    }
+    ListElement {
+        name: "RIUC1"
+        description: "Nội Bài"
+        port: 2
+        isOnline: true
+        isPTT: false
+        isTx: false
+        isRx: false
+        isRxBlocked: false
+        isSQ: false
+        volume: 0.5
+		freq: "128 MHz"
+    }
+    ListElement {
+        name: "RIUC1"
+        description: "Nội Bài"
+        port: 2
+        isOnline: true
+        isPTT: false
+        isTx: false
+        isRx: false
+        isRxBlocked: false
+        isSQ: false
+        volume: 0.5
+		freq: "128 MHz"
+    }
+    ListElement {
+        name: "RIUC1"
+        description: "Nội Bài"
+        port: 2
+        isOnline: true
+        isPTT: false
+        isTx: false
+        isRx: false
+        isRxBlocked: false
+        isSQ: false
+        volume: 0.5
+		freq: "128 MHz"
+    }
+    ListElement {
+        name: "RIUC1"
+        description: "Nội Bài"
+        port: 2
+        isOnline: true
+        isPTT: false
+        isTx: false
+        isRx: false
+        isRxBlocked: false
+        isSQ: false
+        volume: 0.5
+		freq: "128 MHz"
+    }
+    ListElement {
+        name: "RIUC1"
+        description: "Nội Bài"
+        port: 2
+        isOnline: true
+        isPTT: false
+        isTx: false
+        isRx: false
+        isRxBlocked: false
+        isSQ: false
+        volume: 0.5
+		freq: "128 MHz"
+    }
+    ListElement {
+        name: "RIUC1"
+        description: "Nội Bài"
+        port: 2
+        isOnline: true
+        isPTT: false
+        isTx: false
+        isRx: false
+        isRxBlocked: false
+        isSQ: false
+        volume: 0.5
+		freq: "128 MHz"
+    }
+    ListElement {
+        name: "RIUC1"
+        description: "Nội Bài"
+        port: 2
+        isOnline: true
+        isPTT: false
+        isTx: false
+        isRx: false
+        isRxBlocked: false
+        isSQ: false
+        volume: 0.5
+		freq: "128 MHz"
+    }
+    ListElement {
+        name: "RIUC1"
+        description: "Nội Bài"
+        port: 2
+        isOnline: true
+        isPTT: false
+        isTx: false
+        isRx: false
+        isRxBlocked: false
+        isSQ: false
+        volume: 0.5
+		freq: "128 MHz"
+    }
+    ListElement {
+        name: "RIUC1"
+        description: "Nội Bài"
+        port: 2
+        isOnline: true
+        isPTT: false
+        isTx: false
+        isRx: false
+        isRxBlocked: false
+        isSQ: false
+        volume: 0.5
+		freq: "128 MHz"
+    }
+    ListElement {
+        name: "RIUC1"
+        description: "Nội Bài"
+        port: 2
+        isOnline: true
+        isPTT: false
+        isTx: false
+        isRx: false
+        isRxBlocked: false
+        isSQ: false
+        volume: 0.5
+		freq: "128 MHz"
+    }
+    ListElement {
+        name: "RIUC1"
+        description: "Nội Bài"
+        port: 2
+        isOnline: true
+        isPTT: false
+        isTx: false
+        isRx: false
+        isRxBlocked: false
+        isSQ: false
+        volume: 0.5
+		freq: "128 MHz"
+    }
+    ListElement {
+        name: "RIUC1"
+        description: "Nội Bài"
+        port: 2
+        isOnline: true
+        isPTT: false
+        isTx: false
+        isRx: false
+        isRxBlocked: false
+        isSQ: false
+        volume: 0.5
+		freq: "128 MHz"
+    }
+    ListElement {
+        name: "RIUC1"
+        description: "Nội Bài"
+        port: 2
+        isOnline: true
+        isPTT: false
+        isTx: false
+        isRx: false
+        isRxBlocked: false
+        isSQ: false
+        volume: 0.5
+		freq: "128 MHz"
+    }
+    ListElement {
+        name: "RIUC1"
+        description: "Nội Bài"
+        port: 2
         isOnline: true
         isPTT: false
         isTx: false

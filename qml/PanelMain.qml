@@ -31,7 +31,7 @@ PanelCommon {
                 }
             }
         }
-        contentHeight: 174 * Math.floor((repeater.count + repeater_oiu.count + 1) / numCol)
+        contentHeight: (Global.entryHeight + 25) * Math.floor((repeater.count + repeater_oiu.count + 1) / numCol)
     }
     ScrollBar {
         scrollArea: flickable
