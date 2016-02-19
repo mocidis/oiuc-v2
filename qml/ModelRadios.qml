@@ -1,7 +1,7 @@
 @QtQuick
 
 ListModel {
-/*
+
     ListElement {
         name: "RIUC1"
         description: "Cát Bi"
@@ -41,6 +41,7 @@ ListModel {
         volume: 0.5
 		freq: "125 MHz"
     }
+	/*
     ListElement {
         name: "RIUC1"
         description: "Cát Bi"

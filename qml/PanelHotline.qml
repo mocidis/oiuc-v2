@@ -1,6 +1,7 @@
 
 @QtQuick
 @QtWindow
+import "QmlConfig.js" as Global
 
 PanelCommon {
 	property int numCol: 4 //number of column is displayed on the screen
@@ -19,7 +20,7 @@ PanelCommon {
                 id: repeater
                 model: _ROOT.hotline
                 delegate: HotlineView {
-                    btnSize: 70
+                    btnSize: Global.btnSize
                     oModelItem: _ROOT.hotline.get(index)
                 }
             }

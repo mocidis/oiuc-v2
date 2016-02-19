@@ -51,7 +51,7 @@ include custom.mk
 
 QMLS:=$(shell ls -1 $(QML_DIR))
 
-MY_CFLAGS+=-g $(LIBS_DIR)/include -I$(PROTOCOLS_DIR)/include -D__ICS_INTEL__
+MY_CFLAGS+=-g $(LIBS_DIR)/include -I$(PROTOCOLS_DIR)/include -D__ICS_INTEL__ -D__ICS_OIUC__
 MY_LIBS:=-g $(LIBS) -lcrypto
 
 APP:=opconsole.app
@@ -68,6 +68,9 @@ $(QML_GEN_DIR):
 	mkdir -p $(QML_GEN_DIR)
 
 $(QML_GEN_DIR)/%.qml: $(QML_DIR)/%.qml
+	sed -e 's/@QtQuick/$(QtQuick)/g' -e 's/@QtWindow/$(QtWindow)/g' -e 's/@QtControls/$(QtControls)/g' -e 's/@Window/$(Window)/g' < $< > $@
+
+$(QML_GEN_DIR)/%.js: $(QML_DIR)/%.js
 	sed -e 's/@QtQuick/$(QtQuick)/g' -e 's/@QtWindow/$(QtWindow)/g' -e 's/@QtControls/$(QtControls)/g' -e 's/@Window/$(Window)/g' < $< > $@
 
 qml.qrc: qml.qrc.template

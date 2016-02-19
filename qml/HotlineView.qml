@@ -1,4 +1,5 @@
 @QtQuick
+import "QmlConfig.js" as Global
 
 Rectangle {
     id: root
@@ -23,7 +24,7 @@ Rectangle {
             margins: itemGap
         }
         font {
-            pixelSize: 14
+            pixelSize: Global.tText
             bold: true
         }
         color: "black"
@@ -41,7 +42,7 @@ Rectangle {
 		label: "Call"
 		labelColor: "white"
 		font {
-			pixelSize: 16
+			pixelSize: Global.lText
 			bold: true
 		}
 		width: 3 * btnSize + 2 * itemGap

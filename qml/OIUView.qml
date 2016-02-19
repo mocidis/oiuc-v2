@@ -1,5 +1,5 @@
 @QtQuick
-
+import "QmlConfig.js" as Global
 Rectangle {
     property int btnSize: 50
     property int itemGap: btnSize * 0.2
@@ -37,7 +37,7 @@ Rectangle {
             margins: itemGap
         }
         font {
-            pixelSize: 14
+            pixelSize: Global.tText
             bold: true
         }
         color: "lightgray"
@@ -59,7 +59,7 @@ Rectangle {
             label: "Tx"
             labelColor: "white"
             font {
-                pixelSize: 24
+                pixelSize: Global.llText
                 bold: true
             }
             width: height
@@ -73,7 +73,7 @@ Rectangle {
             label: "Rx"
             labelColor: "white"
             font {
-                pixelSize: 24
+                pixelSize: Global.llText
                 bold: true
             }
             width: height
@@ -87,7 +87,7 @@ Rectangle {
             label: "SQ"
             labelColor: "white"
             font {
-                pixelSize: 24
+                pixelSize: Global.llText
                 bold: true
             }
             width: height
@@ -101,7 +101,7 @@ Rectangle {
         width: height
         //iconOpacity: value ? 1 : 0.5
 		onColor: "grey"
-		icon.font.pixelSize: 24
+		icon.font.pixelSize: Global.llText
 		icon.color: "#990000"
         anchors {
             right: parent.right
@@ -113,7 +113,7 @@ Rectangle {
     MySlider {
         width: 200
         height: 50
-        fontSize: 16
+        fontSize: Global.lText
         anchors {
             top: volume.bottom
             right: volume.right

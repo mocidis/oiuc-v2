@@ -170,7 +170,6 @@ void on_adv_info(adv_server_t *adv_server, adv_request_t *request) {
 }
 
 void on_online_report(char *id, char* des, int radio_port, int is_online) {
-    qDebug() << "-------------------------------------------- ONLINE REPORT";
 	if (radio_port >=0 ) {
 		//For Radio
 		RadioList *radio_list = RadioList::getRadioListSingleton();
@@ -208,8 +207,6 @@ void on_online_report(char *id, char* des, int radio_port, int is_online) {
 			online = true;
 		}
 		int index = -1;
-		qDebug() << "-------------------------------NAME: " << name;
-		qDebug() << "-------------------------------CONFIG NAME: " << Config::getConfig()->getOIUCName();
 		if (name == Config::getConfig()->getOIUCName()) {
 			return;	
 		}
@@ -234,7 +231,6 @@ void on_tx_report(char *id, int is_tx) {
 	bool tx = false;
 	int index = -1;
 	index = radio_list->searchRadioByName(name);
-
 	if (index > -1) {
 		if (is_tx == 1) {
 			tx = true;

@@ -22,7 +22,7 @@ static void init_adv_server(app_data_t *app_data, char *adv_cs, node_t *node, pj
 	app_data->adv_server.on_request_f = &on_adv_info;
 	app_data->adv_server.on_open_socket_f = &on_open_socket_adv_server;
 	app_data->adv_server.user_data = node;
-	adv_server_init(&app_data->adv_server, adv_cs, pool);
+	adv_server_init(&app_data->adv_server, adv_cs, pool, NULL);
 	adv_server_start(&app_data->adv_server);
 }
 
@@ -122,10 +122,13 @@ void OIUC::prepare() {
 
 	streamer_config_dev_source(app_data.node.streamer, config->getSoundStreamerIdx());
 	receiver_config_dev_sink(app_data.node.receiver, config->getSoundReceiverIdx());
-	//streamer_config_dev_source(app_data.node.streamer, 2);
-	//receiver_config_dev_sink(app_data.node.receiver, 2);
+	//set sound device for pjsua
+    pjsua_set_snd_dev(0, config->getSoundReceiverIdx());
+	/*
+	app_data.node.receiver->splitter->port_array[0] = 5;
 	receiver_config_stream(app_data.node.receiver, "239.0.0.3", 1234, 1);
-	receiver_start(app_data.node.receiver);
+	receiver_splitter_start(app_data.node.receiver);
+	*/
     qDebug() << "STREAM INIT...DONE\n";
 #endif
 }
@@ -190,7 +193,7 @@ void OIUC::stop() {
 }
 
 void OIUC::sendInvite(QString guest) {
-	qDebug() << "++++++++++++++++" << guest;
+	qDebug() << "++++++++++++++++ SEND INVITE:" << guest;
 	node_invite(&app_data.node, strdup(guest.toLocal8Bit().data()));
 }
 void OIUC::repulse(QString guest) {
@@ -248,10 +251,17 @@ void OIUC::updateEndpoint(int deviceIdx) {
 
 void OIUC::updateEndpoint2(QList<int> deviceIdxList) {
 	//current working function, need more update
-	qDebug() << "------------------------------------------------------------";
-	app_data.receiver2.pool = app_data.ics.pool;
-	app_data.receiver2.ep = pjsua_get_pjmedia_endpt();
-	pjmedia_codec_g711_init(app_data.receiver2.ep);
-	receiver_init(&app_data.receiver2, app_data.receiver2.ep, app_data.receiver2.pool, config->getNumberChannels());
-	//receiver_config_dev_sink(app_data.node.receiver, config->getSoundReceiverIdx());
+	int idx =0;
+	bool flag = false; 
+	receiver_splitter_stop(app_data.node.receiver);
+	for (idx=0; idx<deviceIdxList.count(); idx++) {
+		if (idx >= MAX_SOUND_DEVICE) {
+			break;	
+		}
+		app_data.node.receiver->splitter->port_array[idx] = deviceIdxList[idx];
+	}
+	for (;idx<MAX_SOUND_DEVICE;idx++) {
+		app_data.node.receiver->splitter->port_array[idx] = -1;	
+	}
+    receiver_splitter_start(app_data.node.receiver);
 }

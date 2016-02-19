@@ -29,25 +29,33 @@ SoundDeviceList* SoundDeviceList::getSoundDeviceListSingleton() {
 	}
 	return soundDeviceList;
 }
-SoundDeviceList::SoundDeviceList() {}
+SoundDeviceList::SoundDeviceList() {
+	first_load = true;
+}
 void SoundDeviceList::getSoundDeviceInfo() {
     pjmedia_aud_dev_index dev_idx;
     int dev_cnt;
     dev_cnt = pjmedia_aud_dev_count();
 	qDebug() << "devices count" << dev_cnt;
-	listDevice.clear();
-	//fix: update sound device does not work when a new usb sound device plugged-in the computer
-    for (dev_idx=0; dev_idx < dev_cnt; ++dev_idx) {
-        pjmedia_aud_dev_info info;
-        CHECK(__FILE__, pjmedia_aud_dev_get_info(dev_idx, &info));
-		
-		SoundDevice *soundDevice = new SoundDevice(dev_idx, QString::fromLocal8Bit(info.name), false);	
-		if (soundDevice->getName().contains("sysdefault", Qt::CaseInsensitive)) {
-			//QStringList liststr = soundDevice->getName().split(": ");
-			emit updateSoundDevice(soundDevice->getIndex(), soundDevice->getName(), soundDevice->isSelected());
-			listDevice.append(soundDevice);
+	if (first_load == true) {
+		//fix: update sound device does not work when a new usb sound device plugged-in the computer
+		if (first_load == true) {
+			first_load = false;	
 		}
-    }
+		for (dev_idx=0; dev_idx < dev_cnt; ++dev_idx) {
+			pjmedia_aud_dev_info info;
+			CHECK(__FILE__, pjmedia_aud_dev_get_info(dev_idx, &info));
+			SoundDevice *soundDevice = new SoundDevice(dev_idx, QString::fromLocal8Bit(info.name), false);
+			if (soundDevice->getName().contains("PCH", Qt::CaseSensitive)) {
+				soundDevice->setSelected(true);
+			}
+			if (soundDevice->getName().contains("sysdefault", Qt::CaseInsensitive)) {
+				//QStringList liststr = soundDevice->getName().split(": ");
+				emit updateSoundDevice(soundDevice->getIndex(), soundDevice->getName(), soundDevice->isSelected());
+				listDevice.append(soundDevice);
+			}
+		}
+	}
 }
 void SoundDeviceList::applySoundDevice(QString soundList) {
 	QStringList list;

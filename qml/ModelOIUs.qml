@@ -1,7 +1,7 @@
 @QtQuick
 
 ListModel {
-	/*
+	
     ListElement {
         name: "OIU 1"
         description: "Sỹ quan Liên lạc 1"
@@ -28,6 +28,6 @@ ListModel {
         isSQ: false
         volume: 0.5
     }
-	*/
+	
 }
 

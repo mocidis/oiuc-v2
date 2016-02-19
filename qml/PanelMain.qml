@@ -1,6 +1,6 @@
 @QtQuick
 @QtWindow
-
+import "QmlConfig.js" as Global
 PanelCommon {
 	property int numCol: 4 //number of column is displayed on the screen
     width: _ROOT.sWIDTH
@@ -18,7 +18,7 @@ PanelCommon {
                 id: repeater
                 model: _ROOT.radios
                 delegate: RadioView {
-                    btnSize: 70
+                    btnSize: Global.btnSize
                     oModelItem: _ROOT.radios.get(index)
                 }
             }
@@ -26,7 +26,7 @@ PanelCommon {
                 id: repeater_oiu
                 model: _ROOT.oius
                 delegate: OIUView {
-                    btnSize: 70
+                    btnSize: Global.btnSize
                     oModelItem: _ROOT.oius.get(index)
                 }
             }

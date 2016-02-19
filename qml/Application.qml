@@ -1,6 +1,7 @@
 @QtQuick
 @QtWindow
 import PTTButton 1.0
+import "QmlConfig.js" as Global
 @Window {
     //property int sWIDTH: 1366
     //property int sHEIGHT: 768
@@ -198,8 +199,8 @@ import PTTButton 1.0
 	}
 	SoundDevice {
 		id: _SOUND_DEVICE	
-		width: sWIDTH*0.2
-		height: sHEIGHT*0.4
+		width: Global.soundDeviceWidth
+		height: Global.soundDeviceWidth
 		visible: false
 		anchors {
 			centerIn: parent

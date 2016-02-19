@@ -46,5 +46,6 @@ private:
 	SoundDeviceList();
 	static SoundDeviceList *soundDeviceList;
 	QList<SoundDevice*> listDevice;
+	bool first_load;
 };
 #endif
